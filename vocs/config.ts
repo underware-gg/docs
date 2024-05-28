@@ -7,7 +7,15 @@ export default defineConfig({
   sponsors,
   theme,
   font: {
-    // google: 'Inter'
+    default: {
+      // google: 'Inter' // default
+      // google: 'Roboto' // ok
+      // google: 'Abel' // thinner
+      google: 'Ubuntu' // stylish
+    },
+    mono: {
+      google: 'Courier Prime'
+    }
   },
   socials: [
     {
@@ -34,7 +42,7 @@ export default defineConfig({
     //
     {
       text: 'Underware',
-      collapsed: false,
+      collapsed: true,
       items: [
         {
           text: 'About',
@@ -52,7 +60,7 @@ export default defineConfig({
     //
     {
       text: "Pistols at 10 Blocks",
-      collapsed: false,
+      collapsed: true,
       items: [
         {
           text: 'About',

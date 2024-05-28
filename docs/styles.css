@@ -16,8 +16,9 @@
   font-size: 2em;
 } */
 
-Footer {
+.Footer {
   color: var(--vocs-color_text4);
+  font-family: var(--vocs-fontFamily_mono);
 }
 
 .LogoSmall {
