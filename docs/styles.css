@@ -1,3 +1,8 @@
+@layer vocs_preflight {
+  @tailwind base;
+}
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --vocs-color_background: white;
