@@ -1,9 +1,11 @@
 import { defineConfig } from 'vocs'
-import { sponsors } from './sponsors'
+import sponsors from './sponsors'
+import theme from './theme'
 
 export default defineConfig({
   title: 'Underware.gg',
   sponsors,
+  theme,
   font: {
     // google: 'Inter'
   },

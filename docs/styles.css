@@ -5,17 +5,16 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* as example (prefer theming) */
+/* :root {
   --vocs-color_background: white;
-}
-
-:root.dark {
+} */
+/* :root.dark {
   --vocs-color_background: #232225;
-}
-
-.vocs_H1 {
-  font-size: 4em;
-}
+} */
+/* .vocs_H1 {
+  font-size: 2em;
+} */
 
 Footer {
   color: var(--vocs-color_text4);

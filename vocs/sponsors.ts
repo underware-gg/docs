@@ -4,7 +4,7 @@ import { Config } from 'vocs'
 // https://vocs.dev/docs/guides/components#sponsors
 //
 
-export type Sponsor = {
+type Sponsor = {
   name: string
   link: string
   image: string
@@ -43,7 +43,7 @@ const Starknet: Sponsor = {
 
 type SponsorSet = Config['sponsors']
 
-export const sponsors: SponsorSet = [
+const sponsors: SponsorSet = [
   {
     name: 'Partners',
     height: 80,
@@ -61,3 +61,5 @@ export const sponsors: SponsorSet = [
   //   ],
   // },
 ]
+
+export default sponsors;
