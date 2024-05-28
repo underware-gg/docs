@@ -1,8 +1,8 @@
 export default function Footer() {
   return (
-    <div className="text-center">
+    <div className="text-center text-xs">
       {/* <div>Released under the MIT License.</div> */}
-      <div className="text-xs">Copyright © 2023-present Underware.gg</div>
+      <div>Copyright © 2023- Underware.gg</div>
     </div>
   )
 }

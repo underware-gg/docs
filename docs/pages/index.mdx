@@ -8,12 +8,25 @@ import Logo from '../components/Logo'
 
 <HomePage.Root>
   <Logo.Underware big />
-  <h1>Underware.gg</h1>
+  {/* <HomePage.Logo /> */}
+  <h1 className='vocs_HomePage_title'>Underware.gg</h1>
   {/* <HomePage.Tagline>Underware.gg</HomePage.Tagline> */}
   {/* <HomePage.InstallPackage name="vocs" type="init" /> */}
-  <HomePage.Description>A fully on-chain gaming studio.</HomePage.Description>
+  
+  <HomePage.Description>A fully on-chain gaming studio</HomePage.Description>
   <HomePage.Buttons>
-    <HomePage.Button href="/underware/" variant="accent">Get started</HomePage.Button>
-    <HomePage.Button href="https://github.com/wevm/vocs">GitHub</HomePage.Button>
+    <HomePage.Button href="/underware" variant="accent">What is Underware</HomePage.Button>
+    <HomePage.Button href="https://github.com/underware-gg">GitHub</HomePage.Button>
+  </HomePage.Buttons>
+
+  <HomePage.Description>Our games:</HomePage.Description>
+  <HomePage.Buttons>
+    <HomePage.Button href="/pistols" variant="accent">Pistols at 10 Blocks</HomePage.Button>
+    <HomePage.Button href="/underdark">Underdark</HomePage.Button>
+    <HomePage.Button href="/underworld">Loot Underworld</HomePage.Button>
   </HomePage.Buttons>
 </HomePage.Root>
+
+<br />
+
+<Sponsors />

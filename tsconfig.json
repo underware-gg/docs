@@ -20,5 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["**/*.ts", "**/*.tsx", "tailwind.config.cjs"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "tailwind.config.cjs",
+  ]
 }
