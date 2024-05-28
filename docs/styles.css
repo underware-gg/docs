@@ -1,0 +1,9 @@
+
+:root {
+  --vocs-color_background: white;
+}
+
+:root.dark {
+  --vocs-color_background: #232225;
+}
+
