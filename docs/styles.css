@@ -1,6 +1,7 @@
 @layer vocs_preflight {
   @tailwind base;
 }
+
 @tailwind components;
 @tailwind utilities;
 
@@ -10,5 +11,18 @@
 
 :root.dark {
   --vocs-color_background: #232225;
+}
+
+.LogoSmall {
+  width: 50px;
+  height: 50px;
+}
+.Logo {
+  width: 100px;
+  height: 100px;
+}
+.LogoBig {
+  width: 200px;
+  height: 200px;
 }
 

@@ -3,12 +3,15 @@ layout: landing
 ---
 
 import { HomePage } from 'vocs/components'
+import { Sponsors } from 'vocs/components'
+import Logo from '../components/Logo'
 
 <HomePage.Root>
-  <HomePage.Logo>DSDS</HomePage.Logo>
-  <HomePage.Tagline>Underware.gg</HomePage.Tagline>
+  <Logo.Underware big />
+  <h1>Underware.gg</h1>
+  {/* <HomePage.Tagline>Underware.gg</HomePage.Tagline> */}
   {/* <HomePage.InstallPackage name="vocs" type="init" /> */}
-  <HomePage.Description>fully on-chain gaming studio.</HomePage.Description>
+  <HomePage.Description>A fully on-chain gaming studio.</HomePage.Description>
   <HomePage.Buttons>
     <HomePage.Button href="/underware/" variant="accent">Get started</HomePage.Button>
     <HomePage.Button href="https://github.com/wevm/vocs">GitHub</HomePage.Button>
