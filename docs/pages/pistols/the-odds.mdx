@@ -1,3 +1,217 @@
+import { Code } from '../../components/Code'
+import { constants } from '../../components/constants'
+
 # The Odds
 
-In development...
+What follows is a technical overview of how the game makes decisions to determine duel results.
+
+> This is an **strategy guide** for **advanced duelists**.
+
+## Concepts
+
+### Duelist Chances
+
+There is no benefit or disadvantage between **challenger** and **challenged**, both have exactly the same chances.
+
+Cross-game bonuses and penalties based on **Honour** and **Archetype** can influence a duelist chance.
+
+In-game decisions and injuries can also inflict bonuses and penalties.
+
+### Dice Rolls
+
+We call all **randomized decisions** Dice Rolls.
+
+All the chances are expressed in **percentages**, as if we were using an **100-sided dice**.
+
+For example, an action with `40%` chance will be successful when `dice_value <= 40`.
+
+The **seed** for randomization is a hash between the secret salts sent by each duelist.
+Since each salt is known only to each player before actions are revealed,
+it is impossible to predict game decisions.
+
+### Round Logic
+
+The underneath **logic** for all rounds is the same.
+**Pistols** and **blades** are all **actions** that confronted against each other lead to a result.
+
+There are a few steps that determine the result of a round...
+
+
+## 1. Strike Priority
+
+Who strikes first? The challenger? The challenged? Simultaneously?
+
+### Pistols Round
+On a Pistols round, it's very simple to decide...
+
+* The duelist who takes **less paces shoots first**.
+* At **the same paces**, a **Trickster** against a non-Trickster will **shoot first**.
+* At **the same paces**, duelists shoot **simultaneously**.
+
+First to shoot is called the **Early Duelist**, against the **Late Duelist**.
+
+### Blades Round
+Blades follow this priority, on each **strike/slot**...
+
+* **Heavy Blades** strike first for an **Execution** chance (crit).
+* **Flee**, **Steal** and **Seppukku** take place.
+* Otherwise, blades strike **simultaneously**.
+
+
+## 2. CRIT Dice Roll
+
+> **CRIT** is the chance of an action to **execute** or inflict **maximum damage** on the opponent.
+
+Executed for the **Early Duelist**, or in parallel for both duelists if shooting simultaneously.
+
+### Action Crit Chances
+
+Each action has its own crit chances, in percentages:
+
+* Pistol at 1 pace: <Code>action_chance = {constants.PISTOLS_KILL_AT_STEP_1}%</Code>
+* Pistol at 10 paces: <Code>action_chance = {constants.PISTOLS_KILL_AT_STEP_10}%</Code>
+* Pistol chances between 1 and 10 paces are interpolated.
+* Blades crit chance is constant: <Code>action_chance = {constants.BLADES_CRIT}%</Code>
+
+### Archetype Crit Bonus
+
+This bonus is given according to the duelist **Archetype**:
+
+* 👑 Honourable: <Code>max_crit_bonus = {constants.CRIT_BONUS_LORD}%</Code>
+* 🃏 Trickster: <Code>max_crit_bonus = {constants.CRIT_BONUS_TRICKSTER}%</Code>
+* 👺 Villainous: No crit bonus
+* Calculated according to their **archetype level**. Level `10` equals total bonus.
+* Bonus is capped at total duels. For example, a duelist with 5 finished duels will get a maximun bonus of `5%`.
+
+```rust
+crit_bonus = max_crit_bonus * (archetype_level / 10)
+crit_bonus = min(crit_bonus, total_duels)
+```
+
+### Match Crit Bonus
+
+This bonus is given on the **Pistols Round** according to the duelist **archetype** and **shooting order**.
+
+* 👑 Honourable: <Code>match_bonus = {constants.EARLY_LORD_CRIT_BONUS}%</Code> when shooting **early**.
+* 🃏 Trickster: No match bonus
+* 👺 Villainous: <Code>match_bonus = {constants.LATE_VILLAIN_CRIT_BONUS}%</Code> when shooting **late**.
+
+The rationale here is to give an extra strategy for **Honourable vs. Honourable** and **Villainous vs. Villainous** duels.
+
+### Trickster Penalty
+
+Tricksters do not have match crit bonus, but they inflict a penalty to other archetypes.
+
+* 👑 Honourable: <Code>trickster_penalty = {constants.TRICKSTER_CRIT_PENALTY}%</Code> when opponent is Trickster.
+* 🃏 Trickster: No penalty
+* 👺 Villainous: <Code>trickster_penalty = {constants.TRICKSTER_CRIT_PENALTY}%</Code> when opponent is Trickster.
+
+### Crit Decision
+
+* Bonuses and penalties are applied to action chances
+* To avoid over-penalties, final chances will never be less than half the action chance.
+
+```rust
+crit_chances = (action_chance + crit_bonus + match_bonus - trickster_penalty)
+crit_chances = max(crit_chances, action_chance/2)
+```
+
+* Dices roll... 🎲
+* Success if `crit_chances <= dice_value`
+* Apply damage and block to opponent's health.
+
+```rust
+health = previous_health - max(damage - block, 0)
+```
+
+
+## 3. HIT Dice Roll
+
+> If **CRIT fails**, a new dice rolls for a chance to **HIT** the opponent.
+
+### Action Hit Chances
+
+Each action has its own hit chances, in percentages:
+
+* Pistol at 1 pace: <Code>action_chance = {constants.PISTOLS_HIT_AT_STEP_1}%</Code>
+* Pistol at 10 paces: <Code>action_chance = {constants.PISTOLS_HIT_AT_STEP_10}%</Code>
+* Pistol chances between 1 and 10 paces are interpolated.
+* Blades hit chance is constant: <Code>action_chance = {constants.BLADES_HIT}%</Code>
+
+### Archetype Hit Bonus
+
+This bonus is given according to the duelist **Archetype**:
+
+* 👑 Honourable: No hit bonus
+* 🃏 Trickster: <Code>max_hit_bonus = {constants.LETHAL_BONUS_TRICKSTER}%</Code>
+* 👺 Villainous: <Code>max_hit_bonus = {constants.LETHAL_BONUS_VILLAIN}%</Code>
+* Calculated according to their **archetype level**. Level `10` equals total bonus.
+* Bonus is capped at total duels. For example, a duelist with 5 finished duels will get a maximun bonus of `5%`.
+
+```rust
+hit_bonus = max_hit_bonus * (archetype_level / 10)
+hit_bonus = min(hit_bonus, total_duels)
+```
+
+### Trickster Penalty
+
+Tricksters do not have match hit bonus, but they inflict a penalty to other archetypes.
+
+* 👑 Honourable: <Code>trickster_penalty = {constants.TRICKSTER_HIT_PENALTY}%</Code> when opponent is Trickster.
+* 🃏 Trickster: No penalty
+* 👺 Villainous: <Code>trickster_penalty = {constants.TRICKSTER_HIT_PENALTY}%</Code> when opponent is Trickster.
+
+### Injury Penalty
+
+A penalty is inclicted on injured duelists, from an **early pistol shot** or from **blades**.
+
+* Pistols and blades: <Code>penalty_per_injury = {constants.HIT_PENALTY_PER_DAMAGE}%</Code>
+
+```rust
+injury_penalty = (penalty_per_injury * injury_taken)
+```
+
+### Hit Decision
+
+* Bonuses and penalties are applied to action chances.
+* To avoid over-penalties, final chances will never be less than half the action chance.
+
+```rust
+hit_chances = (action_chance + hit_bonus - trickster_penalty - injury_penalty)
+hit_chances = max(hit_chances, action_chance/2)
+```
+
+* Dices roll... 🎲
+* Success if `hit_chances <= dice_value`
+
+### Damage Inflicted
+
+Pistols injury is calculated from a lethal chance:
+
+* Pistol at 1 pace: <Code>lethal_chance = {constants.PISTOLS_LETHAL_AT_STEP_1}%</Code>
+* Pistol at 10 paces: <Code>lethal_chance = {constants.PISTOLS_LETHAL_AT_STEP_10}%</Code>
+* Pistol chances between 1 and 10 paces are interpolated.
+* The hit dice result is used to 
+* If `hit_chances <= lethal_chance`, inflicts `2` injury points, else just `1`.
+
+Blades damage are constant, according to the [Blades Damage table](/pistols/blades-round#blades-damage).
+
+* Apply damage and block to opponent's health.
+
+```rust
+health = previous_health - max(damage - block, 0)
+```
+
+
+
+
+## 4. Late Dice Rolls
+
+If an **Early Duelist** does not kill the opponent, steps 2 and 3 are repeated for the **Late Duelist**,
+rolling **Crit** and **Hit** dices in the same order as above.
+
+A Late Duelist chances can be reduced if injured during the early strike!
+
+
+## 5. Result
+

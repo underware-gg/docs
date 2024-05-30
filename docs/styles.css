@@ -16,6 +16,37 @@
   font-size: 2em;
 } */
 
+
+.vocs_H1,
+.vocs_H2 {
+  /* font-size: 2em; */
+  color: var(--vocs-color_textAccent);
+}
+
+.vocs_H3,
+.vocs_H4,
+.vocs_H5 {
+  color: var(--vocs-color_blockquoteText);
+}
+
+.vocs_Strong {
+  color: var(--vocs-color_white);
+}
+blockquote .vocs_Strong {
+  color: var(--vocs-color_textAccent);
+}
+
+.vocs_H3:not(:first-child) {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.vocs_ListItem:not(:last-child) {
+  margin-bottom: 0.2em!important; /* default: 0.5em; */
+}
+
+/* custom components */
+
 .Footer {
   color: var(--vocs-color_text4);
   font-family: var(--vocs-fontFamily_mono);

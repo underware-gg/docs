@@ -79,6 +79,14 @@ export default defineConfig({
           link: '/pistols/gameplay',
         },
         {
+          text: 'Pistols Round',
+          link: '/pistols/pistols-round',
+        },
+        {
+          text: 'Blades Round',
+          link: '/pistols/blades-round',
+        },
+        {
           text: 'The Odds',
           link: '/pistols/the-odds',
         },
