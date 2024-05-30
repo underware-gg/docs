@@ -16,7 +16,7 @@ export const constants = {
   BLADES_HIT: 75,
 
   // archetype bonus
-  CRIT_BONUS_LORD: 10,
+  CRIT_BONUS_LORD: 12,
   CRIT_BONUS_TRICKSTER: 6,
   LETHAL_BONUS_VILLAIN: 20,
   LETHAL_BONUS_TRICKSTER: 10,
