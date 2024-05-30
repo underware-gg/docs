@@ -71,24 +71,26 @@ export default defineConfig({
           link: '/pistols/for-honour',
         },
         {
-          text: 'Getting Started',
-          link: '/pistols/getting-started',
-        },
-        {
           text: 'Gameplay',
           link: '/pistols/gameplay',
-        },
-        {
-          text: 'Pistols Round',
-          link: '/pistols/pistols-round',
-        },
-        {
-          text: 'Blades Round',
-          link: '/pistols/blades-round',
-        },
-        {
-          text: 'The Odds',
-          link: '/pistols/the-odds',
+          items: [
+            {
+              text: 'Getting Started',
+              link: '/pistols/getting-started',
+            },
+            {
+              text: 'Pistols Round',
+              link: '/pistols/pistols-round',
+            },
+            {
+              text: 'Blades Round',
+              link: '/pistols/blades-round',
+            },
+            {
+              text: 'Advanced',
+              link: '/pistols/advanced',
+            },
+          ],
         },
       ],
     },

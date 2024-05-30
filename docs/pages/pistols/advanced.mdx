@@ -1,7 +1,7 @@
 import { Code } from '../../components/Code'
 import { constants } from '../../components/constants'
 
-# The Odds
+# Advanced Guide
 
 What follows is a technical overview of how the game makes decisions to determine duel results.
 
@@ -55,7 +55,7 @@ Blades follow this priority, on each **strike/slot**...
 
 * **Heavy Blades** strike first for an **Execution** chance (crit).
 * **Flee**, **Steal** and **Seppukku** take place.
-* Otherwise, blades strike **simultaneously**.
+* Otherwise, blades strike **simultaneously** on each slot.
 
 
 ## 2. CRIT Dice Roll
@@ -98,7 +98,7 @@ This bonus is given on the **Pistols Round** according to the duelist **archetyp
 
 The rationale here is to give an extra strategy for **Honourable vs. Honourable** and **Villainous vs. Villainous** duels.
 
-### Trickster Penalty
+### Trickster Crit Penalty
 
 Tricksters do not have match crit bonus, but they inflict a penalty to other archetypes.
 
@@ -153,7 +153,7 @@ hit_bonus = max_hit_bonus * (archetype_level / 10)
 hit_bonus = min(hit_bonus, total_duels)
 ```
 
-### Trickster Penalty
+### Trickster Hit Penalty
 
 Tricksters do not have match hit bonus, but they inflict a penalty to other archetypes.
 
@@ -191,7 +191,7 @@ Pistols injury is calculated from a lethal chance:
 * Pistol at 1 pace: <Code>lethal_chance = {constants.PISTOLS_LETHAL_AT_STEP_1}%</Code>
 * Pistol at 10 paces: <Code>lethal_chance = {constants.PISTOLS_LETHAL_AT_STEP_10}%</Code>
 * Pistol chances between 1 and 10 paces are interpolated.
-* The hit dice result is used to 
+* The same hit dice result...
 * If `hit_chances <= lethal_chance`, inflicts `2` injury points, else just `1`.
 
 Blades damage are constant, according to the [Blades Damage table](/pistols/blades-round#blades-damage).

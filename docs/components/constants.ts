@@ -13,7 +13,7 @@ export const constants = {
   PISTOLS_LETHAL_AT_STEP_10: 5,
 
   BLADES_CRIT: 20,
-  BLADES_HIT: 90,
+  BLADES_HIT: 75,
 
   // archetype bonus
   CRIT_BONUS_LORD: 10,
