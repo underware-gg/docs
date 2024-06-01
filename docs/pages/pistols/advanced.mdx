@@ -64,28 +64,28 @@ Blades follow this priority, on each **strike/slot**...
 
 Executed for the **Early Duelist**, or in parallel for both duelists if shooting simultaneously.
 
-### Action Crit Chances
+### Crit Chances
 
 Each action has its own crit chances, in percentages:
 
-* Pistol at 1 pace: <Code>action_chance = {constants.PISTOLS_KILL_AT_STEP_1}%</Code>
-* Pistol at 10 paces: <Code>action_chance = {constants.PISTOLS_KILL_AT_STEP_10}%</Code>
+* Pistol at 1 pace: <Code>action_crit_chance = {constants.PISTOLS_KILL_AT_STEP_1}%</Code>
+* Pistol at 10 paces: <Code>action_crit_chance = {constants.PISTOLS_KILL_AT_STEP_10}%</Code>
 * Pistol chances between 1 and 10 paces are interpolated.
-* Blades crit chance is constant: <Code>action_chance = {constants.BLADES_CRIT}%</Code>
+* Blades crit chance is constant: <Code>action_crit_chance = {constants.BLADES_CRIT}%</Code>
 
-### Archetype Crit Bonus
+### Cross-Game Crit Bonus
 
 This bonus is given according to the duelist **Archetype**:
 
 * 👑 Honourable: <Code>max_crit_bonus = {constants.CRIT_BONUS_LORD}%</Code>
 * 🃏 Trickster: <Code>max_crit_bonus = {constants.CRIT_BONUS_TRICKSTER}%</Code>
 * 👺 Villainous: No crit bonus
-* Calculated according to their **archetype level**. Level `10` equals total bonus.
-* Bonus is capped at total duels. For example, a duelist with 5 finished duels will get a maximun bonus of `5%`.
+* Calculated according to their **Archetype Level**. The level is capped at total duels (more experienced duelists getting more bonus).
+
+Examples: A level 10 Lord, with 10 duels will get the total bonus. A level 5 Lord with 10 duels, or a level 10 Lord with 5 duels, both get only half bonus.
 
 ```rust
-crit_bonus = max_crit_bonus * (archetype_level / 10)
-crit_bonus = min(crit_bonus, total_duels)
+crit_bonus = max_crit_bonus * min(archetype_level, total_duels)
 ```
 
 ### Match Crit Bonus
@@ -97,14 +97,15 @@ This bonus is given on the **Pistols Round** according to the duelist **archetyp
 * 👺 Villainous: <Code>match_bonus = {constants.LATE_VILLAIN_CRIT_BONUS}%</Code> when shooting **late**.
 
 The rationale here is to give an extra strategy for **Honourable vs. Honourable** and **Villainous vs. Villainous** duels.
+A surprise factor for whenever they have a chance to slip outside of their predictable move.
 
 ### Trickster Crit Penalty
 
 Tricksters do not have match crit bonus, but they inflict a penalty to other archetypes.
 
-* 👑 Honourable: <Code>trickster_penalty = {constants.TRICKSTER_CRIT_PENALTY}%</Code> when opponent is Trickster.
+* 👑 Honourable: <Code>trickster_penalty = {constants.TRICKSTER_CRIT_PENALTY}%</Code> when the opponent is a Trickster.
 * 🃏 Trickster: No penalty
-* 👺 Villainous: <Code>trickster_penalty = {constants.TRICKSTER_CRIT_PENALTY}%</Code> when opponent is Trickster.
+* 👺 Villainous: <Code>trickster_penalty = {constants.TRICKSTER_CRIT_PENALTY}%</Code> when the opponent is a Trickster.
 
 ### Crit Decision
 
@@ -112,8 +113,8 @@ Tricksters do not have match crit bonus, but they inflict a penalty to other arc
 * To avoid over-penalties, final chances will never be less than half the action chance.
 
 ```rust
-crit_chances = (action_chance + crit_bonus + match_bonus - trickster_penalty)
-crit_chances = max(crit_chances, action_chance/2)
+crit_chances = (action_crit_chance + crit_bonus + match_bonus - trickster_penalty)
+crit_chances = max(crit_chances, action_crit_chance/2)
 ```
 
 * Dices roll... 🎲
@@ -129,37 +130,37 @@ health = previous_health - max(damage - block, 0)
 
 > If **CRIT fails**, a new dice rolls for a chance to **HIT** the opponent.
 
-### Action Hit Chances
+### Hit Chances
 
 Each action has its own hit chances, in percentages:
 
-* Pistol at 1 pace: <Code>action_chance = {constants.PISTOLS_HIT_AT_STEP_1}%</Code>
-* Pistol at 10 paces: <Code>action_chance = {constants.PISTOLS_HIT_AT_STEP_10}%</Code>
+* Pistol at 1 pace: <Code>action_hit_chance = {constants.PISTOLS_HIT_AT_STEP_1}%</Code>
+* Pistol at 10 paces: <Code>action_hit_chance = {constants.PISTOLS_HIT_AT_STEP_10}%</Code>
 * Pistol chances between 1 and 10 paces are interpolated.
-* Blades hit chance is constant: <Code>action_chance = {constants.BLADES_HIT}%</Code>
+* Blades hit chance is constant: <Code>action_hit_chance = {constants.BLADES_HIT}%</Code>
 
-### Archetype Hit Bonus
+### Cross-Game Hit Bonus
 
 This bonus is given according to the duelist **Archetype**:
 
 * 👑 Honourable: No hit bonus
 * 🃏 Trickster: <Code>max_hit_bonus = {constants.LETHAL_BONUS_TRICKSTER}%</Code>
 * 👺 Villainous: <Code>max_hit_bonus = {constants.LETHAL_BONUS_VILLAIN}%</Code>
-* Calculated according to their **archetype level**. Level `10` equals total bonus.
-* Bonus is capped at total duels. For example, a duelist with 5 finished duels will get a maximun bonus of `5%`.
+* Calculated according to their **Archetype Level**. The level is capped at total duels (more experienced duelists getting more bonus).
+
+Examples: A level 10 Lord, with 10 duels will get the total bonus. A level 5 Lord with 10 duels, or a level 10 Lord with 5 duels, both get only half bonus.
 
 ```rust
-hit_bonus = max_hit_bonus * (archetype_level / 10)
-hit_bonus = min(hit_bonus, total_duels)
+hit_bonus = max_hit_bonus * min(archetype_level, total_duels)
 ```
 
 ### Trickster Hit Penalty
 
 Tricksters do not have match hit bonus, but they inflict a penalty to other archetypes.
 
-* 👑 Honourable: <Code>trickster_penalty = {constants.TRICKSTER_HIT_PENALTY}%</Code> when opponent is Trickster.
+* 👑 Honourable: <Code>trickster_penalty = {constants.TRICKSTER_HIT_PENALTY}%</Code> when the opponent is a Trickster.
 * 🃏 Trickster: No penalty
-* 👺 Villainous: <Code>trickster_penalty = {constants.TRICKSTER_HIT_PENALTY}%</Code> when opponent is Trickster.
+* 👺 Villainous: <Code>trickster_penalty = {constants.TRICKSTER_HIT_PENALTY}%</Code> when the opponent is a Trickster.
 
 ### Injury Penalty
 
@@ -177,8 +178,8 @@ injury_penalty = (penalty_per_injury * injury_taken)
 * To avoid over-penalties, final chances will never be less than half the action chance.
 
 ```rust
-hit_chances = (action_chance + hit_bonus - trickster_penalty - injury_penalty)
-hit_chances = max(hit_chances, action_chance/2)
+hit_chances = (action_hit_chance + hit_bonus - trickster_penalty - injury_penalty)
+hit_chances = max(hit_chances, action_hit_chance/2)
 ```
 
 * Dices roll... 🎲
