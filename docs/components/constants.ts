@@ -18,8 +18,8 @@ export const constants = {
   // archetype bonus
   CRIT_BONUS_LORD: 12,
   CRIT_BONUS_TRICKSTER: 6,
-  LETHAL_BONUS_VILLAIN: 20,
-  LETHAL_BONUS_TRICKSTER: 10,
+  HIT_BONUS_VILLAIN: 20,
+  HIT_BONUS_TRICKSTER: 10,
 
   // match bonuse
   EARLY_LORD_CRIT_BONUS: 10,
@@ -28,6 +28,9 @@ export const constants = {
   // penalties for damage
   CRIT_PENALTY_PER_DAMAGE: 0,
   HIT_PENALTY_PER_DAMAGE: 10,
+
+  // Lords advantage when shooting equal or late
+  LORD_LETHAL_PENALTY: 10,
 
   // trickster advantage as opponent penalty
   TRICKSTER_CRIT_PENALTY: 2,

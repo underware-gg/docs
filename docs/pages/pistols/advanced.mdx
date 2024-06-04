@@ -60,7 +60,7 @@ Blades follow this priority, on each **strike/slot**...
 
 ## 2. CRIT Dice Roll
 
-> **CRIT** is the chance of an action to **execute** or inflict **maximum damage** on the opponent.
+> **CRIT** is the chance of an action to **execute** or inflict **maximum injury** on the opponent.
 
 Executed for the **Early Duelist**, or in parallel for both duelists if shooting simultaneously.
 
@@ -119,10 +119,10 @@ crit_chances = max(crit_chances, action_crit_chance/2)
 
 * Dices roll... 🎲
 * Success if `crit_chances <= dice_value`
-* Apply damage and block to opponent's health.
+* Apply injury and block to opponent's health.
 
 ```rust
-health = previous_health - max(damage - block, 0)
+health = previous_health - max(injury - block, 0)
 ```
 
 
@@ -144,8 +144,8 @@ Each action has its own hit chances, in percentages:
 This bonus is given according to the duelist **Archetype**:
 
 * 👑 Honourable: No hit bonus
-* 🃏 Trickster: <Code>max_hit_bonus = {constants.LETHAL_BONUS_TRICKSTER}%</Code>
-* 👺 Villainous: <Code>max_hit_bonus = {constants.LETHAL_BONUS_VILLAIN}%</Code>
+* 🃏 Trickster: <Code>max_hit_bonus = {constants.HIT_BONUS_TRICKSTER}%</Code>
+* 👺 Villainous: <Code>max_hit_bonus = {constants.HIT_BONUS_VILLAIN}%</Code>
 * Calculated according to their **Archetype Level**. The level is capped at total duels (more experienced duelists getting more bonus).
 
 Examples: A level 10 Lord, with 10 duels will get the total bonus. A level 5 Lord with 10 duels, or a level 10 Lord with 5 duels, both get only half bonus.
@@ -185,22 +185,23 @@ hit_chances = max(hit_chances, action_hit_chance/2)
 * Dices roll... 🎲
 * Success if `hit_chances <= dice_value`
 
-### Damage Inflicted
+### Injury Inflicted
+
+Blades injury are constant, according to the [Blades Injury table](/pistols/blades-round#blades-injury).
 
 Pistols injury is calculated from a lethal chance:
 
 * Pistol at 1 pace: <Code>lethal_chance = {constants.PISTOLS_LETHAL_AT_STEP_1}%</Code>
 * Pistol at 10 paces: <Code>lethal_chance = {constants.PISTOLS_LETHAL_AT_STEP_10}%</Code>
 * Pistol chances between 1 and 10 paces are interpolated.
-* The same hit dice result...
+* 👑 Honourable: Have a <Code>{constants.LORD_LETHAL_PENALTY}%</Code> less chance to get a lethal hit when shooting second.
+* Then we use the same hit dice result...
 * If `hit_chances <= lethal_chance`, inflicts `2` injury points, else just `1`.
 
-Blades damage are constant, according to the [Blades Damage table](/pistols/blades-round#blades-damage).
-
-* Apply damage and block to opponent's health.
+Apply injury and block to opponent's health.
 
 ```rust
-health = previous_health - max(damage - block, 0)
+health = previous_health - max(injury - block, 0)
 ```
 
 
