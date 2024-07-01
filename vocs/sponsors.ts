@@ -10,6 +10,16 @@ type Sponsor = {
   image: string
 }
 
+const funDAOmental: Sponsor = {
+  name: 'funDAOmental',
+  image: '/partners/funDAOmental.png',
+  link: 'https://x.com/fundaomental',
+}
+const EndlessCrawler: Sponsor = {
+  name: 'EndlessCrawler',
+  image: '/partners/EndlessCrawler.png',
+  link: 'https://www.EndlessCrawler.io',
+}
 const BibliothecaDAO: Sponsor = {
   name: 'BibliothecaDAO',
   image: '/partners/BibliothecaDAO.svg',
@@ -44,6 +54,13 @@ const Starknet: Sponsor = {
 type SponsorSet = Config['sponsors']
 
 const sponsors: SponsorSet = [
+  {
+    name: 'Created by',
+    height: 40,
+    items: [
+      [funDAOmental, EndlessCrawler],
+    ],
+  },
   {
     name: 'Partners',
     height: 80,
