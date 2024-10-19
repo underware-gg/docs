@@ -55,7 +55,7 @@ type SponsorSet = Config['sponsors']
 
 const sponsors: SponsorSet = [
   {
-    name: 'Created by',
+    name: 'From',
     height: 40,
     items: [
       [funDAOmental, EndlessCrawler],

@@ -79,15 +79,19 @@ export default defineConfig({
               link: '/pistols/getting-started',
             },
             {
-              text: 'Pistols Round',
+              text: 'Bounty',
+              link: '/pistols/bounty',
+            },
+            {
+              text: 'Pistols Round ✝',
               link: '/pistols/pistols-round',
             },
             {
-              text: 'Blades Round',
+              text: 'Blades Round ✝',
               link: '/pistols/blades-round',
             },
             {
-              text: 'Advanced',
+              text: 'Advanced ✝',
               link: '/pistols/advanced',
             },
           ],
