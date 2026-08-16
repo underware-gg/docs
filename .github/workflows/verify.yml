@@ -45,8 +45,8 @@ jobs:
             pnpm run deps:policy:check
           fi
 
-      - name: Reject critical advisories
-        run: pnpm audit --audit-level critical
+      - name: Reject unreviewed advisories
+        run: pnpm run deps:audit
 
       - name: Type-check and build
         run: pnpm run verify

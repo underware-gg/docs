@@ -19,6 +19,7 @@ global pnpm installation cannot bypass that pin:
 
 ```bash
 corepack pnpm install --frozen-lockfile
+corepack pnpm run deps:audit
 corepack pnpm run verify
 corepack pnpm ignored-builds
 ```
@@ -28,9 +29,11 @@ and executable CI actions may change only with a completed record in
 `docs/dependency-reviews/`. See that directory's README for the required
 candidate review, advisory assessment, provenance checks, and verification.
 
-Run a full advisory report with `corepack pnpm audit`. CI blocks critical
-advisories; lower-severity findings still require applicability analysis during
-dependency review and must not be silently ignored.
+Run the governed advisory gate with `corepack pnpm run deps:audit`. CI rejects
+every unreviewed finding; the two visible `image-size` advisories are accepted
+only for the exact locally patched version and are covered by timeout-based
+regression probes. See the current dependency-review record for the owner and
+re-review deadline.
 
 ## Styling
 

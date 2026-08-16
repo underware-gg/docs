@@ -1,0 +1,86 @@
+@layer vocs_preflight {
+  @tailwind base;
+}
+
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vocs-background-color-primary: #232225;
+  --vocs-background-color-surface: #1e1d1f;
+}
+
+
+[data-v-content] h1,
+[data-v-content] h2 {
+  color: var(--vocs-color-accent);
+}
+
+[data-v-content] h3,
+[data-v-content] h4,
+[data-v-content] h5 {
+  color: #ffde9b;
+}
+
+[data-v-content] strong {
+  color: var(--vocs-text-color-heading);
+}
+[data-v-content] blockquote strong {
+  color: var(--vocs-color-accent);
+}
+
+[data-v-content] h3:not(:first-child) {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+[data-v-content] li:not(:last-child) {
+  margin-bottom: 0.2em!important; /* default: 0.5em; */
+}
+
+/* custom components */
+
+.Footer {
+  color: var(--vocs-text-color-muted);
+  font-family: var(--vocs-font-mono);
+}
+
+.Sponsors {
+  display: grid;
+  gap: 2rem;
+  margin-block: 2rem;
+  text-align: center;
+}
+
+.Sponsors_group h2 {
+  color: var(--vocs-text-color-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.Sponsors_items {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2rem;
+  justify-content: center;
+}
+
+.Sponsors_items img {
+  display: block;
+  max-width: 12rem;
+  object-fit: contain;
+}
+
+.LogoSmall {
+  width: 50px;
+  height: 50px;
+}
+.Logo {
+  width: 100px;
+  height: 100px;
+}
+.LogoBig {
+  width: 300px;
+  height: 300px;
+}

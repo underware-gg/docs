@@ -1,22 +1,10 @@
-import { defineConfig } from 'vocs'
-import sponsors from './sponsors'
-import theme from './theme'
+import { defineConfig } from 'vocs/config'
+import theme from './theme.js'
 
 export default defineConfig({
   title: 'Underware.gg',
-  sponsors,
-  theme,
-  font: {
-    default: {
-      // google: 'Inter' // default
-      // google: 'Roboto' // ok
-      // google: 'Abel' // thinner
-      google: 'Ubuntu' // stylish
-    },
-    mono: {
-      google: 'Courier Prime'
-    }
-  },
+  srcDir: 'docs',
+  ...theme,
   socials: [
     {
       icon: "x",

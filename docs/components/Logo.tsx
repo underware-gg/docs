@@ -1,6 +1,3 @@
-// import React from "react";
-// import { Button } from "vocs/components"
-
 type LogoProps = {
   src?: string
   // size

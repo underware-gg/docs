@@ -20,16 +20,20 @@
     "build": "vocs build",
     "preview": "vocs preview",
     "typecheck": "tsc --noEmit",
-    "verify": "node scripts/check-dependency-policy.mjs && tsc --noEmit && vocs build",
-    "deps:policy:check": "node scripts/check-dependency-policy.mjs"
+    "verify": "node scripts/check-dependency-policy.mjs && node scripts/check-image-size-patch.mjs && tsc --noEmit && vocs build",
+    "deps:audit": "node scripts/check-dependency-audit.mjs",
+    "deps:policy:check": "node scripts/check-dependency-policy.mjs",
+    "deps:patches:check": "node scripts/check-image-size-patch.mjs"
   },
   "dependencies": {
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@types/react": "18.3.2",
-    "typescript": "5.4.5",
-    "vocs": "1.0.0-alpha.52"
+    "@types/react": "19.2.18",
+    "typescript": "6.0.3",
+    "vite": "8.2.1",
+    "vocs": "2.8.5",
+    "waku": "1.0.0-beta.9"
   }
 }

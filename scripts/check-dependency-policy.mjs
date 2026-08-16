@@ -95,6 +95,8 @@ if (base) {
   const policyChanged = changed.some(
     (path) =>
       dependencySurface.has(path) ||
+      path.startsWith("scripts/check-dependency-") ||
+      path.startsWith("patches/") ||
       path.startsWith(".github/workflows/") ||
       path === ".github/dependabot.yml" ||
       /^renovate\.json/.test(path),
