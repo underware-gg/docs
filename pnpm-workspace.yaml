@@ -1,0 +1,25 @@
+# Exact pins and deliberate dependency updates.
+savePrefix: ""
+minimumReleaseAge: 10080
+minimumReleaseAgeStrict: true
+minimumReleaseAgeIgnoreMissingTime: false
+blockExoticSubdeps: true
+trustPolicy: no-downgrade
+
+# Make content verification explicit rather than relying on pnpm defaults.
+verifyStoreIntegrity: true
+strictStorePkgContentCheck: true
+
+# Keep local and CI installs on the reviewed toolchain.
+engineStrict: true
+packageManagerStrictVersion: true
+verifyDepsBeforeRun: error
+
+# Dependencies may execute install-time code only after explicit review.
+strictDepBuilds: true
+dangerouslyAllowAllBuilds: false
+allowBuilds:
+  esbuild: true
+
+# Surface incompatible dependency combinations during installation.
+strictPeerDependencies: true

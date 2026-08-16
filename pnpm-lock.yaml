@@ -8,20 +8,21 @@ importers:
 
   .:
     dependencies:
-      '@types/react':
-        specifier: latest
-        version: 18.3.2
       react:
-        specifier: latest
+        specifier: 18.3.1
         version: 18.3.1
       react-dom:
-        specifier: latest
+        specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: 18.3.2
+        version: 18.3.2
       typescript:
-        specifier: latest
+        specifier: 5.4.5
         version: 5.4.5
       vocs:
-        specifier: latest
+        specifier: 1.0.0-alpha.52
         version: 1.0.0-alpha.52(@types/node@20.12.12)(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.17.2)(typescript@5.4.5)
 
 packages:
