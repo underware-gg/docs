@@ -18,11 +18,18 @@ qualified `packageManager` field in `package.json`. Use Corepack so an unrelated
 global pnpm installation cannot bypass that pin:
 
 ```bash
-corepack pnpm install --frozen-lockfile
+nvm install
+nvm use
+corepack pnpm install
 corepack pnpm run deps:audit
 corepack pnpm run verify
 corepack pnpm ignored-builds
 ```
+
+`pnpm install` is frozen by repository policy and therefore cannot rewrite the
+reviewed lockfile. Use `--no-frozen-lockfile` only while preparing an explicitly
+reviewed dependency change; commit its dependency-review record with the
+resulting manifest and lockfile changes.
 
 Dependency versions, the lockfile, Node.js, pnpm, install-script allowances,
 and executable CI actions may change only with a completed record in

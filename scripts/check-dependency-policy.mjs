@@ -24,6 +24,7 @@ const requiredReviewSections = [
 ];
 const dependencySurface = new Set([
   ".node-version",
+  ".nvmrc",
   ".npmrc",
   "package.json",
   "pnpm-lock.yaml",
@@ -31,6 +32,7 @@ const dependencySurface = new Set([
   "scripts/check-dependency-policy.mjs",
 ]);
 const failures = [];
+const workspacePolicy = readFileSync(new URL("../pnpm-workspace.yaml", import.meta.url), "utf8");
 
 if (manifest.private !== true) failures.push("package.json must set private: true");
 
@@ -51,9 +53,14 @@ if (!packageManagerMatch) {
 }
 
 const nodeVersion = readFileSync(new URL("../.node-version", import.meta.url), "utf8").trim();
+const nvmVersion = readFileSync(new URL("../.nvmrc", import.meta.url), "utf8").trim();
 if (!exactVersion.test(nodeVersion)) failures.push(".node-version must contain an exact version");
+if (nvmVersion !== nodeVersion) failures.push(".nvmrc must match .node-version exactly");
 if (!manifest.engines?.node?.includes(nodeVersion)) {
   failures.push("engines.node must include the exact .node-version baseline");
+}
+if (!/^frozenLockfile:\s*true\s*$/m.test(workspacePolicy)) {
+  failures.push("pnpm-workspace.yaml must make frozen lockfile installs the local default");
 }
 
 for (const group of ["dependencies", "devDependencies", "optionalDependencies"]) {

@@ -19,13 +19,19 @@ record to the same pull request, and then run the repository verification gate.
 5. Check current advisories for both the candidate lockfile and final lockfile.
    Record applicability and mitigations; an audit count alone is not analysis.
 6. Update the manifest and lockfile only after the candidate review passes.
-7. Run a frozen install, `corepack pnpm ignored-builds`, and
+7. Run `corepack pnpm install` (frozen by repository policy),
+   `corepack pnpm ignored-builds`, and
    `corepack pnpm run verify`.
 8. Commit the completed review record with the dependency change.
 
 Do not use `pnpm audit --fix`, `pnpm update --latest`, or an unrestricted
 install as a substitute for review. Never accept an advisory exception without
 a reason, an owner, and a dated re-review deadline.
+
+The repository sets `frozenLockfile: true`, so ordinary installs fail rather
+than creating or changing `pnpm-lock.yaml`. An approved dependency-change
+workflow must opt out explicitly with `--no-frozen-lockfile` only after its
+candidate review is complete.
 
 ## When a record is required
 

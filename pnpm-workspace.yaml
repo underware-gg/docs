@@ -1,5 +1,6 @@
 # Exact pins and deliberate dependency updates.
 savePrefix: ""
+frozenLockfile: true
 minimumReleaseAge: 10080
 minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
