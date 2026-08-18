@@ -1,0 +1,132 @@
+# Duel Rules
+
+This page is the precise mechanical reference for how a duel resolves onchain, in order: the challenge lifecycle, commit and reveal, randomness, and the exact sequence that decides who's left standing. Everyone plans to walk to pace ten; most duels don't get there. For the full card tables (environment, tactics, blades, paces), see [Cards](/pistols/cards).
+
+## The Challenge
+
+A duel begins life as a Challenge and moves through a fixed set of states until it is concluded.
+
+### Lifecycle
+
+A Challenge is created in the Awaiting state. The challenged party (or, for an open challenge, whoever accepts it) replies to accept or refuse. Once accepted, the duel becomes InProgress and both duelists commit and reveal their moves. When both reveals are in, the duel resolves and becomes Resolved or Draw. A Challenge left unanswered past its expiry can be collected by anyone and becomes Expired; a Challenge that times out mid-duel (a duelist who never reveals) is finished as Forsaken.
+
+### Challenge states
+
+| State | Meaning |
+| --- | --- |
+| Null | No challenge exists at this ID. |
+| Awaiting | Created, waiting for the challenged party to accept or refuse. |
+| Withdrawn | The challenger cancelled it before it was accepted. |
+| Refused | The challenged party declined it. |
+| Expired | Nobody replied before the acceptance deadline; collected by anyone. |
+| InProgress | Accepted; both duelists are committing and/or revealing moves. |
+| Resolved | The duel has been decided: there's a winner and a loser. |
+| Draw | The duel concluded with no winner. |
+
+### Who can accept what
+
+If a challenge targets a specific opponent (address_b is set), only that address, or an approved delegate playing on their behalf, may accept or refuse it. If a challenge is posted open (no address_b set), any other player who accepts it becomes the opponent; the challenger cannot accept their own challenge. Only the challenger may withdraw a challenge, and only while it is still Awaiting.
+
+### Expiry
+
+An Awaiting challenge carries an expiry period; once passed, anyone can collect it and it becomes Expired. Once a duel is InProgress, expiry is no longer about the original acceptance window: it's governed by the commit and reveal timeouts described below.
+
+### Duel types and staking
+
+| Duel type | Lives staked | Notes |
+| --- | --- | --- |
+| Seasonal | Required (greater than 0) | The standard staked duel. |
+| Practice | Must be 0 | No stakes. |
+| BotPlayer | Must be 0 | Opponent is a bot; no stakes. |
+| Tournament | Not created directly | Must be created via the tournament contract. |
+| Ranked | Fixed by matchmaking | Not created directly; entered via the Ranked queue. |
+| Unranked | Fixed by matchmaking | Not created directly; entered via the Unranked queue. |
+
+### Premise
+
+Every Challenge carries a Premise, the stated reason for the duel. This is flavour text only; it has no effect on resolution. The available premises are: Matter, Debt, Dispute, Honour, Hatred, Blood, Nothing, Tournament, Treaty, and Lesson.
+
+## Commit and Reveal
+
+Each duelist's moves are hidden from the other until both sides have locked them in.
+
+### What is committed
+
+A duelist chooses up to four cards, fire, dodge, tactics, and blades, and a secret salt (a number only they know). The contract hashes the salt together with the chosen cards and stores only that hash. Neither duelist's picks are visible to the other, or to anyone else, at this stage.
+
+### What the salt does
+
+The salt is what makes the commit unguessable and unforgeable: without it, nobody (including the duelist's opponent) can work backward from the committed hash to figure out which cards were chosen. On reveal, the duelist submits their salt and their moves together; the contract recomputes the hash and checks it matches what was committed. If it doesn't match, the reveal is rejected.
+
+The two duelists' salts are also combined to seed the duel's randomness (see Randomness below), so the salt does double duty: it hides your moves and contributes entropy neither player controls alone.
+
+### Timeouts
+
+Both commit and reveal carry timeouts. If a duelist fails to commit or reveal before their timeout, the duel can be collected by anyone once it has timed out.
+
+### Forsaken
+
+If a duelist never reveals in time, the duel is finished as Forsaken: whichever duelist did not time out wins. If both duelists time out, the result is a draw. A Forsaken duel never reaches the pace walk or blades round; it's closed out directly as a timeout, with no cards resolved.
+
+## Randomness
+
+The random seed that drives an entire duel's resolution, every hit roll and every environment card drawn, is built by combining both duelists' secret salts together, only after both have revealed.
+
+This is what makes the outcome unpredictable and unriggable: neither duelist knows the other's salt at commit time, so neither can pick their cards to game a known outcome, and neither can influence the seed after the fact because both salts are already locked in via the earlier commit hashes. The same combined seed then feeds every subsequent random draw in the duel, hit rolls and the environment-card shuffle alike, each drawn independently from that one shared, unforgeable source.
+
+## Your Four Cards
+
+A duelist's plan for a duel is a hand of up to four cards, chosen and committed before the duel resolves:
+
+- **Fire**: the pace (1 to 10) at which you plan to shoot.
+- **Dodge**: the pace (1 to 10) at which you plan to dodge.
+- **Tactics**: a tactics card affecting your stats or your opponent's.
+- **Blades**: a blades card, used only if the duel reaches the Blades Round.
+
+The one hard constraint: you cannot fire and dodge at the same pace. If you pick the same pace for both, your dodge is discarded; you keep your fire pace, but you have no dodge in the duel.
+
+See [Cards](/pistols/cards) for the exact tactics, blades, fire, and dodge card tables.
+
+## How a Duel Resolves
+
+This is the part that trips people up, so read it in order. Once both duelists have revealed, the duel resolves deterministically:
+
+1. **Tactics.** Each duelist's tactics card effects are applied once, up front: one duelist's effects fully applied, then the other's.
+2. **Blades pre-shot effects.** Each duelist's blades card is also applied once, before any shot is fired. Some blades cards (notably Seppuku) grant stat bonuses that boost the pistol round even though the card's real clash only happens later, in the Blades Round.
+3. **The pace walk, 1 through 10.** The duel steps through paces one at a time. At each pace, one environment card is drawn and its effects are applied, but only to a duelist who has not yet fired. A duelist who has already fired stops receiving environment-card effects for the rest of the duel.
+4. **Shots resolve at their chosen pace.** If a duelist's fire card matches the current pace, they fire now, rolled against their target's dodge (see below).
+5. **The walk ends when:** either duelist's health reaches zero, or both duelists have fired. Whichever comes first stops the pace walk immediately; the walk does not necessarily run all the way to pace 10.
+
+Precision matters: environment effects apply per-duelist based on whether *that* duelist has fired yet, not based on the pace number alone, and a card that never gets fired (because the duel ends first) never resolves.
+
+## Hits, Damage and Death
+
+Every duelist starts a duel with the same baseline: 3 health, a 50 percent base chance to hit, and 1 base damage per hit. Tactics, blades, and environment cards adjust these numbers up or down as the duel proceeds.
+
+When a duelist fires, a hit is rolled against their current chance to hit. If the shot hits **and** the target's dodge pace does not match the exact pace the shot was fired at, the shot lands and the target's health is reduced by the shooter's current damage. If the target's dodge pace exactly matches the shot's pace, the shot is negated entirely; no damage is dealt, regardless of the hit roll.
+
+Chance to hit is always clamped between 0 and 100 percent. Health cannot go below zero; a hit that would over-kill simply brings health to zero. A duelist reaching zero health dies immediately, which ends the pace walk on the spot.
+
+## The Blades Round
+
+The Blades Round only happens if both duelists survive the entire pace walk, and at least one of them chose a blades card other than None.
+
+Its outcome is decided by a fixed clash between the two blades cards played (see [Cards](/pistols/cards) for the full clash table): identical blades cards clash and kill both duelists; a duelist who played no blades card loses outright to any real blade; otherwise the specific blades cards beat each other in a fixed cycle.
+
+Seppuku is a special case: it always kills the duelist who played it if the Blades Round is reached, whether or not the opponent played anything at all. Its pre-shot bonus (extra chance to hit and extra damage) still applies during the pistol round regardless: Seppuku's buff is real, but its cost is a guaranteed death if the duel gets this far. If both duelists play Seppuku, both die.
+
+## Winning and Losing
+
+A duel ends in exactly one of three ways:
+
+- **Win/Loss**: one duelist is left alive at zero and the other above zero. The survivor wins.
+- **Draw**: the pace walk and (if applicable) Blades Round complete with both duelists alive, or both duelists dead.
+- **Forsaken**: a duelist failed to commit or reveal in time; the other wins by default, or it's a draw if both timed out.
+
+Every resolved or drawn duel records its final blow: the pace it ended on if it ended during the pistol round, the decisive blades card if it ended in the Blades Round, or Forsaken if it ended by timeout.
+
+## Honour and Archetype
+
+Honour is tracked on every duelist as a number derived from the pace they chose to fire at in each duel: firing later earns more honour than firing early. It can also be set to its maximum by playing Seppuku in the Blades Round. Archetype labels are a reputation classification built from a duelist's accumulated honour over time.
+
+Neither honour nor archetype affects how a duel resolves; they change nothing about hit chance, damage, dodge behaviour, or any other mechanic described above. Play the pace you like. The ledger notices, but it never fires a shot.

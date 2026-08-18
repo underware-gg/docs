@@ -1,152 +1,46 @@
 # The Game
 
-A duel. Two duelists. Ten paces, and whatever's left after that.
+**Pistols at Dawn** is an onchain duelling game. Two duelists step out, each secretly locks in a plan, and the plans are revealed together. Nobody gets to see the other side's hand and react to it: the outcome is decided the moment both plans are known, by a die roll neither side could have predicted or influenced.
 
-This page is the canonical rulebook for **Pistols at Dawn** as it runs onchain today. If an older page contradicts this one, this one wins.
+This page is the map. The mechanics live on four child pages: [Duel Rules](/pistols/duel-rules), [Cards](/pistols/cards), [Duelists & Seasons](/pistols/duelists), and [Getting Started](/pistols/getting-started).
 
-## Overview
+## What a Duel Is
 
-A **duel** is a dispute between two duelists, settled by pistols and, if honour demands it, blades. Each duelist secretly locks in a plan — when to fire, when to dodge, how to carry themselves, and what they'll draw if it comes to blades — before either side knows what the other has chosen. The plan is revealed only once both sides are committed, so neither duelist can react to the other's choice. It can end in one shot, or run the full ten paces and spill into a blade fight. Someone walks away. Sometimes nobody does.
+A duel starts with a challenge: one duelist calls out another, or throws down an open challenge anyone can pick up, and attaches a premise: a reason for the fight, whether that's honour, debt, hatred, or nothing at all. The challenged party can accept, refuse, or let the clock run out.
 
-## The Duel
+Once accepted, both duelists sit down and make their plan at the same time, in secret. Each locks in four choices: the pace they'll fire at, the pace they'll brace to dodge, how they carry themselves into the fight, and what they'll reach for if it comes down to blades. Neither side can see what the other has chosen; they only submit a sealed commitment to it.
 
-A duel begins when a duelist issues a **Challenge**, naming an opponent (or making an open call anyone can accept), a **premise** — the stated reason for the fight — and an expiry window (one day by default if none is set).
+When both plans are sealed, both sides reveal them together. From there the outcome plays out automatically: the two duelists walk toward each other pace by pace, the environment throws its own complications into the mix, shots are fired when a duelist's chosen pace comes up, and dodges either land or don't. If both duelists are still standing after the walk, it comes down to blades. Someone usually ends up dead. Sometimes both do. Sometimes neither does.
 
-Premises are flavour text attached to the fight: Undefined, Matter, Debt, Dispute, Honour, Hatred, Blood, Nothing, Tournament, Treaty, Lesson. Duels created through matchmaking always carry the premise **Honour**.
+## Anatomy of a Duel
 
-A Challenge moves through these states:
+1. **Challenge and premise.** A duelist issues a challenge, targeted at a specific opponent or left open for anyone, and attaches a premise: the stated reason for the fight. The challenge waits for a reply until it expires.
+2. **Accept.** The opponent (or, for an open challenge, whoever claims it) accepts. This starts the duel and opens the commit window.
+3. **Commit your four cards.** Both duelists privately choose a fire pace, a dodge pace, a tactics card, and a blades card, then submit a sealed commitment to that choice, not the choice itself.
+4. **Reveal.** Once both sides have committed, both reveal their actual cards. The reveal is checked against the earlier commitment, so nobody can change their plan after the fact.
+5. **The pace walk.** The duel steps through the paces in order. An environment card is drawn and applied at each pace before the two duelists react, then whoever's fire pace has come up takes their shot.
+6. **Blades, if both survive.** If both duelists are still standing after the pace walk, and at least one of them chose a blades card, the fight is settled with a clash of blades.
+7. **The result.** One duelist wins, one loses, or the duel ends in a draw: a bloodbath in the blades round, or a stalemate in the pace walk, can leave nobody standing, or both standing.
 
-| State | Meaning |
-|---|---|
-| Awaiting | Challenge issued, waiting for a reply |
-| Withdrawn | The challenger pulled the challenge back |
-| Refused | The challenged party declined |
-| Expired | Nobody replied before the expiry window closed |
-| InProgress | Accepted — both duelists are now committing/revealing moves |
-| Resolved | The duel concluded with a win, a loss, or a mutual kill |
-| Draw | The duel concluded with neither duelist standing (or a bloodbath) |
+For exactly how hit chance, damage, dodges, environment cards, tactics, and blades interact, see [Duel Rules](/pistols/duel-rules). For what each card does, see [Cards](/pistols/cards).
 
-The challenger can only withdraw their own challenge — they cannot accept it. An **open** challenge (no named opponent) can be accepted by anyone; a **targeted** challenge can only be accepted by the named opponent. Accepting moves the Challenge to InProgress and starts the commit clock.
+## What You're Playing For
 
-Duels come in several types: **Seasonal** (ranked PvP, requires at least one life staked), **Practice** (no lives staked), **Tutorial**, **BotPlayer** (against a house bot, no lives staked), and **Ranked**/**Unranked** (matchmaking-only queues).
+A duelist isn't just a character skin: it's a token with its own life total, and that life total can run out for good. Losing a staked duel costs the loser some of that reserve; if it drops too low, the duelist dies permanently. Winning earns rewards paid out to the winning player. Seasons run on a timer, duels feed a season leaderboard, and the leaderboard pays out when the season ends.
 
-## Committing Your Plan
+Not every duel carries stakes: practice and tutorial duels are free and consequence-free, the right place to learn before you risk a duelist for real. The full mechanics of lives, rewards, and seasons are on [Duelists & Seasons](/pistols/duelists).
 
-Before a shot is fired, both duelists **commit** — they submit only a cryptographic hash of their plan, keeping the plan itself secret. A plan is four cards:
+## Provably Fair
 
-1. A **Fire** pace (1–10) — when you pull the trigger.
-2. A **Dodge** pace (1–10, optional, and it must differ from your fire pace) — the one pace you're braced to evade.
-3. A **Tactics** card — how you carry yourself into the fight.
-4. A **Blades** card — your fallback if pistols don't settle it.
+Neither duelist can cheat, and neither can react to the other's choice. Both sides commit to their plan before either reveals it, so there's no way to see an opponent's move and adjust your own: the classic exploit of any simultaneous game is closed off by construction.
 
-Once both duelists have committed their hash, the round moves to **Reveal**: each side submits their actual four cards plus the secret salt used to hash them. The salt is checked against the original commitment before the moves are accepted, so nobody can change their mind after seeing the other side's hash.
+The randomness that decides hits and environment draws isn't picked in advance or controlled by either side: it's built from a value each duelist contributes secretly and only combined once both have revealed. Neither duelist knows the other's contribution until it's too late to change their own plan, so neither can steer the outcome. It's a genuinely fair mechanism, not a marketing line.
 
-The duel's randomness seed is built by combining **both duelists' salts together**. Since neither salt is known to the other side until reveal, and the seed doesn't exist until both have revealed, there is no way for either duelist — or anyone else — to predict how the dice will fall before the duel is fully committed.
+## Where to Next
 
-## The Pistols Round
-
-There is exactly one Round of combat per duel. Within it, the pistols phase steps through paces 1 to 10 in order. At the start of the phase, both duelists' **Tactics** cards apply, then both duelists' **Blades** cards apply their pre-shot bonuses — before a single shot is fired.
-
-Each duelist starts a duel with:
-
-- **Health**: 3
-- **Base hit chance**: 50%
-- **Base damage**: 1
-
-At each pace, one **Environment** card is drawn from a shared, shuffled deck and applied to whichever duelist(s) haven't fired yet. If a duelist's chosen fire pace matches the current pace, their shot resolves right there: chance is rolled, and a hit lands if the roll succeeds — unless the target's dodge pace happens to be exactly that same pace, in which case the shot fails to connect regardless of the roll. There's no separate "who shoots first" stat — if both duelists chose to fire on the same pace, both shots resolve together at that step.
-
-The pistols phase ends the moment either duelist's health hits zero, or once both duelists have fired — whichever comes first.
-
-Health floors at zero, and starting damage is 1, so a duelist facing no modifiers at all dies to three unblocked hits. Environment cards, Tactics cards, and the Blades card can push a single hit's damage well past 1, so a duelist stacking damage bonuses can kill in fewer hits.
-
-> There is no fixed table of "chance by pace" in the current rules — pace only decides *when* your shot resolves and which Environment card lands on you first. Your actual odds on any given pace are whatever the base 50% has become after that pace's card, and any Tactics or Blades effects, are applied.
-
-## Environment Cards
-
-The **Environment deck** has 34 cards, shuffled fresh for every duel. One card is drawn per pace and applied to any duelist who hasn't yet fired — so the deck can hit both duelists in the same pace, or just one, depending on who's already shot.
-
-| Card | Copies | Rarity | Effect |
-|---|:---:|---|---|
-| Damage Up | 7 | Common | +1 damage |
-| Damage Down | 5 | Common | −1 damage |
-| Chances Up | 7 | Common | +10% hit chance |
-| Chances Down | 5 | Common | −10% hit chance |
-| Double Damage Up | 3 | Uncommon | +2 damage |
-| Double Chances Up | 3 | Uncommon | +20% hit chance |
-| All Shots Hit | 1 | Special | Forces a hit; chance effectively maxed out, and suppresses further chance modifiers that pace |
-| All Shots Miss | 1 | Special | Forces a miss |
-| Double Tactics | 1 | Special | Doubles that duelist's Tactics-card effect (or cancels a prior No Tactics) |
-| No Tactics | 1 | Special | Negates or reverses that duelist's Tactics-card effect |
-
-That's 20 positive cards, 10 negative, and 4 specials — the deck leans in your favour two to one, but **All Shots Miss** only has to come up once.
-
-## Tactics Cards
-
-Every duelist picks exactly one **Tactics** card before the duel begins — there's no sitting this one out. Its effect applies once, at the start of the round, before the first pace.
-
-| Card | Effect | Flavour |
-|---|---|---|
-| Insult | Opponent: −10% chance, +1 damage | Rattles their aim; sharpens their anger. |
-| Coin Toss | Blocks the first Special-rarity Environment card drawn against you | Insurance against All Shots Miss or No Tactics. |
-| Vengeful | +1 damage on your own shot | Straightforward. More powder, more pain. |
-| Thick Coat | Opponent deals −1 damage to you | Their bullet hurts less. Sometimes not at all. |
-| Reversal | The next decrease-effect that would hit you is negated and flips to an increase instead | A sudden change of fortune, right when you need it. |
-| Bananas | Both duelists: −10% chance | Mutual sabotage. Nobody aims well on a banana. |
-
-> **Insult** reads oddly on paper — it drops the opponent's hit chance *and* raises the damage they deal. Take it as written: sharpened aim doesn't come with it, but a sharpened blow does.
-
-## Blades Round
-
-If both duelists survive the pistols phase and at least one of them chose something other than **None** as their Blades card, the duel doesn't end there — it settles with a single, instant Blades resolution. There's no dice roll here; it's a straight lookup against the triangle below.
-
-Every duelist also picks their Blades card before the duel starts, alongside Tactics — it isn't a separate late decision. Its **pre-shot** effect applies immediately, at the same time as Tactics, before pace 1. Its **clash** effect only matters if the duel actually reaches the Blades round.
-
-| Card | Pre-shot effect | Beats | Clash outcome |
-|---|---|---|---|
-| None | No bonus | — | Loses to any real Blades card |
-| Seppuku | Self: +20% chance, +1 damage | — | Always dies, regardless of the opponent's card |
-| Pocket Pistol | Opponent: −10% chance | Behead | Survives against Behead |
-| Behead | Self: +1 damage | Grapple | Survives against Grapple |
-| Grapple | Opponent: −1 damage | Pocket Pistol | Survives against Pocket Pistol |
-
-The triangle: **Pocket Pistol** beats **Behead**, **Behead** beats **Grapple**, **Grapple** beats **Pocket Pistol**. Two identical cards — including Seppuku against Seppuku — is a **bloodbath**: both duelists' health drops to zero and the duel ends in a draw. Seppuku is the strongest pre-shot bonus in the game, but it carries a price: reach the Blades round holding it, and you die there no matter what your opponent drew.
-
-## Winning and Losing
-
-The winner is decided purely by who's still standing when the Round ends:
-
-- **Win**: your health is above zero and your opponent's is zero.
-- **Loss**: the reverse.
-- **Draw**: both duelists' health is zero at the same time — whether from a simultaneous pistols kill or a Blades bloodbath.
-
-The duel's **final blow** is recorded as either a specific Paces card (it ended during the pistols phase), a specific Blades card (it ended in the tiebreak), or **Forsaken**, meaning a duelist failed to commit or reveal in time and the duel was closed out without a shot fired.
-
-## Honour and Archetypes
-
-Every duelist carries a rolling **Honour** score from 0 to 100, and the game still buckets duelists into **Archetypes** — **Honourable** (70+), **Trickster** (40–69), or **Villainous** (below 40, once a duelist has fought at least one duel). But none of this feeds back into a duel's hit chances, damage, or outcome. It's a reputation layer, nothing more: your Honour for a given duel comes from which pace you chose to fire on (later paces read as more honourable), or jumps straight to 100 if you drew Seppuku. Bots carry archetype flavour in their profiles — TinMan plays Villainous, Scarecrow plays Trickster, Leon plays Honourable — and trophies still exist for honourable or villainous deaths. Treat Honour and Archetype as flavour and bragging rights, not mechanics.
-
-## Duelists
-
-A **Duelist** is an ERC-721 token — a character, not just an account. Each one carries a profile (Character, Bot, Genesis, Legends, or Pirates lineage), a lifetime record of duels fought, won, lost and drawn, and its own **FAME** balance.
-
-**FAME and lives.** A duelist's lives are its FAME balance divided by 1,000 — a new duelist mints with 3,000 FAME, giving it exactly 3 lives. Lose a staked duel and you burn FAME equal to 1,000 FAME per life staked. Winning grants FAME too, but inversely: the richer in FAME a duelist already is, the less it gains per win.
-
-**FOOLS.** This is the game's reward and wager currency, paid out to the winner of Season and Unranked duels (not Practice). Unlike FAME, FOOLS scales the other way — a wealthier duelist earns *more* FOOLS per win, scaled by lives staked.
-
-**Signet Rings** are season-participation badges that boost the FOOLS you earn on a win: a Gold ring (earned by playing Season 1) gives +40%, a Silver ring (Seasons 2–4) gives +20%, a Lead ring (Seasons 5–9) gives +10%.
-
-**Seasons** run on a leaderboard and points system, typically lasting two weeks. Winners score based on their kill pace, losers score a flat consolation amount, and a handful of bonus points apply for dodges and clean hits. When a season ends, the pool pays out to the top 10 positions on the leaderboard, weighted toward first place.
-
-**Matchmaking** runs through two queues: **Unranked** (free to enter) and **Ranked** (5 FOOLS to enlist, and enlisting locks that duelist to ranked play for the rest of the season). Both queues stake exactly one life per duel and always fight under the Honour premise. Queues run at two speeds: Fast (10-minute commit window) or Slow (a full day).
-
-**Packs** are consumable ERC-721 tokens that mint new duelists. A free **Starter Pack** hands every new player two duelists to begin with; beyond that, a **Genesis 5-pack** costs 50 LORDS and a **Pirates 5-pack** costs 100 LORDS.
-
-## Going Deeper
-
-This page is the whole shape of the game. For more:
-
-- [Strategy Guide](/pistols/strategy-guide) — how to actually win.
-- [Discord Bot](/pistols/discord-bot) — duelling in Discord, no wallet required.
-- [Getting Started](/pistols/getting-started) — issuing and accepting your first challenge. *(stub — not yet written.)*
-
-> **Legacy pages.** The [Pistols Round](/pistols/pistols-round), [Blades Round](/pistols/blades-round) and [Advanced](/pistols/advanced) pages (marked ✝ in the sidebar) describe an **earlier rule set** built on Honour, Archetype bonuses, and Heavy/Light Blade combat. That system no longer runs. The [Bounty](/pistols/bounty) draft is likewise superseded: **BOUNTY** appears nowhere in the current contracts, and the currency it describes has since been split into **FAME** (lives) and **FOOLS** (rewards) as documented above. All four are kept for historical interest only; where they disagree with this page, this page is correct.
+- New to the game: [Getting Started](/pistols/getting-started)
+- The exact mechanics: [Duel Rules](/pistols/duel-rules)
+- Every card and what it does: [Cards](/pistols/cards)
+- Lives, FAME, FOOLS, and seasons: [Duelists & Seasons](/pistols/duelists)
+- How to win: [Strategy Guide](/pistols/strategy-guide)
+- Duel from Discord: [Discord Bot](/pistols/discord-bot)

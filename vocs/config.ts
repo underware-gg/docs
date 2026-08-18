@@ -63,26 +63,36 @@ export default defineConfig({
               link: '/pistols/getting-started',
             },
             {
-              text: 'Bounty',
-              link: '/pistols/bounty',
+              text: 'Duel Rules',
+              link: '/pistols/duel-rules',
             },
             {
-              text: 'Pistols Round ✝',
-              link: '/pistols/pistols-round',
+              text: 'Cards',
+              link: '/pistols/cards',
             },
             {
-              text: 'Blades Round ✝',
-              link: '/pistols/blades-round',
-            },
-            {
-              text: 'Advanced ✝',
-              link: '/pistols/advanced',
+              text: 'Duelists & Seasons',
+              link: '/pistols/duelists',
             },
           ],
         },
         {
           text: 'Discord Bot',
           link: '/pistols/discord-bot',
+          items: [
+            {
+              text: 'For Players',
+              link: '/pistols/discord-players',
+            },
+            {
+              text: 'For Server Admins',
+              link: '/pistols/discord-admins',
+            },
+            {
+              text: 'Command Reference',
+              link: '/pistols/discord-commands',
+            },
+          ],
         },
         {
           text: 'Strategy Guide',

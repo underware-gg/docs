@@ -1,0 +1,101 @@
+# Cards
+
+A duel is resolved with three decks: **Environment**, **Tactics**, and **Blades**. This page lists every card in each deck with its exact effect. For when each of these applies during resolution, see [Duel Rules](/pistols/duel-rules). For guidance on what to actually pick, see [Strategy Guide](/pistols/strategy-guide).
+
+## Overview
+
+Every duel draws from three separate decks, and each behaves differently:
+
+- **Environment**: a shared 34-card deck. One card is drawn automatically each pace (there are 10 paces), and its effect applies to whichever duelists haven't fired yet. Nobody chooses these; they're revealed as the duel plays out.
+- **Tactics**: each duelist picks exactly one Tactics card before the duel begins. Both duelists' Tactics cards are applied once, up front, before anything else.
+- **Blades**: each duelist picks exactly one Blades card (or none) before the duel begins. A Blades card's pre-shot bonus is also applied up front, immediately after Tactics and before the first Environment card is drawn, even though the actual Blades clash only happens later, if both duelists survive the pistol round.
+
+So the order at the start of every duel is: both Tactics cards apply, then both Blades cards' pre-shot bonuses apply, and only then does pace 1 begin and the first Environment card get drawn.
+
+## Environment Deck
+
+The full deck has 34 cards. Only one is drawn per pace, so at most 10 of these 34 are ever seen in a single duel; fewer if the duel ends early.
+
+| Card | Copies | Rarity | Effect |
+|---|---|---|---|
+| Damage Up | 7 | Common | +1 damage |
+| Chances Up | 7 | Common | +10% chance to hit |
+| Damage Down | 5 | Common | -1 damage |
+| Chances Down | 5 | Common | -10% chance to hit |
+| Double Damage Up | 3 | Uncommon | +2 damage |
+| Double Chances Up | 3 | Uncommon | +20% chance to hit |
+| All Shots Hit | 1 | Special | Forces chance to hit to 100% |
+| All Shots Miss | 1 | Special | Forces chance to hit to 0% |
+| Double Tactics | 1 | Special | Re-applies your own Tactics card's effect again |
+| No Tactics | 1 | Special | Reverses your own Tactics card's effect |
+
+Each of the ten card types above applies only to duelists who haven't fired yet that pace; once you've fired, later Environment draws no longer touch you.
+
+### The four Special cards
+
+**All Shots Hit** and **All Shots Miss** don't nudge your chance to hit, they overwrite it: drawing one sets your chance to hit to 100% or 0% outright, and that lock is durable. No later chance modifier, Environment or Tactics, can move it again for the rest of the duel. Damage modifiers still apply normally.
+
+**Double Tactics** and **No Tactics** don't touch chance or damage directly. Instead, each replays your own Tactics card's effect on top of what it already did: Double Tactics adds a second full application of your Tactics card; No Tactics cancels your Tactics card's effect back out. Drawing either a second time, after the other has already been drawn, compounds further.
+
+**Coin Toss shield.** If you played the Coin Toss Tactics card, the very first Special card that would otherwise affect you is blocked entirely and has no effect; a one-time shield, consumed the moment it blocks something. Only after that shield is spent does a Special card actually apply to you.
+
+### Balance and long duels
+
+Counting only the plain, non-Special cards, the deck leans positive: 20 cards improve your chance or damage (7 Damage Up, 7 Chances Up, 3 Double Damage Up, 3 Double Chances Up) against 10 that hurt you (5 Damage Down, 5 Chances Down). Since only one card is drawn per pace and a duel can end as early as pace 1, this balance is a background tendency, not a guarantee; but a duel that runs long, drawing many paces deep, statistically trends toward both duelists' chance and damage climbing rather than falling. Patience is rewarded, right up until someone lands a hit.
+
+## Tactics Cards
+
+Chosen once per duelist, before the duel starts. Both duelists' cards apply at the same time, up front; order between duelists doesn't change the final numbers, since these are all flat additions.
+
+| Card | Targets | Effect | Flavour |
+|---|---|---|---|
+| Insult | Opponent | -10% opponent chance to hit, +1 opponent damage | A cutting remark rattles their aim, but wounds pride cut both ways. |
+| Coin Toss | Yourself | No stat change. Blocks the first Special Environment card that would affect you | Leave it to fate, just this once. |
+| Vengeful | Yourself | +1 your damage | Every past slight sharpens the blade. |
+| Thick Coat | Opponent | -1 opponent's damage | Padded wool turns a killing blow into a bruise. |
+| Reversal | Both | No stat change. The first negative Environment card that would affect either duelist instead applies inverted, for both | What harms one shall favour both. |
+| Bananas | Both | -10% your chance to hit, -10% opponent chance to hit | Utter nonsense. Nobody can aim straight after this. |
+
+Insult is the one card here worth reading twice: it lowers your opponent's chance to hit but also raises the damage they deal to you if they do hit. A pure gamble on their behalf, not a strict downgrade.
+
+## Blades Cards
+
+Chosen once per duelist alongside your Tactics card. Each card grants a pre-shot bonus that applies before pace 1, so even a duelist who never reaches the Blades round benefits from it during the pistol phase. The Blades round itself only happens if both duelists survive the pistol round and at least one of them chose a card other than None.
+
+| Card | Pre-shot effect | Beats | Clash outcome |
+|---|---|---|---|
+| Seppuku | +20% your chance to hit, +1 your damage | Nothing | Always dies in the clash, even against an opponent who played nothing |
+| Pocket Pistol | -10% opponent chance to hit | Behead | Behead's player dies |
+| Behead | +1 your damage | Grapple | Grapple's player dies |
+| Grapple | -1 opponent's damage | Pocket Pistol | Pocket Pistol's player dies |
+
+### The triangle
+
+Pocket Pistol beats Behead, Behead beats Grapple, and Grapple beats Pocket Pistol: a closed rock-paper-scissors loop. Whoever holds the winning card survives; the loser dies.
+
+**Identical cards.** If both duelists play the same non-Seppuku Blades card, both die.
+
+**No card vs. a card.** A duelist who played no Blades card (None) loses outright to any of the three named cards above.
+
+**Seppuku's trade.** Seppuku is the strongest pre-shot buff on offer, +20% chance and +1 damage, applied from pace 1, but it guarantees your own death if the Blades round is ever reached. Play it against an opponent who also survives the pistol round and picked no Blades card, and you still die even though they played nothing. Play it against another Seppuku, and both of you die. The only way to enjoy Seppuku's buff without paying its price is to win, or end, the duel before the pistol round is over.
+
+## How Modifiers Stack
+
+Every duelist starts a round at the same baseline: 50% chance to hit, 1 damage per hit, 3 health. From there, effects apply in this fixed order:
+
+1. **Tactics**: both duelists' Tactics cards apply, once, at full value.
+2. **Blades pre-shot bonus**: both duelists' Blades cards' pre-shot effects apply, once, at full value, still before pace 1.
+3. **Pace loop, pace 1 through 10**: each pace, one Environment card is drawn and applied to any duelist who hasn't fired yet; then any duelist whose fire-pace equals the current pace fires. The loop stops the instant either duelist's health hits 0, or once both duelists have fired.
+4. **Blades round**: only if both duelists are still alive and at least one played a non-None Blades card, the clash resolves per the triangle above.
+
+**Clamping.** Chance to hit is clamped to a 0-100% range after every single change; it can never go below 0 or above 100. Damage cannot go negative; a hit's damage is subtracted from the target's health with the result floored at 0, so health cannot go negative either. A duelist reaching 0 health is dead immediately, ending the pistol round on the spot.
+
+**A worked example.** Take a duelist who plays Vengeful (Tactics) and Behead (Blades), fires on pace 3, and the Environment deck happens to deal them a Damage Up card on pace 2 (before they've fired):
+
+- Start: damage = 1
+- Vengeful (Tactics, self): damage = 1 + 1 = 2
+- Behead (Blades, pre-shot, self): damage = 2 + 1 = 3
+- Pace 2, Damage Up drawn (still hasn't fired): damage = 3 + 1 = 4
+- Pace 3: they fire at 4 damage, instantly lethal against a target with 3 health, if the shot lands
+
+Meanwhile their chance to hit, left untouched by any of those three cards, stays at the base 50% the whole time; modified only if an Environment card that changes chance is drawn before they fire, or if their opponent's Tactics or Blades card targets their chance (Insult and Bananas both do).
