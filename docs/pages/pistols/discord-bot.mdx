@@ -1,0 +1,164 @@
+# Discord Bot
+
+Got beef? Put the bastard in the dirt, right in the channel, for everyone to watch.
+
+The Pistols at Dawn Discord bot runs duels natively inside a Discord server: no app to install, no wallet required, nothing to learn before your first shot. Two duelists secretly pick their cards, the bot resolves the duel, and an ASCII animation plays it out step by step for the whole channel to see. Whether you duel for vengeance, profit, honour, or the love of blood, at the end of the day the dead can't talk back.
+
+> This page documents the bot as it actually runs today. A few commands referenced in older material (`/duel wallet`, `/duel controller`, and everything under `/pvp` and `/adventure`) are not currently live in Discord — they're called out below so you don't go looking for them.
+
+
+## Overview
+
+* **Where it lives**: entirely inside Discord. No website, no client, no install.
+* **No wallet needed to play**: Classic duels run on the bot's own backend. You can duel, win, lose, and build a record without ever connecting a wallet.
+* **Public by default**: challenges post in the channel as embeds with buttons. Spectators watch the animation, react, and pile on rematches.
+* **Optional wallet linking**: if you *do* have a Cartridge Controller wallet, `/login` and `/balance` let the bot show your onchain LORDS, STRK, FAME, and FOOLS balances. Linking a wallet is separate from playing Classic duels and isn't required for either.
+
+
+## Adding the Bot
+
+An admin adds the bot from its page at [pistols.gg/discord](https://pistols.gg/discord), which generates an invite link carrying the exact permission set the bot needs. Use that link rather than reconstructing one by hand — the permission bits matter.
+
+The bot needs, at minimum:
+
+* Add Reactions
+* View Channels
+* Send Messages
+* **Manage Messages** — the live ASCII animation works by rapidly editing its own messages; without this permission the animation cannot run
+* Embed Links
+* Attach Files
+* Read Message History
+* Use External Emojis
+* Use Slash Commands
+* Send Messages in Threads
+
+Don't strip any of these down "to be safe" — the animation specifically depends on Manage Messages, and slash commands won't register without Use Slash Commands.
+
+> **Moderation-bot whitelisting.** If your server runs Wick, Dyno, MEE6, or similar anti-spam tooling, whitelist the Pistols bot *before* your first duel. The animation's rapid message edits look exactly like spam to a moderation bot, and it will get flagged and silenced mid-duel if it isn't trusted. For Wick, that's a command like `w!trust bot add` followed by the bot's application ID. It's also worth placing the Pistols bot's role above your moderation bot's role in Server Settings → Roles, so the mod bot can't override its permissions. If a mod bot stays noisy even after whitelisting, fall back to `/setup` and turn the animation off or drop its speed.
+
+
+## Server Setup
+
+One command handles all server-level configuration: **`/setup`**. It requires the Manage Guild permission and only works inside a server (not in DMs). Run it with no options to see the current configuration without changing anything.
+
+| Setting | Default | What it does | Valid range |
+|---|---|---|---|
+| `duel_channel` | none (unrestricted) | Restricts `/duel` to a single channel. If unset, duels can be started in any channel. | Any text channel in the server |
+| `animation` | On | Enables or disables the live ASCII duel animation. Turn it off only if a moderation bot keeps silencing the bot even after whitelisting. | On / Off |
+| `speed` | `normal` | Animation pacing. `normal` plays the full animation; `compact` uses slower frames and cuts some shot/death frames; `minimal` is the most aggressive, with a 1-second-per-frame floor. Drop to `compact` or `minimal` if the server hits rate-limit trouble during duels. | `normal`, `compact`, `minimal` |
+| `accept_timeout` | 5 minutes | How long a challenge stays open before it expires unaccepted. | 0 (clear the override, revert to the global default) or 5–2880 minutes (48 hours) |
+| `enabled` | On | Master on/off switch. When off, every bot command returns a disabled message in that server — useful during maintenance. | On / Off |
+
+A first-time install also triggers a one-off welcome message in the server's system channel (or the first channel the bot can post in), walking an admin through picking a duel channel, whitelisting against moderation bots, and reviewing these settings. It only ever posts once per server.
+
+
+## Commands
+
+Only the commands below are actually registered with Discord. Anything not in this table — `/duel wallet`, `/duel controller`, `/pvp`, `/adventure`, `/season`, `/leaderboard`, `/stats`, `/duelists`, `/profile` — exists in the codebase but is not currently reachable from Discord.
+
+| Command | Arguments | What it does | Who can run it |
+|---|---|---|---|
+| `/status` | none | Checks Pistols server/indexer availability. | Anyone |
+| `/duel user` | `opponent` (required) | Challenges a specific Discord user to a Classic duel. | Anyone |
+| `/duel public` | none | Posts an open challenge in the channel; the first valid accepter (anyone but the challenger) takes it. | Anyone |
+| `/login` | `username` (required) | Links your Discord account to a Cartridge Controller username already linked in Pistols. | Anyone |
+| `/balance` | `user` (optional) | Shows LORDS, STRK, FAME, and FOOLS balances for a linked wallet. | Anyone |
+| `/help` | none | In-bot play guide, including duel mechanics. | Anyone |
+| `/howtoplay` | none | A short explainer of the four choices and win condition. | Anyone |
+| `/feedback` | `category` (required: bug, suggestion, praise, other) | Opens a modal to send feedback to the team. | Anyone |
+| `/mystats` | none | Shows your duel win/loss record and streaks. | Anyone |
+| `/verify` | none | Manually claims the Duelist role in the Underware server. | Anyone (Underware server only) |
+| `/queue` | none | Shows your queued duels and pre-commit status. | Anyone |
+| `/history` | none | Shows your active duels, queued duels, and last 10 resolved duels. | Anyone |
+| `/setup` | `duel_channel`, `animation`, `speed`, `accept_timeout`, `enabled` (all optional) | Configures server-level duel settings; see Server Setup above. | Manage Guild |
+| `/metrics` | `period` (optional: 7 days, 30 days, 90 days, all time), `global` (optional) | Shows bot usage metrics for the server, or cross-guild if `global` is set (Underware team allowlist only). | Manage Guild |
+
+`/duel` runs on a 5-second cooldown per user across both `user` and `public`.
+
+### `/status`
+A no-frills health check. Good for confirming the bot can see the Pistols indexer before you go blaming your own connection.
+
+### `/duel user` and `/duel public`
+The only two ways to start a duel. `/duel user @someone` targets a specific person; `/duel public` drops an open callout into the channel that anyone present (except you) can pick up. Either way you'll be asked to pick a premise — honour, blood, nothing at all, or a custom reason — before the challenge posts.
+
+### `/login` and `/balance`
+Wallet linking is optional. `/login` ties your Discord account to a Cartridge Controller username that's already linked to you in Pistols; it's a fallback mapping the bot keeps locally. `/balance` then shows LORDS, STRK, FAME, and FOOLS for whichever wallet identity resolves for you (or another user, if named) — checking the real Pistols/Torii link first, then your `/login` mapping. If nothing's linked, the bot tells you plainly rather than guessing.
+
+### `/help` and `/howtoplay`
+Both are static in-bot references. `/help` covers the fuller play guide; `/howtoplay` is the 30-second version.
+
+### `/feedback`
+Opens a modal — pick a category, write your message, it's sent to the team with your Discord tag and server attached. Capped to a handful of submissions per hour so it doesn't get spammed.
+
+### `/mystats`
+Your personal ledger: Classic wins, losses, draws, current streak, best streak.
+
+### `/verify`
+Most duelists never need this — winning, losing, or drawing a duel in the Underware server auto-grants the Duelist role. `/verify` is the manual fallback if that didn't happen. It's a no-op outside the Underware server.
+
+### `/queue` and `/history`
+`/queue` shows what's waiting on you right now. `/history` shows the fuller picture: what's active, what's queued, and your last ten resolved duels.
+
+### `/setup`
+Admin-only. See Server Setup above for the full settings table. Running it bare just prints the current configuration.
+
+### `/metrics`
+Admin-only usage numbers for the server over a chosen window, with an optional cross-guild view restricted to the Underware team.
+
+
+## Anatomy of a Duel
+
+1. **Challenge.** One player runs `/duel user @opponent` or `/duel public`, then picks a premise from a private (ephemeral) picker — a themed preset, or custom text.
+2. **Post.** A public embed goes up with a single button: **"To the Duelling Grounds."**
+3. **Reply.** The challenged player (or, for a public duel, whoever clicks first) sees an ephemeral Accept / Refuse choice. The challenger sees a Withdraw option. Anyone else who clicks gets a private status card with the option to challenge back. If either party is already mid-duel elsewhere, the challenge queues instead of failing — see Queueing below.
+4. **Choose your moves.** Once accepted, both duelists privately pick four cards: a **fire step**, a **dodge step**, a **tactics card**, and a **blade card**. You can pick each one yourself via dropdowns, or auto-play a Pistol archetype (Honourable, Trickster, or Villainous — the latter two unlock after your first and second completed duels) that picks all four for you.
+5. **Commit.** Each side's picks are written to the duel record the moment they're confirmed. Neither side can see the other's picks until both are in — see How It Works below on exactly what "commit" means here.
+6. **Resolve.** The instant both sides have committed, the outcome is computed server-side: paces are walked in order, environment cards are drawn, shots and dodges resolve, and — if both duelists survive the pistols phase and at least one holds a blade other than None — a blades tiebreak follows.
+7. **Watch.** Depending on the server's `/setup` settings, either a step-by-step ASCII animation plays out in the channel, or a compact result posts directly.
+8. **Result.** A winner is declared, a **Combat Log** button gives anyone the full breakdown (kept for 12 hours), and a rematch button is ready to go.
+
+**Timeouts:**
+
+* **Accept timeout** — a challenge expires unaccepted after 5 minutes by default (server admins can set 5–2880 minutes via `/setup accept_timeout`).
+* **In-progress expiry** — an accepted duel that never gets both sides' moves committed expires after 2 hours.
+* **Unfinished picks** — if you open the card picker and don't confirm, your in-progress selection is held in memory only and expires after 15 minutes.
+* **Queue entries** — a queued challenge that never gets to fire expires after 24 hours.
+
+
+## Queueing
+
+If either player in a new challenge is already tied up in another duel, the bot doesn't drop the new challenge — it **queues** it, and posts a public note explaining who's busy with what. Each player can hold up to 5 queued duels, first-in-first-out.
+
+When an active duel resolves, the bot automatically fires the next queued duel for which both players are now free, one at a time. `/queue` shows your own queued duels and where they stand (waiting, or next up).
+
+**Pre-commit.** While a challenge is sitting in the queue — not yet in progress — either player can get ahead of it by picking their four cards early, through the same picker used for an active duel. It's a convenience, not a requirement: a queued duel still fires and proceeds to normal move selection if nobody pre-commits. A confirmed pre-commit is saved; it's the one piece of queue state that survives a restart rather than living only in memory.
+
+
+## Classic Mode Rules
+
+The bot's duel engine — "Classic Mode" — runs its own rule set. The shape of it:
+
+* **Health**: 3 per duelist, no healing.
+* **Paces**: 10 numbered steps. Each duelist secretly picks one step to **fire** and, optionally, a different step to **dodge** — dodging only works if it exactly matches the step the opponent actually fires on, and you can't fire and dodge on the same step.
+* **Base hit chance**: starts around 50% and is modified pace-by-pace by a shuffled 34-card environment deck (drawn one card per step, mostly favourable, a few sharply not) plus whichever tactics and blade cards are in play.
+* **Base damage**: 1 point per unblocked hit, likewise modified by cards.
+* **Kill threshold**: a duelist falls at 0 health — ordinarily the third unblocked hit, sooner if damage is boosted.
+* **The three card types**: an **Environment** card drawn fresh each pace, one **Tactics** card chosen before the duel starts, and one **Blade** card that both modifies the pistols phase and doubles as a rock-paper-scissors tiebreak if both duelists survive it.
+
+Full card names, effects, and copy counts live on [The Game](/pistols/the-game) — this page won't re-derive them.
+
+**Does Classic Mode match the real onchain game?** Not confirmed as an exact match, and there's at least one known point of difference: Classic Mode's hit chance is described as scaling with the fire step itself (roughly 50% on step 1 up to 95% on step 10), on top of card effects — the onchain rule set instead holds a flat base chance that only moves via drawn cards, with no built-in scaling by step. Treat Classic Mode as its own duelling engine that borrows the onchain game's card system and vocabulary, not as a guaranteed mirror of onchain resolution.
+
+
+## How It Works
+
+**Commit-reveal, but not cryptographic.** The bot talks about "committing" your cards, and the effect for players is the same as a real commit-reveal scheme — neither side can see or react to the other's picks before both are locked in. Under the hood, though, it's simpler than a hash-and-reveal: each player's four picks are written straight into the duel record, and "committed" just means that record is no longer empty. The bot's own server holds both sets of picks before resolution; secrecy comes from Discord's ephemeral messages (only you ever see your own picker) and the bot not showing either side's hand until both are in — not from a cryptographic proof.
+
+**The animation is cosmetic.** The outcome of a duel is fully computed first. The ASCII animation that plays afterward is a deterministic replay of that already-decided result, frame by frame — it doesn't influence the outcome, and nothing about it is provable onchain.
+
+**Duels are offchain.** Classic duels run entirely on the bot's own backend — they are not submitted to, or read from, the real Pistols at Dawn chain. What is persisted there: active duels, the queue, player stats, wallet-link profiles, and server settings. A separate, unrelated feature watches the real chain for actual onchain duel results involving linked wallets and posts a notification when one resolves — that's a notifier for the real game, not a bridge for bot duels. Submitting bot duels onchain is a listed idea for the future, not something the bot does today.
+
+**Role grants.** In the Underware server specifically, winning, losing, or drawing any duel auto-grants the Duelist role; `/verify` exists only as a manual fallback if that didn't fire.
+
+
+For how to actually win one of these, see the [Strategy Guide](/pistols/strategy-guide).

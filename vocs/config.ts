@@ -44,10 +44,10 @@ export default defineConfig({
     },
 
     //------------------------------------
-    // Pistols at 10 Blocks
+    // Pistols at Dawn
     //
     {
-      text: "Pistols at 10 Blocks",
+      text: "Pistols at Dawn",
       collapsed: true,
       items: [
         {
@@ -55,12 +55,8 @@ export default defineConfig({
           link: '/pistols',
         },
         {
-          text: 'For Honour!',
-          link: '/pistols/for-honour',
-        },
-        {
-          text: 'Gameplay',
-          link: '/pistols/gameplay',
+          text: 'The Game',
+          link: '/pistols/the-game',
           items: [
             {
               text: 'Getting Started',
@@ -83,6 +79,14 @@ export default defineConfig({
               link: '/pistols/advanced',
             },
           ],
+        },
+        {
+          text: 'Discord Bot',
+          link: '/pistols/discord-bot',
+        },
+        {
+          text: 'Strategy Guide',
+          link: '/pistols/strategy-guide',
         },
       ],
     },
