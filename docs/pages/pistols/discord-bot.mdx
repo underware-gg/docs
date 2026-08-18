@@ -8,7 +8,9 @@ This page covers what the bot is and how its duels resolve. For setup, play inst
 
 The bot runs its own rule set, called Classic Mode. Every duelist starts with 3 health, and a duel walks through ten paces: each side secretly chooses a pace to fire on, a pace to dodge on, one tactics card, and one blades card. Land your dodge on the exact pace your opponent fires and the shot is negated; otherwise a hit chance roll decides whether it lands.
 
-Classic Mode is a deliberate port of the onchain Pistols at Dawn duel engine. The card names, the 34-card environment deck, the tactics and blades effects, and the blades rock-paper-scissors triangle all mirror the Cairo contracts, and both engines start from the same numbers: 3 health, a flat 50% base hit chance, 1 base damage, modified only by the cards that come out. What differs is everything around the duel, not the duel itself. Bot duels are entirely offchain: nothing here touches your wallet, stakes FAME, or affects onchain seasons or rankings.
+Classic Mode is a deliberate port of the onchain Pistols at Dawn duel engine. The card names, the 34-card environment deck, the tactics and blades effects, and the blades rock-paper-scissors triangle all mirror the Cairo contracts, and both engines start from the same numbers: 3 health, a flat 50% base hit chance, 1 base damage, modified only by the cards that come out. Dodges land only on the exact pace your opponent fires, same as onchain.
+
+What differs sits outside the rules. Bot duels are offchain, so nothing here touches your wallet, stakes FAME, or affects onchain seasons and rankings; and where the onchain game seals both plans cryptographically and derives its dice from both duelists' secrets, the bot keeps your picks private through Discord and rolls its own. Same duel, lighter guarantees.
 
 ## Getting Started
 
