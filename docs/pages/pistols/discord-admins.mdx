@@ -22,7 +22,7 @@ Send Messages deserves a word, because removing it produces a confusing failure 
 
 Read Message History covers the bot fetching its own earlier messages so it can tidy up after itself. Lose it and duels still resolve, but two paths degrade differently: a duel-state update falls back to editing the old message in place, while a result post falls back to a plain-text notice instead of the full embed. Neither is fatal; both are worse than the real thing.
 
-> **What the bot doesn't ask for.** It doesn't request Manage Messages, Add Reactions, Attach Files, Use External Emojis, or thread permissions, because it doesn't use them; nor Use Application Commands, since slash commands come from the invite's `applications.commands` scope rather than a channel permission. The duel animation is the bot editing its own message, which needs no special permission; and the bot never reacts, never uploads a file, and never posts in a thread. If you've seen an older invite asking for more than the four above, or a note claiming the animation needs Manage Messages, both are out of date.
+> **What the bot doesn't ask for.** It doesn't request Manage Messages, Add Reactions, Attach Files, Use External Emojis, or thread permissions, because it doesn't use them; nor Use Application Commands, since slash commands come from the invite's `applications.commands` scope rather than a channel permission. The duel animation is the bot editing its own message, which needs no special permission; and the bot never reacts, never uploads a file, and never posts in a thread.
 
 
 ## Whitelist the Bot First
