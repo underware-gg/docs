@@ -35,9 +35,13 @@ Each of the ten card types above applies only to duelists who haven't fired yet 
 
 **All Shots Hit** and **All Shots Miss** don't nudge your chance to hit, they overwrite it: drawing one sets your chance to hit to 100% or 0% outright, and that lock is durable. No later chance modifier, Environment or Tactics, can move it again for the rest of the duel. Damage modifiers still apply normally.
 
-**Double Tactics** and **No Tactics** don't touch chance or damage directly. Instead, each replays your own Tactics card's effect on top of what it already did: Double Tactics adds a second full application of your Tactics card; No Tactics cancels your Tactics card's effect back out. Drawing either a second time, after the other has already been drawn, compounds further.
+**Double Tactics** and **No Tactics** don't touch chance or damage directly. Instead, each replays your own Tactics card's effect on top of what it already did: Double Tactics adds a second full application of your Tactics card; No Tactics cancels your Tactics card's effect back out.
+
+If both come out in the same duel, the second one applies at double strength to undo the first and land its own effect on top. Draw No Tactics and then Double Tactics and your Tactics card ends up applied twice over; draw them the other way around and it ends up cancelled and then reversed.
 
 **Coin Toss shield.** If you played the Coin Toss Tactics card, the very first Special card that would otherwise affect you is blocked entirely and has no effect; a one-time shield, consumed the moment it blocks something. Only after that shield is spent does a Special card actually apply to you.
+
+**Reversal does not touch Specials.** It only inverts the two plain decreases, Damage Down and Chances Down. All Shots Miss and No Tactics land at full force regardless, so Reversal is no defence against the cards you would most want defending against.
 
 ### Balance and long duels
 
@@ -53,7 +57,7 @@ Chosen once per duelist, before the duel starts. Both duelists' cards apply at t
 | Coin Toss | Yourself | No stat change. Blocks the first Special Environment card that would affect you | Leave it to fate, just this once. |
 | Vengeful | Yourself | +1 your damage | Every past slight sharpens the blade. |
 | Thick Coat | Opponent | -1 opponent's damage | Padded wool turns a killing blow into a bruise. |
-| Reversal | Both | No stat change. The first negative Environment card that would affect either duelist instead applies inverted, for both | What harms one shall favour both. |
+| Reversal | Both | No stat change. The next Damage Down or Chances Down applies inverted, becoming an increase, for both duelists | What harms one shall favour both. |
 | Bananas | Both | -10% your chance to hit, -10% opponent chance to hit | Utter nonsense. Nobody can aim straight after this. |
 
 Insult is the one card here worth reading twice: it lowers your opponent's chance to hit but also raises the damage they deal to you if they do hit. A pure gamble on their behalf, not a strict downgrade.

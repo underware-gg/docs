@@ -4,7 +4,7 @@ Pick your cards blind, then find out if you picked well. This guide breaks down 
 
 It applies wherever you duel. The onchain game at [play.pistols.gg](https://play.pistols.gg/) and Classic duels through the [Discord Bot](/pistols/discord-bot) run the same core mechanics: 3 health, a flat 50% base hit chance, 1 base damage, the same 34-card Environment deck, the same six Tactics cards, and the same four Blades cards with the same triangle. What differs between them is what you stand to win or lose, not how you play. Nothing on this page changes because a duel is staked.
 
-> The percentages come from a Monte Carlo simulation of 300,000 duels. Treat them as directional rather than exact, particularly the dodge figures: the simulation was run against a slightly earlier dodge model, so the shape of the advice holds but the decimal places shouldn't be trusted too hard.
+> The percentages come from simulating a few hundred thousand duels against an opponent picking at random. That last part matters: change the opponent and the numbers move, so treat them as directional and use them to rank your options rather than to predict a duel.
 
 ## The Core Tension
 
@@ -32,37 +32,43 @@ Fire pace is the single most important choice you make. It sets your initiative,
 
 ### 2. Where to dodge
 
-Guess right and you have done the single most powerful thing available to you. A dodge that lands on the exact pace your opponent fires negates the shot outright: not a reduced chance, not less damage, nothing at all. Their whole plan, the pace they picked and every card stacked behind it, spent on empty air. That's worth roughly +47.6% on your win rate, and no card in the game comes close.
+Guess right and you have done the single most powerful thing available to you. A dodge that lands on the exact pace your opponent fires negates the shot outright: not a reduced chance, not less damage, nothing at all. Their whole plan, the pace they picked and every card stacked behind it, spent on empty air. No card in the game comes close.
 
 Guess wrong and you've lost nothing. The dodge simply doesn't come up.
 
-- **Correct dodge:** roughly +47.6% win rate
-- **Wrong dodge:** no effect either way
+| Dodge | You win | You lose |
+|---|---|---|
+| Lands on their fire pace | 54% | 27% |
+| Anywhere else | 42% | 42% |
+
+Reading that correctly is worth about **12 points of win rate**, and it nearly halves how often you lose. Nothing else on this page moves the outcome that hard.
 
 So this is never a question of whether, only where; you dodge in every duel, and the only way to waste the choice is to put it on the pace you're already firing at, which you can't do. Guessing costs nothing and landing it can win the duel outright, which makes reading your opponent the highest-value skill in the game. Anyone who always fires at pace 1 is begging to be dodged at pace 1, right up until they notice you've noticed. That loop is the whole social deduction game.
 
 ### 3. Tactics card: offence vs. defence
 
-Both players choose one of the six Tactics cards. They range from aggressive to defensive.
+Both duelists pick one of the six, and the spread between the best and worst is about nine points of win rate. Ranked against an opponent picking at random:
 
-**Aggressive:**
+| Tactic | Effect | Win rate |
+|---|---|---|
+| **Vengeful** | +1 your damage | 47% |
+| **Thick Coat** | −1 opponent damage | 46% |
+| **Coin Toss** | blocks the first Special card that would hit you | 42% |
+| **Reversal** | next decrease becomes an increase, for both duelists | 41% |
+| **Bananas** | −10% hit chance to both | 40% |
+| **Insult** | −10% opponent hit chance, +1 opponent damage | 38% |
 
-- **Vengeful** (+1 damage to you): a straightforward damage boost that pairs best with early-to-mid fire paces, where the extra point can push you over the kill threshold.
-- **Reversal** (flips the next negative event card to positive) has the highest kill rate of any Tactics card at 28.8%. It turns bad luck into good, but does nothing if your events are already positive.
-- **Insult** (+1 damage to your opponent, −10% opponent hit chance) is a double-edged sword: the hit-chance penalty is strong, but you're gifting them extra damage if their shot lands.
+**Vengeful and Thick Coat are the two real picks**, and the gap to the rest is wider than the gap between them. One pushes your shot over the kill threshold; the other pushes theirs under it. Neither depends on a read or a lucky draw.
 
-**Defensive:**
+**Reversal disappoints, and the reason is easy to miss.** It's a global effect: the decrease it flips turns into an increase for *both* duelists. You can't rescue your own bad luck without handing your opponent the same gift, which leaves it middling despite sounding like the cleverest card in the deck.
 
-- **Thick Coat** (−1 opponent damage) is pure defence: it cuts the chance their shot is lethal.
-- **Bananas** (−10% hit chance to both) is mutual disruption, slightly favouring whoever cares less about landing a hit.
+**Insult is the worst card here.** The −10% is real, but you're paying for it by handing your opponent +1 damage, and a duel is decided by damage landing far more often than by a shot missing.
 
-**Situational:**
-
-- **Coin Toss** (blocks the first special Environment card you'd otherwise suffer) is insurance against the rare but devastating All Shots Hit, All Shots Miss, Double Tactics, or No Tactics draws: low average value, high ceiling when it fires.
+**Coin Toss is insurance**, not value: low average return, high ceiling on the rare duel where it eats an All Shots Miss.
 
 ### 4. Blades card: the other half of the game
 
-Over 55% of duels reach the blades round. Your Blades card choice is often the deciding factor.
+Over half of duels reach the blades round. Your Blades card choice is often the deciding factor.
 
 The triangle:
 
@@ -101,7 +107,7 @@ Four builds worth knowing, as starting points rather than solved answers.
 
 - Fire at pace 1–3
 - Dodge early too, around pace 1–3, where an opponent racing you is likely to fire
-- Vengeful or Reversal for Tactics
+- Vengeful for Tactics
 - Behead or Seppuku for Blades (pistol damage bonus)
 
 **Strengths:** maximum initiative. A lethal shot means your opponent never fires back.
@@ -132,7 +138,7 @@ Four builds worth knowing, as starting points rather than solved answers.
 
 **Strengths:** 70% hit chance (50% base + 20% Seppuku) at pace 1, with 3 damage (1 base + 1 Vengeful + 1 Seppuku). This is the **only non-event combination that reaches the kill threshold at pace 1**.
 
-**Weaknesses:** a dodge at pace 1 makes your shot miss entirely, and Seppuku auto-loses the blades round. With 55.7% of duels reaching blades, that's a heavy liability: players who run this predictably get punished hard by dodge.
+**Weaknesses:** a dodge at pace 1 makes your shot miss entirely, and Seppuku auto-loses the blades round. With over half of duels reaching blades, that's a heavy liability: players who run this predictably get punished hard by dodge.
 
 ### The Mind Reader
 
@@ -142,7 +148,7 @@ Four builds worth knowing, as starting points rather than solved answers.
 - Fire at a pace that avoids their likely dodge
 - Choose Tactics and Blades to counter their expected picks
 
-**Strengths:** correct dodge timing is the single biggest swing factor in the game, +47.6% win rate. Devastating against opponents who run the same strategy every time.
+**Strengths:** correct dodge timing is the single biggest swing factor in the game, worth around 12 points of win rate. Devastating against opponents who run the same strategy every time.
 
 **Weaknesses:** it lives and dies on the read. Guess wrong and you've built your whole strategy on a misread.
 
@@ -165,11 +171,11 @@ Four builds worth knowing, as starting points rather than solved answers.
 | Base hit chance | 50% |
 | Base damage | 1 |
 | Kill threshold | ≥3 damage |
-| Duels reaching blades | 55.7% |
-| Mutual pistol kill rate | 1.6% |
+| Duels reaching blades | ~54% |
+| Mutual pistol kill rate | ~2% |
 | Blades tie (both lose) rate | ~14% |
 | Total both-lose rate | ~15.6% |
-| Correct dodge win rate boost | +47.6% |
+| Correct dodge win rate boost | +12 points |
 | Max card damage (no events) | 4 (Vengeful + Seppuku + opponent's Insult) |
-| Tactics kill rate range | 18.4% (Bananas) – 28.8% (Reversal) |
+| Best / worst Tactics card | Vengeful (47%) / Insult (38%) |
 | Defensive vs. aggressive win rate | 85% (Thick Coat + Grapple @ 8 vs. Vengeful + Seppuku @ 2) |
