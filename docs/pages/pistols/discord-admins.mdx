@@ -7,24 +7,22 @@ This page is for whoever's adding the Pistols at Dawn bot to a server and keepin
 
 Invite the bot from [pistols.gg/discord](https://pistols.gg/discord). That page builds the invite link for you; use it rather than constructing one by hand, since the permission bits matter.
 
+The bot asks for four permissions, and it needs all four. There's no padding in the list and nothing to decline.
+
 | Permission | Load-bearing | Without it |
 |---|---|---|
 | View Channel | Yes | The bot can't see the channel, so it can't function in it. |
-| Send Messages | Yes | The bot can't reply. |
-| Embed Links | Yes | Almost every reply is an embed. |
+| Send Messages | Yes | Duel posts, queue notices, and expiry warnings all fail. |
+| Embed Links | Yes | Almost everything the bot posts is an embed. |
 | Read Message History | Degrades gracefully | See below. |
-| Manage Messages | No | Requested for future use. The bot only ever deletes its own messages, which needs no special permission. |
-| Add Reactions | No | Unused. The bot never reacts to anything. |
-| Attach Files | No | Unused. The bot never attaches a file. |
-| Use External Emojis | No | Unused. Everything the bot posts is plain Unicode emoji. |
-| Use Slash Commands | No | Already covered by the `applications.commands` OAuth scope the invite requests. |
-| Send Messages in Threads | No | Unused. The bot never creates a thread. |
 
-View Channel, Send Messages, and Embed Links are the three the bot checks for before doing anything, including posting its one-time welcome message. Strip any of them out and the bot cannot function in that channel.
+View Channel, Send Messages, and Embed Links are the three the bot checks for before doing anything, including posting its one-time welcome message. Strip any of them and the bot cannot function in that channel.
 
-Read Message History is worth keeping too. Posting a duel result uses a delete-and-repost pattern: the bot fetches its own previous message so it can remove it before posting the fresh one at the bottom of the channel. Without this permission that fetch fails quietly, and the bot falls back to editing the old message in place instead. Not fatal, just a slightly worse experience.
+Send Messages deserves a word, because removing it produces a confusing failure rather than an obvious one. Slash commands will still look like they work: replies to a command ride the interaction itself, not the channel. What breaks is everything the bot posts unprompted, which is every duel. Expect a bot that answers you privately and never posts a duel to the channel.
 
-Everything else in the table is requested defensively, for features that don't exist yet. You can decline all of it without anything breaking today, but there's no harm in leaving it granted either; the invite link bundles it together.
+Read Message History covers the bot fetching its own earlier messages so it can tidy up after itself. Lose it and duels still resolve, but two paths degrade differently: a duel-state update falls back to editing the old message in place, while a result post falls back to a plain-text notice instead of the full embed. Neither is fatal; both are worse than the real thing.
+
+> **What the bot doesn't ask for.** It doesn't request Manage Messages, Add Reactions, Attach Files, Use External Emojis, or thread permissions, because it doesn't use them. The duel animation is the bot editing its own message, which needs no special permission; and the bot never reacts, never uploads a file, and never posts in a thread. If you've seen an older invite asking for more than the four above, or a note claiming the animation needs Manage Messages, both are out of date.
 
 
 ## Whitelist the Bot First
@@ -91,7 +89,7 @@ You're giving this thing a place in your server's social space. Here's exactly w
 
 * Sends a direct message to anyone, including you as the server owner. Every reply is either posted in a channel or shown privately to the requester through Discord's own ephemeral-message feature, never a DM.
 * Touches roles in your server. The Duelist-role grant above only ever runs against the Underware server's own role, regardless of where a duel happened.
-* Reacts to messages, attaches files, or creates threads, even though some of the invited permissions would allow it. Nothing in the bot currently uses them.
+* Reacts to messages, attaches files, deletes anyone else's messages, or creates threads. It doesn't request the permissions for any of that, so it couldn't if it wanted to.
 * Requires a wallet to function. Duels, stats, and queueing all work with zero wallet connection; linking one is an optional side feature for checking on-chain balances.
 
 
