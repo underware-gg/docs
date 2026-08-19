@@ -1,10 +1,85 @@
 # Getting Started
 
-How to navigate and start a duel...
+Pistols at Dawn is an onchain duelling game. Every duel is a real transaction: you commit your cards in secret, your opponent commits theirs, and once both are revealed the outcome resolves deterministically onchain. This guide covers everything from opening the game for the first time to watching your first duel play out.
 
+## Before You Start
+
+You need a **Cartridge Controller** account. Controller is a wallet built for onchain games; it works from the browser, and there are no seed phrases to manage or funds to bridge before you can look around.
+
+Getting started costs nothing. Every new player can claim a one-time **Starter Pack** for free, which mints two Genesis duelists straight into your account: Ser Walker and Lady Vengeance. You can claim this exactly once per account, and there's nothing to buy before you can own duelists and fight your first duels.
+
+Costs only appear later, and only if you go looking for them:
+
+- Duelling in Practice, Tutorial, or against the house bot never costs anything and never risks anything, no matter how much you play.
+- Staking a real duel (Season or Unranked play) risks a life on your duelist, win or lose: no LORDS spent, but your duelist's FAME is on the line.
+- Buying additional duelists (packs of five Genesis or Pirates duelists) costs LORDS, the game's real-value currency, if you want to expand your roster beyond your starter pair.
+
+None of this is required to start. Claim the Starter Pack, and you're in.
+
+## Your First Duelist
+
+A **duelist** is your onchain fighter: an NFT you own, with its own name, its own profile, and its own life total. You don't play as an abstract account; every duel is fought by a specific duelist, and that duelist's fortunes, FAME included, persist from duel to duel.
+
+Your Starter Pack grants two: **Ser Walker** and **Lady Vengeance**, both from the Genesis collection. They stand equal to any other duelist you might later acquire; nobody starts more equal than anybody else.
+
+Every duelist is minted with **3000 FAME**, a token bound permanently to that duelist. FAME is measured in lives: 1000 FAME equals one life, so a fresh duelist starts with **3 lives**. FAME is what a duelist actually risks and gains in staked duels; win a staked duel and you gain FAME, lose one and you lose it. If a duelist's FAME ever drops below one life's worth, that duelist dies permanently and is burned. Practice, Tutorial, and bot duels never touch this: your duelist's lives are only ever at risk in a staked (Season or Unranked) duel.
+
+If you ever end up with zero living duelists, the game gives you a way back in. Once every twenty-four hours you can claim a free "gift" duelist, but only after you've already claimed your Starter Pack and only while you currently own no living duelists.
 
 ## Issue a Challenge
 
+Once you have a duelist, you can challenge someone to a duel:
+
+1. **Choose your duelist.** This is the duelist that stands in for you; its lives are what's at stake if the duel is a staked one.
+2. **Choose an opponent, or leave it open.** Name a specific address to challenge, or post an open challenge with no named opponent. An open challenge can be accepted by anyone; a targeted challenge can only be accepted by the address you named.
+3. **Pick a premise.** Every duel carries a short flavour reason: why the two of you are fighting. The available premises include Matter, Debt, Dispute, Honour, Hatred, Blood, Nothing, Tournament, Treaty, and Lesson, each rendering as a short sentence describing the cause of the duel. The premise is purely cosmetic; it has no effect on how the duel resolves.
+4. **Set the stake.** For a real (Season) duel you stake lives on the outcome. Practice and bot duels cannot carry a stake at all; they must be staked at zero.
+5. **Set the expiry.** A challenge doesn't wait forever. If it isn't accepted before it expires, it lapses and either side can collect it as expired. If you don't set an expiry, it defaults to one day.
+
+Once posted, your challenge sits and waits. A targeted challenge waits for that one address; an open challenge waits for whoever accepts it first.
 
 ## Accept a Challenge
 
+When you're on the receiving end of a challenge, you'll see who issued it (unless it's open, in which case anyone can claim it), the premise, the stake, and how long you have before it expires.
+
+You have two choices: accept or refuse. Refusing simply closes out the challenge. Accepting commits you: the moment you accept, the duel moves from waiting into progress, and you're now on the hook to play it out. If you accept and then never commit your cards, you risk forfeiting the duel by timeout later, so only accept a challenge you intend to see through.
+
+If the challenge was open with no named opponent, accepting it also claims it. You become the named opponent, and it's no longer available for anyone else to take.
+
+## Choose Your Four Cards
+
+Once a duel is in progress, both duelists secretly choose four cards before anything is revealed to either side. This is the heart of a Pistols at Dawn duel, and it rewards taking seriously on your first try:
+
+- **Fire pace**: the pace, from 1 to 10, at which you plan to pull the trigger.
+- **Dodge pace**: the pace, from 1 to 10, at which you're guessing your opponent will fire, so you can dodge it. You cannot pick the same pace for both fire and dodge; if you do, your dodge choice is discarded and you fire blind at that pace.
+- **Tactics**: a card that shapes your stats for the whole duel, chosen once and applied immediately.
+- **Blades**: a card held in reserve in case the duel isn't decided by gunfire alone, resolved only if both duelists are still standing after the pace round.
+
+These four choices interact in ways worth understanding before you commit: what each tactics and blades card actually does, and how pace, dodge, and the environment deck combine to decide a shot. See [Cards](/pistols/cards) for the full reference and [Strategy Guide](/pistols/strategy-guide) for how to think about picking them.
+
+Your choices are hashed and submitted secretly; neither you nor your opponent can see what the other picked until both of you have committed.
+
+## Reveal and Resolve
+
+After both duelists have committed their secret choices, the duel isn't finished. Each side has to come back and **reveal** the same choices they committed to. Revealing proves you actually picked what your hash claims, and only once both sides have revealed can the duel resolve: pace by pace, shots fired and dodges checked, through to a blades round if both duelists are still alive and either played a blade.
+
+> **You must come back to reveal.** If you commit and then never reveal before the timeout, you don't get a neutral outcome; you forfeit. Whichever side didn't time out wins; if both sides fail to reveal, it's recorded as a draw. Don't commit to a duel you don't plan to see through to reveal.
+
+Once both reveals are in, resolution is immediate and deterministic. There's no further waiting and no extra confirmation step.
+
+## Practice First
+
+Before you risk a duelist's lives on a real duel, there are entirely free, zero-stakes ways to learn the mechanics:
+
+- **Practice duels**: free, unstaked matches against another duelist, purely to try things out.
+- **Tutorial**: a short, scripted pair of duels against NPCs that walks you through the commit-and-reveal flow itself.
+- **Duelling the house bot**: free matches against a practice bot, with no lives, no rewards, and no consequences either way.
+
+None of these ever touch your duelist's FAME or lives, no matter how badly they go. A new player should play through several of these before ever accepting or issuing a staked challenge. The four-card choice has real depth, and it's much cheaper to learn the pace, dodge, tactics, and blades interactions here than to learn them by losing a life.
+
+## Next Steps
+
+- [Duel Rules](/pistols/duel-rules): the full mechanics of how a duel resolves, pace by pace.
+- [Cards](/pistols/cards): every fire, dodge, tactics, and blades card in detail.
+- [Duelists & Seasons](/pistols/duelists): how duelists, FAME, and seasons fit together over time.
+- [Strategy Guide](/pistols/strategy-guide): how to actually pick your four cards well.

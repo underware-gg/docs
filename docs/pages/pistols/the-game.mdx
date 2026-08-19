@@ -1,0 +1,46 @@
+# The Game
+
+**Pistols at Dawn** is an onchain duelling game. Two duelists step out, each secretly locks in a plan, and the plans are revealed together. Nobody gets to see the other side's hand and react to it: the outcome is decided the moment both plans are known, by a die roll neither side could have predicted or influenced.
+
+This page is the map. The mechanics live on four child pages: [Duel Rules](/pistols/duel-rules), [Cards](/pistols/cards), [Duelists & Seasons](/pistols/duelists), and [Getting Started](/pistols/getting-started).
+
+## What a Duel Is
+
+A duel starts with a challenge: one duelist calls out another, or throws down an open challenge anyone can pick up, and attaches a premise: a reason for the fight, whether that's honour, debt, hatred, or nothing at all. The challenged party can accept, refuse, or let the clock run out.
+
+Once accepted, both duelists sit down and make their plan at the same time, in secret. Each locks in four choices: the pace they'll fire at, the pace they'll brace to dodge, how they carry themselves into the fight, and what they'll reach for if it comes down to blades. Neither side can see what the other has chosen; they only submit a sealed commitment to it.
+
+When both plans are sealed, both sides reveal them together. From there the outcome plays out automatically: the two duelists walk toward each other pace by pace, the environment throws its own complications into the mix, shots are fired when a duelist's chosen pace comes up, and dodges either land or don't. If both duelists are still standing after the walk, it comes down to blades. Someone usually ends up dead. Sometimes both do. Sometimes neither does.
+
+## Anatomy of a Duel
+
+1. **Challenge and premise.** A duelist issues a challenge, targeted at a specific opponent or left open for anyone, and attaches a premise: the stated reason for the fight. The challenge waits for a reply until it expires.
+2. **Accept.** The opponent (or, for an open challenge, whoever claims it) accepts. This starts the duel and opens the commit window.
+3. **Commit your four cards.** Both duelists privately choose a fire pace, a dodge pace, a tactics card, and a blades card, then submit a sealed commitment to that choice, not the choice itself.
+4. **Reveal.** Once both sides have committed, both reveal their actual cards. The reveal is checked against the earlier commitment, so nobody can change their plan after the fact.
+5. **The pace walk.** The duel steps through the paces in order. An environment card is drawn and applied at each pace before the two duelists react, then whoever's fire pace has come up takes their shot.
+6. **Blades, if both survive.** If both duelists are still standing after the pace walk, and at least one of them chose a blades card, the fight is settled with a clash of blades.
+7. **The result.** One duelist wins, one loses, or the duel ends in a draw: a bloodbath in the blades round, or a stalemate in the pace walk, can leave nobody standing, or both standing.
+
+For exactly how hit chance, damage, dodges, environment cards, tactics, and blades interact, see [Duel Rules](/pistols/duel-rules). For what each card does, see [Cards](/pistols/cards).
+
+## What You're Playing For
+
+A duelist isn't just a character skin: it's a token with its own life total, and that life total can run out for good. Losing a staked duel costs the loser some of that reserve; if it drops too low, the duelist dies permanently. Winning earns rewards paid out to the winning player. Seasons run on a timer, duels feed a season leaderboard, and the leaderboard pays out when the season ends.
+
+Not every duel carries stakes: practice and tutorial duels are free and consequence-free, the right place to learn before you risk a duelist for real. The full mechanics of lives, rewards, and seasons are on [Duelists & Seasons](/pistols/duelists).
+
+## Provably Fair
+
+Neither duelist can cheat, and neither can react to the other's choice. Both sides commit to their plan before either reveals it, so there's no way to see an opponent's move and adjust your own: the classic exploit of any simultaneous game is closed off by construction.
+
+The randomness that decides hits and environment draws isn't picked in advance or controlled by either side: it's built from a value each duelist contributes secretly and only combined once both have revealed. Neither duelist knows the other's contribution until it's too late to change their own plan, so neither can steer the outcome. It's a genuinely fair mechanism, not a marketing line.
+
+## Where to Next
+
+- New to the game: [Getting Started](/pistols/getting-started)
+- The exact mechanics: [Duel Rules](/pistols/duel-rules)
+- Every card and what it does: [Cards](/pistols/cards)
+- Lives, FAME, FOOLS, and seasons: [Duelists & Seasons](/pistols/duelists)
+- How to win: [Strategy Guide](/pistols/strategy-guide)
+- Duel from Discord: [Discord Bot](/pistols/discord-bot)

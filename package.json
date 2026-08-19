@@ -1,17 +1,39 @@
 {
   "name": "underware-gg-docs",
   "version": "0.0.1",
+  "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.34.3+sha224.51b36b3f404dcfa1fd29d5ec34e12e321528a8dd8cdb895d665562f6",
+  "engines": {
+    "node": ">=24.19.0 <25",
+    "pnpm": "10.34.3"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "10.34.3+sha224.51b36b3f404dcfa1fd29d5ec34e12e321528a8dd8cdb895d665562f6",
+      "onFail": "error"
+    }
+  },
   "scripts": {
     "dev": "vocs dev",
     "build": "vocs build",
-    "preview": "vocs preview"
+    "preview": "vocs preview",
+    "typecheck": "tsc --noEmit",
+    "verify": "node scripts/check-dependency-policy.mjs && node scripts/check-image-size-patch.mjs && tsc --noEmit && vocs build",
+    "deps:audit": "node scripts/check-dependency-audit.mjs",
+    "deps:policy:check": "node scripts/check-dependency-policy.mjs",
+    "deps:patches:check": "node scripts/check-image-size-patch.mjs"
   },
   "dependencies": {
-    "@types/react": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "typescript": "latest",
-    "vocs": "latest"
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.18",
+    "typescript": "6.0.3",
+    "vite": "8.2.1",
+    "vocs": "2.8.5",
+    "waku": "1.0.0-beta.8"
   }
 }

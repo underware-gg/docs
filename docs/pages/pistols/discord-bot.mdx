@@ -1,0 +1,27 @@
+# Discord Bot
+
+Pistols at Dawn duels, playable straight inside a Discord channel: no wallet, no install, no leaving the conversation. You pick your moves through the bot's menus and watch the result play out as an ASCII animation. Challenges and results post publicly by default, because duels are meant to be watched, not hidden away in a DM.
+
+This page covers what the bot is and how its duels resolve. For setup, play instructions, and commands, jump straight to the pages below.
+
+## Classic Mode
+
+The bot runs its own rule set, called Classic Mode. Every duelist starts with 3 health, and a duel walks through ten paces: each side secretly chooses a pace to fire on, a pace to dodge on, one tactics card, and one blades card. Land your dodge on the exact pace your opponent fires and the shot is negated; otherwise a hit chance roll decides whether it lands.
+
+Classic Mode is a deliberate port of the onchain Pistols at Dawn duel engine. The card names, the 34-card environment deck, the tactics and blades effects, and the blades rock-paper-scissors triangle all mirror the Cairo contracts, and both engines start from the same numbers: 3 health, a flat 50% base hit chance, 1 base damage, modified only by the cards that come out. Dodges land only on the exact pace your opponent fires, same as onchain.
+
+What differs sits outside the rules. Bot duels are offchain, so nothing here touches your wallet, stakes FAME, or affects onchain seasons and rankings; and where the onchain game seals both plans cryptographically and derives its dice from both duelists' secrets, the bot keeps your picks private through Discord and rolls its own. Same duel, lighter guarantees.
+
+## Getting Started
+
+Playing? Start at [For Players](/pistols/discord-players).
+
+Setting the bot up on your server? Start at [For Server Admins](/pistols/discord-admins).
+
+Looking for exact command syntax and options? See the [Command Reference](/pistols/discord-commands).
+
+## How It Works
+
+Move secrecy comes from Discord, not cryptography. Each player picks their four cards through a private, ephemeral menu that only they can see, and the bot stores those picks server-side; there's no commit-reveal hashing, just an opponent who never sees your menu. The moment both sides have locked in, the outcome is computed immediately and deterministically. Nothing is decided later.
+
+The animation that follows is a replay of that already-computed result, played out frame by frame: it isn't live or suspenseful in the sense that the outcome could still change. Duel state, stats, queues, and per-server settings persist in a database across bot restarts. Only short-lived scratch state, an in-progress move picker or an animation replay buffer, is kept in memory and expires on its own.

@@ -1,0 +1,141 @@
+# Duelists & Seasons
+
+Pistols at Dawn is more than a single duel. Every duel sits inside a meta-game of characters you own, currencies you earn and spend, and competitive seasons you can climb; this page covers that layer. Read it before you wonder why your win only paid out half of what you expected, or why your Duelist stopped existing entirely.
+
+## Players and Duelists
+
+A **Player** is your Controller wallet address. It tracks your registration time, your lifetime Totals, how many living Duelists you own, your starter-pack claim status, and, if you've set one, your active Signet Ring.
+
+A **Duelist** is a separate ERC-721 token: one per character, and a Player can own many. Each carries its own profile, its own record (Totals: duels, wins, losses, draws, and a rolling honour stat), and its own FAME balance. FAME belongs to the Duelist, not to you; if a Duelist dies, its FAME dies with it.
+
+You can also delegate: a Player may authorise another address to play duels on their behalf.
+
+## Your Duelist
+
+Every Duelist has a `duelist_id` (its NFT token ID) and a `duelist_profile` drawn from one of several lineages:
+
+| Lineage | What it is |
+|---|---|
+| **Genesis** | The original playable collection: 69 named profiles, including the two starter characters, Ser Walker and Lady Vengeance |
+| **Pirates** | A playable collection of 14 named profiles |
+| **Legends** | A small playable set of 4 named profiles |
+| **Character** | Non-playable Tavern NPCs used in tutorials (Bartender, Drunkard, Devil, and the tutorial stand-in for you, "Stranger") |
+| **Bot** | Non-playable practice opponents (TinMan, Scarecrow, Leon, Pro) |
+
+If a Duelist dies, it doesn't vanish quietly: a permanent memorial records its cause of death, who killed it, how much FAME it held at the end, and which season it died in. Somewhere, that's being read by whoever put it in the dirt.
+
+## FAME and Lives
+
+FAME is a token-bound currency: every Duelist mints with its own balance, separate from every other Duelist you own.
+
+| | Amount |
+|---|---|
+| Starting FAME (new Duelist) | 3000 FAME |
+| FAME per life | 1000 FAME |
+| Starting lives | 3 |
+
+A Duelist's life count is simply its FAME balance divided by 1000. FAME only moves in staked duels (Ranked, Unranked, and Seasonal); Practice, Tutorial, and BotPlayer duels never touch it.
+
+- **Winning** grants FAME equal to 1000 divided by (your current lives plus 1), multiplied by the lives staked in that duel, so a Duelist with more FAME already banked earns proportionally less per win.
+- **Losing** costs 1000 FAME per life staked in that duel.
+
+If a loss would leave a Duelist with less than 1000 FAME remaining, it does not survive: every remaining FAME token is burned, the Duelist dies permanently, and it is removed from your active roster. There's no version of this where you get better odds by being cautious with the last life; the maths doesn't care how attached you are.
+
+## FOOLS
+
+FOOLS is a plain, non-token-bound currency minted straight to your wallet, not to the Duelist. Only the winner of a Season or Unranked duel earns FOOLS; losers earn none, and Practice, Tutorial, and BotPlayer duels never award it.
+
+The amount you earn per win scales inversely with the FAME your Duelist gained from that same win: a Duelist that gains less FAME (because it's already carrying more) earns more FOOLS. The result is then multiplied by the number of lives staked, and boosted by whichever Signet Ring you have active.
+
+FOOLS exists to be spent: entering the Ranked matchmaking queue costs 5 FOOLS.
+
+## LORDS and Packs
+
+LORDS is the real-value currency. Spending it on a pack splits the payment four ways:
+
+| Share | Percent |
+|---|---|
+| Underware | 40% |
+| Realms | 10% |
+| Fees (funds free/claimable packs) | 10% |
+| Season prize pool | 40% |
+
+Pack prices, in LORDS:
+
+| Pack | Contents | Price |
+|---|---|---|
+| Starter Pack | Ser Walker and Lady Vengeance | Free |
+| Genesis Duelists (5x) | Five random Genesis duelists | 50 LORDS |
+| Pirates Duelists (5x) | Five random Pirates duelists | 100 LORDS |
+| Single Duelist | One special duelist | 10 LORDS |
+
+The Starter Pack is the only pack every player can claim directly, and only once: it mints and opens automatically the first time you claim it, handing you your first two Duelists, Ser Walker and Lady Vengeance, at no cost.
+
+If you are ever left with zero living Duelists, you can claim a free daily gift pack (one random Genesis duelist) once every 24 hours: a safety net back into the game, for when the game has been less than kind.
+
+## Signet Rings
+
+Signet Rings are earned by having played in specific season ranges, and boost how much FOOLS you earn from a win.
+
+| Ring | Earned by playing in | FOOLS bonus |
+|---|---|---|
+| Gold Signet Ring | Season 1 | +40% |
+| Silver Signet Ring | Seasons 2 to 4 | +20% |
+| Lead Signet Ring | Seasons 5 to 9 | +10% |
+
+A ring is not granted automatically; after concluding a qualifying duel, you claim it yourself. Only one ring can be active at a time, and it applies its bonus to every winning duel while equipped.
+
+## Seasons
+
+Each season runs for two weeks. During a season, every Seasonal duel scores points toward a leaderboard:
+
+- A **win** scores 100 points, plus 2 points for every pace the winning shot landed on.
+- A **loss** scores 10 points.
+- Bonuses: +20 points for a successful dodge; +10 points if you landed a killing shot, or +5 if you simply landed a hit.
+
+The leaderboard pays out to 10 ranked positions at most; a season can be configured with fewer. When a season ends, the prize pool (funded by the 40% LORDS share described above) pays out by rank:
+
+| Rank | Share of pool |
+|---|---|
+| 1 | 25% |
+| 2 | 20% |
+| 3 | 15% |
+| 4 | 10% |
+| 5 | 8% |
+| 6 | 6% |
+| 7 | 6% |
+| 8 | 4% |
+| 9 | 4% |
+| 10 | 2% |
+
+If fewer than 10 Duelists qualify, the unclaimed share folds into first place. As soon as one season ends, the next begins immediately with a fresh two-week period and a clean leaderboard.
+
+## Matchmaking
+
+Two matchmaking queues sit alongside direct challenges, both staking lives and both feeding the current season's leaderboard:
+
+| Queue | Entry cost | Lives staked | Enlistment |
+|---|---|---|---|
+| Ranked | 5 FOOLS | 1 | Permanent for the season |
+| Unranked | Free | 1 | Clears after each match |
+
+Enlisting in Ranked locks your Duelist to that queue and to the current season until the season ends or the Duelist dies; there's no quitting halfway through to protect your record. Unranked enlistment is one-and-done: it resets once your match is found.
+
+Both queues offer two speeds:
+
+| Mode | Time to be matched | Time to commit your move |
+|---|---|---|
+| Fast | About 1 minute | 10 minutes |
+| Slow | 1 day | 1 day |
+
+If Ranked matchmaking can't find you a human opponent, the bot Pro can be summoned as a stand-in.
+
+## Practice and Tutorial
+
+If you'd rather play with nothing on the line, three duel types cost nothing and touch neither FAME nor FOOLS:
+
+- **Tutorial**: two fixed, scripted duels against Tavern NPCs (first against the Drunkard with a simplified deck, then against the Bartender with the full deck) that teach the commit-and-reveal move system.
+- **Practice**: free duels against randomised practice bots (TinMan, Scarecrow, or Leon).
+- **BotPlayer**: a free duel against a bot opponent outside the tutorial flow.
+
+None of these stake lives, and none award FAME, FOOLS, or season points; they exist purely to let you learn or warm up.

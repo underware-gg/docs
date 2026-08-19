@@ -1,2 +1,2 @@
-import config from './vocs/config'
+import config from './vocs/config.js'
 export default config

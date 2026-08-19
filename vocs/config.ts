@@ -1,22 +1,10 @@
-import { defineConfig } from 'vocs'
-import sponsors from './sponsors'
-import theme from './theme'
+import { defineConfig } from 'vocs/config'
+import theme from './theme.js'
 
 export default defineConfig({
   title: 'Underware.gg',
-  sponsors,
-  theme,
-  font: {
-    default: {
-      // google: 'Inter' // default
-      // google: 'Roboto' // ok
-      // google: 'Abel' // thinner
-      google: 'Ubuntu' // stylish
-    },
-    mono: {
-      google: 'Courier Prime'
-    }
-  },
+  srcDir: 'docs',
+  ...theme,
   socials: [
     {
       icon: "x",
@@ -56,10 +44,10 @@ export default defineConfig({
     },
 
     //------------------------------------
-    // Pistols at 10 Blocks
+    // Pistols at Dawn
     //
     {
-      text: "Pistols at 10 Blocks",
+      text: "Pistols at Dawn",
       collapsed: true,
       items: [
         {
@@ -67,34 +55,48 @@ export default defineConfig({
           link: '/pistols',
         },
         {
-          text: 'For Honour!',
-          link: '/pistols/for-honour',
-        },
-        {
-          text: 'Gameplay',
-          link: '/pistols/gameplay',
+          text: 'The Game',
+          link: '/pistols/the-game',
           items: [
             {
               text: 'Getting Started',
               link: '/pistols/getting-started',
             },
             {
-              text: 'Bounty',
-              link: '/pistols/bounty',
+              text: 'Duel Rules',
+              link: '/pistols/duel-rules',
             },
             {
-              text: 'Pistols Round ✝',
-              link: '/pistols/pistols-round',
+              text: 'Cards',
+              link: '/pistols/cards',
             },
             {
-              text: 'Blades Round ✝',
-              link: '/pistols/blades-round',
-            },
-            {
-              text: 'Advanced ✝',
-              link: '/pistols/advanced',
+              text: 'Duelists & Seasons',
+              link: '/pistols/duelists',
             },
           ],
+        },
+        {
+          text: 'Discord Bot',
+          link: '/pistols/discord-bot',
+          items: [
+            {
+              text: 'For Players',
+              link: '/pistols/discord-players',
+            },
+            {
+              text: 'For Server Admins',
+              link: '/pistols/discord-admins',
+            },
+            {
+              text: 'Command Reference',
+              link: '/pistols/discord-commands',
+            },
+          ],
+        },
+        {
+          text: 'Strategy Guide',
+          link: '/pistols/strategy-guide',
         },
       ],
     },

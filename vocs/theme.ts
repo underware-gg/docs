@@ -1,4 +1,4 @@
-import { Theme } from 'vocs'
+import type { Config } from 'vocs/config'
 
 //
 // https://vocs.dev/docs/guides/theming
@@ -8,28 +8,9 @@ import { Theme } from 'vocs'
 //
 
 const accentColor = '#ffb82a';
-const accentColor2 = '#ffde9b';
-
-export const theme: Theme = {
+export const theme: Pick<Config, 'accentColor' | 'colorScheme'> = {
   colorScheme: 'dark',
   accentColor,
-  variables: {
-    color: {
-      text: {
-        light: '#ebebeb',
-        dark: 'white',
-      },
-      background: {
-        light: 'white',
-        dark: '#232225',
-      },
-      backgroundDark: { // sidebar
-        light: '#f9f9f9',
-        dark: '#1e1d1f',
-      },
-      blockquoteText: accentColor2,
-    },
-  }
 };
 
 export default theme;

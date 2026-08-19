@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
+@layer vocs_preflight {
+  @tailwind base;
+}
+
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vocs-background-color-primary: #232225;
+  --vocs-background-color-surface: #1e1d1f;
+  --vocs-font-family: 'Ubuntu', system-ui, sans-serif;
+  --vocs-font-family-mono: 'Courier Prime', ui-monospace, monospace;
+}
+
+
+[data-v-content] h1,
+[data-v-content] h2 {
+  color: var(--vocs-color-accent);
+}
+
+[data-v-content] h3,
+[data-v-content] h4,
+[data-v-content] h5 {
+  color: #ffde9b;
+}
+
+[data-v-content] strong {
+  color: var(--vocs-text-color-heading);
+}
+[data-v-content] blockquote strong {
+  color: var(--vocs-color-accent);
+}
+
+[data-v-content] h3:not(:first-child) {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+[data-v-content] li:not(:last-child) {
+  margin-bottom: 0.2em!important; /* default: 0.5em; */
+}
+
+/* custom components */
+
+.Footer {
+  color: var(--vocs-text-color-muted);
+  font-family: var(--vocs-font-mono);
+}
+
+.Sponsors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-block: 2rem;
+  text-align: center;
+}
+
+.Sponsors_group {
+  display: contents;
+}
+
+.Sponsors_group h2 {
+  background: var(--vocs-background-color-surface);
+  color: var(--vocs-text-color-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.25rem 0;
+}
+
+.Sponsors_items {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.Sponsors_items a {
+  align-items: center;
+  background: var(--vocs-background-color-surface);
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+  padding: 2rem;
+  transition: background-color 100ms;
+}
+
+.Sponsors_items a:hover {
+  background: var(--vocs-background-color-surfaceTint);
+}
+
+.Sponsors_items img {
+  display: block;
+  filter: grayscale(1) invert(1);
+  max-width: 12rem;
+  object-fit: contain;
+  transition: filter 100ms;
+}
+
+.Sponsors_items a:hover img {
+  filter: none;
+}
+
+.UnderwareHome {
+  gap: 2rem;
+  padding-top: 4rem;
+}
+
+.LogoSmall {
+  width: 50px;
+  height: 50px;
+}
+.Logo {
+  width: 100px;
+  height: 100px;
+}
+.LogoBig {
+  width: 300px;
+  height: 300px;
+}

@@ -1,0 +1,238 @@
+# Command Reference
+
+This page lists every slash command the Pistols at Dawn Discord bot currently supports: exact syntax, options, what each one returns, who sees the reply, and any cooldown. If a command, option, or mode you've heard mentioned isn't listed here, it doesn't exist yet; don't take someone's word for it. For the surrounding context, see [For Players](/pistols/discord-players) and [For Server Admins](/pistols/discord-admins).
+
+## Player Commands
+
+| Command | Arguments | What it does |
+| --- | --- | --- |
+| `/status` | none | Shows the game indexer's live status. |
+| `/duel user` | `opponent` (user, required) | Challenges a specific player to a duel. |
+| `/duel public` | none | Posts an open challenge anyone in the channel can accept. |
+| `/login` | `username` (string, required) | Links your pistols.gg Cartridge Controller account to your Discord account. |
+| `/balance` | `user` (user, optional) | Shows token balances (LORDS, FOOLS, FAME, STRK) for yourself or another linked player. |
+| `/help` | none | Shows an overview of how to duel and what commands are available. |
+| `/howtoplay` | none | Shows a personalized explainer based on your currently equipped pistol. |
+| `/feedback` | `category` (string, required, choices) | Opens a form to send feedback to the team. |
+| `/mystats` | none | Shows your win/loss/draw record and streaks. |
+| `/verify` | none | Claims the Duelist role in the Underware Discord server. |
+| `/queue` | none | Lists your currently queued duels. |
+| `/history` | none | Lists your active, queued, and recent duels. |
+
+### /status
+
+**Syntax:** `/status`
+
+No options.
+
+**Returns:** An embed titled "Server Status" with the indexer head and world tails, footed "Mainnet".
+
+**Reply visibility:** Public (visible to the whole channel).
+
+**Cooldown:** None.
+
+### /duel user
+
+**Syntax:** `/duel user opponent:<user>`
+
+| Option | Type | Required | Choices |
+| --- | --- | --- | --- |
+| `opponent` | User | Yes | None |
+
+Opens a private premise picker (a dropdown of duel premises, followed by an optional detail field) for a targeted challenge against the named user. Submitting it posts a public challenge message in the duel channel that pings your opponent.
+
+**Returns:** A private confirmation ("Challenge sent!") to you; a public challenge post visible to the server.
+
+**Reply visibility:** Your own interaction (the premise picker and confirmation) is private. The resulting challenge post is public.
+
+**Cooldown:** 5 seconds per user.
+
+### /duel public
+
+**Syntax:** `/duel public`
+
+No options.
+
+Opens the same private premise picker as `/duel user`, but the resulting challenge is open: anyone in the channel except you can accept it.
+
+**Returns:** A private confirmation ("Open challenge posted!") to you; a public open-challenge post visible to the server.
+
+**Reply visibility:** Your own interaction is private. The resulting challenge post is public.
+
+**Cooldown:** 5 seconds per user.
+
+### /login
+
+**Syntax:** `/login username:<text>`
+
+| Option | Type | Required | Choices |
+| --- | --- | --- | --- |
+| `username` | String | Yes | None |
+
+Links a Cartridge Controller username to your Discord account. The username must already have Discord linked to this same Discord account on pistols.gg; this command doesn't create a wallet or a new link, it only syncs an existing one. Linking is entirely optional: duelling, choosing moves, stats, and queueing all work with no wallet link at all.
+
+**Returns:** A confirmation the account is linked, or one of three failure messages (username not found, hasn't linked Discord yet, or linked to a different Discord account).
+
+**Reply visibility:** Private (ephemeral).
+
+**Cooldown:** None.
+
+### /balance
+
+**Syntax:** `/balance [user:<user>]`
+
+| Option | Type | Required | Choices |
+| --- | --- | --- | --- |
+| `user` | User | No (defaults to yourself) | None |
+
+Looks up a linked wallet address and shows balances for exactly four tokens, in this order: LORDS, FOOLS, FAME, STRK. If the target has no linked wallet, shows a "Not Linked" message instead.
+
+**Returns:** An embed with one field per token, or a "Not Linked" embed.
+
+**Reply visibility:** Public.
+
+**Cooldown:** None.
+
+### /help
+
+**Syntax:** `/help`
+
+No options.
+
+**Returns:** An embed covering how `/duel` works, the four move cards, the pistol archetypes and how they unlock, a list of other commands, and a note for server admins about moderation-bot whitelisting.
+
+**Reply visibility:** Public.
+
+**Cooldown:** None.
+
+### /howtoplay
+
+**Syntax:** `/howtoplay`
+
+No options.
+
+**Returns:** An explainer tailored to whether your currently equipped pistol is a starter archetype or Manual. Pistol players get a simplified version, Manual players get the full four-dropdown walkthrough. Ends with a link to pistols.gg for full mechanics.
+
+**Reply visibility:** Private (ephemeral).
+
+**Cooldown:** None.
+
+### /feedback
+
+**Syntax:** `/feedback category:<bug|suggestion|praise|other>`
+
+| Option | Type | Required | Choices |
+| --- | --- | --- | --- |
+| `category` | String | Yes | `bug`, `suggestion`, `praise`, `other` |
+
+Opens a modal with a single paragraph text field (10-1000 characters) for your feedback.
+
+**Returns:** A private confirmation once submitted ("Feedback received — thanks for taking the time. The team will read it.").
+
+**Reply visibility:** Private (ephemeral).
+
+**Cooldown / rate limit:** Limited to 3 submissions per user per hour; exceeding it shows a private message telling you when you can try again.
+
+### /mystats
+
+**Syntax:** `/mystats`
+
+No options.
+
+**Returns:** Your total wins/losses/draws, win rate, current streak (with an escalating emoji tier), and best streak. If you have no recorded duels yet, shows a private prompt to run `/duel` instead.
+
+**Reply visibility:** Public once you have stats; private ("no stats yet") if you don't.
+
+**Cooldown:** None.
+
+### /verify
+
+**Syntax:** `/verify`
+
+No options. Works only inside the Underware Discord server; running it elsewhere returns an error.
+
+Claims the "Duelist" role in the Underware server. Requires at least one resolved duel on record, anywhere, not just in Underware; refused, withdrawn, and expired duels don't count.
+
+**Returns:** One of: role granted (with your total duels and W/L), you already had the role, not eligible (nudges you to duel first), or the badge system is currently disabled.
+
+**Reply visibility:** Private (ephemeral).
+
+**Cooldown:** 10 seconds per user.
+
+### /queue
+
+**Syntax:** `/queue`
+
+No options.
+
+Lists every duel you currently have queued in this server (queued duels wait for both participants to be free before they fire).
+
+**Returns:** One line per queued duel showing direction (vs/from), opponent, premise, age in minutes, and status ("waiting" or "next").
+
+**Reply visibility:** Private (ephemeral).
+
+**Cooldown:** None.
+
+### /history
+
+**Syntax:** `/history`
+
+No options.
+
+Shows your active duels (awaiting acceptance or in progress), queued duels, and your last 10 resolved duels, all scoped to the current server.
+
+**Returns:** Three sections, Active, Queued, and Recent, each described in plain language (e.g. "waiting on X to accept", "your turn", "pre-committed"). If nothing exists in any section, shows a prompt to run `/duel`.
+
+**Reply visibility:** Private (ephemeral).
+
+**Cooldown:** None.
+
+## Admin Commands
+
+Both admin commands require the **Manage Server** ("Manage Guild") permission and can only be run in a server, not in DMs.
+
+| Command | Arguments | What it does |
+| --- | --- | --- |
+| `/setup` | `duel_channel`, `animation`, `speed`, `accept_timeout`, `enabled` (all optional) | Views or changes this server's bot configuration. |
+| `/metrics` | `period` (optional), `global` (optional) | Shows usage analytics for this server, or (allowlisted users only) across all servers. |
+
+### /setup
+
+**Required permission:** Manage Server.
+
+**Syntax:** `/setup [duel_channel:<channel>] [animation:<true|false>] [speed:<normal|compact|minimal>] [accept_timeout:<0-2880>] [enabled:<true|false>]`
+
+| Option | Type | Required | Choices |
+| --- | --- | --- | --- |
+| `duel_channel` | Channel (text channels only) | No | None |
+| `animation` | Boolean | No | None |
+| `speed` | String | No | `normal`, `compact`, `minimal` |
+| `accept_timeout` | Integer | No | 0 to 2880 (minutes) |
+| `enabled` | Boolean | No | None |
+
+Running `/setup` with no options shows the current configuration without changing anything. Passing any option changes that setting: `duel_channel` restricts `/duel` to one channel (leave unset and `/duel` works in any channel); `animation` toggles the live duel animation on or off; `speed` controls animation pacing (useful if a moderation bot flags the animation as spam); `accept_timeout` overrides how long a challenge waits for acceptance before expiring (5-2880 minutes; passing 0 clears the override back to the 5-minute default; 1-4 is rejected); `enabled` is the server-wide on/off switch: when false, every command except `/setup` itself replies that the bot is disabled here.
+
+**Returns:** A read-only status embed (no args given) or a confirmation of the changed setting(s).
+
+**Reply visibility:** Private (ephemeral).
+
+**Cooldown:** None.
+
+### /metrics
+
+**Required permission:** Manage Server.
+
+**Syntax:** `/metrics [period:<7 days|30 days|90 days|all time>] [global:<true|false>]`
+
+| Option | Type | Required | Choices |
+| --- | --- | --- | --- |
+| `period` | String | No | `7 days` (default), `30 days`, `90 days`, `all time` |
+| `global` | Boolean | No | Cross-server data, restricted to a team allowlist |
+
+Shows active players, duels created, duels resolved (with completion rate), a win/loss/draw breakdown, average duel duration, and a top-commands list for the chosen period. Setting `global:true` shows aggregate data across all servers instead of just this one, but only for a small allowlisted set of Discord users; anyone else who tries it gets an error telling them to omit it.
+
+**Returns:** An analytics embed scoped to this server (or all servers, if allowed).
+
+**Reply visibility:** Private (ephemeral).
+
+**Cooldown:** None.

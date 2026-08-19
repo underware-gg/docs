@@ -1,5 +1,3 @@
-import { Config } from 'vocs'
-
 //
 // https://vocs.dev/docs/guides/components#sponsors
 //
@@ -51,7 +49,11 @@ const Starknet: Sponsor = {
   link: 'https://www.starknet.io',
 }
 
-type SponsorSet = Config['sponsors']
+type SponsorSet = Array<{
+  name: string
+  height: number
+  items: Sponsor[][]
+}>
 
 const sponsors: SponsorSet = [
   {

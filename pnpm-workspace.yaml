@@ -1,0 +1,32 @@
+# Exact pins and deliberate dependency updates.
+savePrefix: ""
+frozenLockfile: true
+minimumReleaseAge: 10080
+minimumReleaseAgeStrict: true
+minimumReleaseAgeIgnoreMissingTime: false
+blockExoticSubdeps: true
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - semver@6.3.1
+
+# Make content verification explicit rather than relying on pnpm defaults.
+verifyStoreIntegrity: true
+strictStorePkgContentCheck: true
+
+# Keep local and CI installs on the reviewed toolchain.
+engineStrict: true
+packageManagerStrictVersion: true
+patchedDependencies:
+  image-size@2.0.2: patches/image-size@2.0.2.patch
+verifyDepsBeforeRun: error
+
+# Dependencies may execute install-time code only after explicit review.
+strictDepBuilds: true
+dangerouslyAllowAllBuilds: false
+allowBuilds:
+  esbuild: true
+  es5-ext: false
+  vue-demi: false
+
+# Surface incompatible dependency combinations during installation.
+strictPeerDependencies: true
