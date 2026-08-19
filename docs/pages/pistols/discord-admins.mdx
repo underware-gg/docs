@@ -68,8 +68,6 @@ Running `/setup` with no options changes nothing; it shows the current configura
 | `accept_timeout` | Not set (falls back to the global default, 5 minutes) | `0` (clears the override) or 5–2880 minutes (5 minutes to 48 hours) | How long a challenge stays open before it expires unaccepted. Values 1–4 are rejected outright. |
 | `enabled` | On | On / Off | Master switch for this server. When off, every command except `/setup` itself returns a disabled message. |
 
-> The bot's own marketing page describes `duel_channel` as required, with a default of "none, required." That's not what the running bot does: per its actual configuration code, `duel_channel` is optional and unset by default, and `/duel` works in any channel until an admin restricts it. This page follows the code; treat the marketing copy as out of date.
-
 Every change you make through `/setup` is logged with your Discord user ID, the setting name, and the old and new values, for the bot's own operational records. None of that log is exposed back to you through any command.
 
 
