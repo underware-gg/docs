@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
 @layer vocs_preflight {
   @tailwind base;
 }
@@ -8,6 +11,8 @@
 :root {
   --vocs-background-color-primary: #232225;
   --vocs-background-color-surface: #1e1d1f;
+  --vocs-font-family: 'Ubuntu', system-ui, sans-serif;
+  --vocs-font-family-mono: 'Courier Prime', ui-monospace, monospace;
 }
 
 
@@ -46,30 +51,60 @@
 }
 
 .Sponsors {
-  display: grid;
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   margin-block: 2rem;
   text-align: center;
 }
 
+.Sponsors_group {
+  display: contents;
+}
+
 .Sponsors_group h2 {
+  background: var(--vocs-background-color-surface);
   color: var(--vocs-text-color-secondary);
-  font-size: 0.875rem;
-  margin-bottom: 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.25rem 0;
 }
 
 .Sponsors_items {
-  align-items: center;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem 2rem;
+  gap: 0.25rem;
+}
+
+.Sponsors_items a {
+  align-items: center;
+  background: var(--vocs-background-color-surface);
+  display: flex;
+  flex: 1;
   justify-content: center;
+  min-width: 0;
+  padding: 2rem;
+  transition: background-color 100ms;
+}
+
+.Sponsors_items a:hover {
+  background: var(--vocs-background-color-surfaceTint);
 }
 
 .Sponsors_items img {
   display: block;
+  filter: grayscale(1) invert(1);
   max-width: 12rem;
   object-fit: contain;
+  transition: filter 100ms;
+}
+
+.Sponsors_items a:hover img {
+  filter: none;
+}
+
+.UnderwareHome {
+  gap: 2rem;
+  padding-top: 4rem;
 }
 
 .LogoSmall {
