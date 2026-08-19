@@ -16,13 +16,13 @@ The bot asks for four permissions, and it needs all four. There's no padding in 
 | Embed Links | Yes | Almost everything the bot posts is an embed. |
 | Read Message History | Degrades gracefully | See below. |
 
-View Channel, Send Messages, and Embed Links are the three the bot checks for before doing anything, including posting its one-time welcome message. Strip any of them and the bot cannot function in that channel.
+View Channel, Send Messages, and Embed Links are what the bot checks before posting its one-time welcome message, which only needs to send a single embed. A duel channel wants all four, and `/setup duel_channel` checks them for you: the reply tells you plainly whether anything is missing, and whether duels are merely degraded there or cannot run at all. Strip View Channel or Send Messages and the bot cannot function in that channel.
 
 Send Messages deserves a word, because removing it produces a confusing failure rather than an obvious one. Slash commands will still look like they work: replies to a command ride the interaction itself, not the channel. What breaks is everything the bot posts unprompted, which is every duel. Expect a bot that answers you privately and never posts a duel to the channel.
 
 Read Message History covers the bot fetching its own earlier messages so it can tidy up after itself. Lose it and duels still resolve, but two paths degrade differently: a duel-state update falls back to editing the old message in place, while a result post falls back to a plain-text notice instead of the full embed. Neither is fatal; both are worse than the real thing.
 
-> **What the bot doesn't ask for.** It doesn't request Manage Messages, Add Reactions, Attach Files, Use External Emojis, or thread permissions, because it doesn't use them. The duel animation is the bot editing its own message, which needs no special permission; and the bot never reacts, never uploads a file, and never posts in a thread. If you've seen an older invite asking for more than the four above, or a note claiming the animation needs Manage Messages, both are out of date.
+> **What the bot doesn't ask for.** It doesn't request Manage Messages, Add Reactions, Attach Files, Use External Emojis, or thread permissions, because it doesn't use them; nor Use Application Commands, since slash commands come from the invite's `applications.commands` scope rather than a channel permission. The duel animation is the bot editing its own message, which needs no special permission; and the bot never reacts, never uploads a file, and never posts in a thread. If you've seen an older invite asking for more than the four above, or a note claiming the animation needs Manage Messages, both are out of date.
 
 
 ## Whitelist the Bot First
@@ -109,7 +109,7 @@ You're giving this thing a place in your server's social space. Here's exactly w
 **Duels not posting.** Work through this in order:
 1. Confirm the bot is enabled (`/setup` with no options).
 2. Confirm the channel you're testing in matches your configured `duel_channel`, if you've set one.
-3. Confirm the bot still has View Channel, Send Messages, and Embed Links in that channel. A permission override on the channel itself can silently remove them even if the server-wide invite still shows them granted.
+3. Confirm the bot still has View Channel, Send Messages, Embed Links, and Read Message History in that channel. Re-running `/setup duel_channel:#channel` re-checks them and warns you in the reply if any are missing. A permission override on the channel itself can silently remove permissions even if the server-wide invite still shows them granted.
 4. Check whether a moderation bot has muted or restricted the bot. This is the single most common cause, especially right after install; revisit Whitelist the Bot First above.
 5. Run `/status` to confirm the bot can reach the Pistols indexer at all. A failure here points at the bot's backend rather than your server's configuration.
 
