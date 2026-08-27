@@ -25,7 +25,7 @@ A Challenge is created in the Awaiting state. The challenged party (or, for an o
 
 ### Who can accept what
 
-If a challenge targets a specific opponent (address_b is set), only that address, or an approved delegate playing on their behalf, may accept or refuse it. If a challenge is posted open (no address_b set), any other player who accepts it becomes the opponent; the challenger cannot accept their own challenge. Only the challenger may withdraw a challenge, and only while it is still Awaiting.
+A direct challenge can only be accepted or refused by the named opponent, or by someone approved to play on their behalf. An open challenge can be accepted by anyone except the player who created it. Only the challenger may withdraw a challenge, and only while it is still Awaiting.
 
 ### Expiry
 
@@ -52,13 +52,13 @@ Each duelist's moves are hidden from the other until both sides have locked them
 
 ### What is committed
 
-A duelist chooses up to four cards, fire, dodge, tactics, and blades, and a secret salt (a number only they know). The contract hashes the salt together with the chosen cards and stores only that hash. Neither duelist's picks are visible to the other, or to anyone else, at this stage.
+A duelist chooses up to four cards, fire, dodge, tactics, and blades. The game locks those choices away using a secret number known only to that player. At this stage, nobody can see the cards they picked.
 
 ### What the salt does
 
-The salt is what makes the commit unguessable and unforgeable: without it, nobody (including the duelist's opponent) can work backward from the committed hash to figure out which cards were chosen. On reveal, the duelist submits their salt and their moves together; the contract recomputes the hash and checks it matches what was committed. If it doesn't match, the reveal is rejected.
+When you reveal, you submit that same secret number with the cards you chose. The game checks that they match the plan you locked in; if they don't, the reveal is rejected. This keeps your choices private until reveal and prevents you from changing them after seeing your opponent's plan.
 
-The two duelists' salts are also combined to seed the duel's randomness (see Randomness below), so the salt does double duty: it hides your moves and contributes entropy neither player controls alone.
+The two players' secret numbers are also combined to produce the duel's unpredictable card draws and hit rolls (see Randomness below). Neither player controls that outcome alone.
 
 ### Timeouts
 
@@ -70,9 +70,7 @@ If a duelist never reveals in time, the duel is finished as Forsaken: whichever 
 
 ## Randomness
 
-The random seed that drives an entire duel's resolution, every hit roll and every environment card drawn, is built by combining both duelists' secret salts together, only after both have revealed.
-
-This is what makes the outcome unpredictable and unriggable: neither duelist knows the other's salt at commit time, so neither can pick their cards to game a known outcome, and neither can influence the seed after the fact because both salts are already locked in via the earlier commit hashes. The same combined seed then feeds every subsequent random draw in the duel, hit rolls and the environment-card shuffle alike, each drawn independently from that one shared, unforgeable source.
+Every hit roll and Environment card comes from a random result created by combining both players' secret numbers after they reveal. Each player locked in their own number without knowing the other's, so neither can predict the draws in advance or change their contribution after learning the other player's plan. That one combined result determines the deck shuffle and hit rolls for the duel.
 
 ## Your Four Cards
 
@@ -89,23 +87,23 @@ See [Cards](/pistols/cards) for the exact tactics, blades, fire, and dodge card 
 
 ## How a Duel Resolves
 
-This is the part that trips people up, so read it in order. Once both duelists have revealed, the duel resolves deterministically:
+This is the part that trips people up, so read it in order. Once both duelists have revealed, the duel plays out automatically:
 
-1. **Tactics.** Each duelist's tactics card effects are applied once, up front: one duelist's effects fully applied, then the other's.
-2. **Blades pre-shot effects.** Each duelist's blades card is also applied once, before any shot is fired. Some blades cards (notably Seppuku) grant stat bonuses that boost the pistol round even though the card's real clash only happens later, in the Blades Round.
-3. **The pace walk, 1 through 10.** The duel steps through paces one at a time. At each pace, one environment card is drawn and its effects are applied, but only to a duelist who has not yet fired. A duelist who has already fired stops receiving environment-card effects for the rest of the duel.
+1. **Tactics.** The challenger's tactics card applies first, then the opponent's. Stats respect their limits after each card, so the order can matter.
+2. **Blades pre-shot effects.** The challenger's blades bonus applies first, then the opponent's, before any shot is fired. Some blades cards (notably Seppuku) grant stat bonuses that boost the pistol round even though the card's real clash only happens later, in the Blades Round.
+3. **The pace walk, 1 through 10.** The duel steps through paces one at a time. At each pace, the same Environment card is checked for the challenger, then the opponent. Anyone who has fired is untouched, and cards such as Coin Toss or Reversal can make the same draw affect each side differently.
 4. **Shots resolve at their chosen pace.** If a duelist's fire card matches the current pace, they fire now, rolled against their target's dodge (see below).
 5. **The walk ends when:** either duelist's health reaches zero, or both duelists have fired. Whichever comes first stops the pace walk immediately; the walk does not necessarily run all the way to pace 10.
 
-Precision matters: environment effects apply per-duelist based on whether *that* duelist has fired yet, not based on the pace number alone, and a card that never gets fired (because the duel ends first) never resolves.
+Precision matters: environment effects apply per-duelist based on whether *that* duelist has fired yet, not based on the pace number alone. A shot that never gets fired because the duel ends first never resolves.
 
 ## Hits, Damage and Death
 
-Every duelist starts a duel with the same baseline: 3 health, a 50 percent base chance to hit, and 1 base damage per hit. Tactics, blades, and environment cards adjust these numbers up or down as the duel proceeds.
+Every duelist starts a duel with the same baseline: 3 health, a flat 50 percent base chance to hit at every fire pace, and 1 base damage per hit. Fire pace changes when you shoot and how many Environment cards can reach you; it does not provide an intrinsic accuracy bonus. Tactics, blades, and Environment cards adjust these numbers up or down as the duel proceeds.
 
 When a duelist fires, a hit is rolled against their current chance to hit. If the shot hits **and** the target's dodge pace does not match the exact pace the shot was fired at, the shot lands and the target's health is reduced by the shooter's current damage. If the target's dodge pace exactly matches the shot's pace, the shot is negated entirely; no damage is dealt, regardless of the hit roll.
 
-Chance to hit is always clamped between 0 and 100 percent. Health cannot go below zero; a hit that would over-kill simply brings health to zero. A duelist reaching zero health dies immediately, which ends the pace walk on the spot.
+Hit chance always stays between 0% and 100%, and damage cannot fall below 0. Anything beyond those limits is lost immediately rather than saved to cancel out a later card. Health cannot fall below 0 either; an especially powerful hit simply brings it to 0. A duelist who reaches 0 health dies immediately, ending the pace walk on the spot.
 
 ## The Blades Round
 
@@ -119,8 +117,8 @@ Seppuku is a special case: it always kills the duelist who played it if the Blad
 
 A duel ends in exactly one of three ways:
 
-- **Win/Loss**: one duelist is left alive at zero and the other above zero. The survivor wins.
-- **Draw**: the pace walk and (if applicable) Blades Round complete with both duelists alive, or both duelists dead.
+- **Win/Loss**: exactly one duelist is at zero health and the other is above zero. The survivor wins.
+- **Draw**: the pace walk and (if applicable) Blades Round complete with both duelists alive, even on unequal health, or with both duelists dead.
 - **Forsaken**: a duelist failed to commit or reveal in time; the other wins by default, or it's a draw if both timed out.
 
 Every resolved or drawn duel records its final blow: the pace it ended on if it ended during the pistol round, the decisive blades card if it ended in the Blades Round, or Forsaken if it ended by timeout.

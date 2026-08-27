@@ -4,7 +4,7 @@ Pick your cards blind, then find out if you picked well. This guide breaks down 
 
 It applies wherever you duel. The onchain game at [play.pistols.gg](https://play.pistols.gg/) and Classic duels through the [Discord Bot](/pistols/discord-bot) run the same core mechanics: 3 health, a flat 50% base hit chance, 1 base damage, the same 34-card Environment deck, the same six Tactics cards, and the same four Blades cards with the same triangle. What differs between them is what you stand to win or lose, not how you play. Nothing on this page changes because a duel is staked.
 
-> The percentages come from simulating a few hundred thousand duels against an opponent picking at random. That last part matters: change the opponent and the numbers move, so treat them as directional and use them to rank your options rather than to predict a duel.
+> Exact win-rate and fire-pace tables are temporarily unavailable while we recalculate them against the current rules. Until then, this guide uses verified mechanics only.
 
 ## The Core Tension
 
@@ -18,15 +18,9 @@ There's no dominant strategy. Every strong play has a counter, every counter has
 
 Fire pace is the single most important choice you make. It sets your initiative, your damage potential, and your odds of surviving to pull the trigger at all.
 
-| Fire pace | Avg damage | Chance of lethal (≥3) | Chance you're dead first |
-|-----------|:----------:|:----------------------:|:--------------------------:|
-| 1  | 1.7 | 24% | 0%  |
-| 3  | 2.2 | 40% | 3%  |
-| 5  | 2.7 | 50% | 7%  |
-| 7  | 3.0 | 58% | 13% |
-| 10 | 3.6 | 65% | 24% |
+Your base hit chance is 50% at every pace. Walking farther does not make the base shot more accurate; it exposes you to more Environment cards. Because the deck contains more increases than decreases, a longer walk tends to build stronger stats. Stats have hard limits, though, so extra gains at a limit are wasted rather than saved to cancel a later loss.
 
-**The tradeoff:** fire early and you're guaranteed to get your shot off; you can't be dead yet. But early shots rarely kill, since base damage is 1 and few Environment cards have stacked up. Fire late and your damage climbs with every card drawn, but if your opponent fires first and kills you, you never get to shoot at all.
+**The tradeoff:** fire early and you're more likely to get your shot off before your opponent can kill you, but few Environment cards have reached you. Fire late and more cards can strengthen your shot, but if your opponent fires first and kills you, your stored-up power never gets spent.
 
 **Rule of thumb:** without damage-boosting cards, firing early is often wasted. With them, firing early lets you cash in before your opponent gets the chance to respond.
 
@@ -34,41 +28,34 @@ Fire pace is the single most important choice you make. It sets your initiative,
 
 Guess right and you have done the single most powerful thing available to you. A dodge that lands on the exact pace your opponent fires negates the shot outright: not a reduced chance, not less damage, nothing at all. Their whole plan, the pace they picked and every card stacked behind it, spent on empty air. No card in the game comes close.
 
-Guess wrong and you've lost nothing. The dodge simply doesn't come up.
+Guess wrong and the dodge simply doesn't come up. There is no intrinsic accuracy cost for choosing one.
 
-| Dodge | You win | You lose |
-|---|---|---|
-| Lands on their fire pace | 54% | 27% |
-| Anywhere else | 42% | 42% |
-
-Reading that correctly is worth about **12 points of win rate**, and it nearly halves how often you lose. Nothing else on this page moves the outcome that hard.
-
-So this is never a question of whether, only where; you dodge in every duel, and the only way to waste the choice is to put it on the pace you're already firing at, which you can't do. Guessing costs nothing and landing it can win the duel outright, which makes reading your opponent the highest-value skill in the game. Anyone who always fires at pace 1 is begging to be dodged at pace 1, right up until they notice you've noticed. That loop is the whole social deduction game.
+So this is never a question of whether, only where; you dodge in every duel, and if you select your own fire pace as your dodge, the dodge is discarded. Anyone who always fires at pace 1 is begging to be dodged at pace 1, right up until they notice you've noticed. That loop is the whole social deduction game.
 
 ### 3. Tactics card: offence vs. defence
 
-Both duelists pick one of the six, and the spread between the best and worst is about nine points of win rate. Ranked against an opponent picking at random:
+Both duelists pick one of the six. Their value depends on your other cards, the opponent's choices, and which Environment cards arrive before each shot:
 
-| Tactic | Effect | Win rate |
-|---|---|---|
-| **Vengeful** | +1 your damage | 47% |
-| **Thick Coat** | −1 opponent damage | 46% |
-| **Coin Toss** | blocks the first Special card that would hit you | 42% |
-| **Reversal** | next decrease becomes an increase, for both duelists | 41% |
-| **Bananas** | −10% hit chance to both | 40% |
-| **Insult** | −10% opponent hit chance, +1 opponent damage | 38% |
+| Tactic | Effect |
+|---|---|
+| **Vengeful** | +1 your damage |
+| **Thick Coat** | −1 opponent damage |
+| **Coin Toss** | blocks the first Special card that would affect you |
+| **Reversal** | arms both duelists to invert their own next Damage Down or Chances Down |
+| **Bananas** | −10% hit chance to both |
+| **Insult** | −10% opponent hit chance, +1 opponent damage |
 
-**Vengeful and Thick Coat are the two real picks**, and the gap to the rest is wider than the gap between them. One pushes your shot over the kill threshold; the other pushes theirs under it. Neither depends on a read or a lucky draw.
+**Vengeful and Thick Coat move opposite sides of the same threshold.** One can push your shot toward 3 damage; the other can pull theirs below it. Their value is immediate rather than waiting for a matching Environment draw.
 
-**Reversal disappoints, and the reason is easy to miss.** It's a global effect: the decrease it flips turns into an increase for *both* duelists. You can't rescue your own bad luck without handing your opponent the same gift, which leaves it middling despite sounding like the cleverest card in the deck.
+**Reversal gives each duelist one chance to turn a decrease into an increase.** If both are still walking when the next Damage Down or Chances Down appears, both benefit. If one has already fired, only the remaining duelist does. Choosing Reversal twice gives no extra use, and Special cards do not use it up.
 
-**Insult is the worst card here.** The −10% is real, but you're paying for it by handing your opponent +1 damage, and a duel is decided by damage landing far more often than by a shot missing.
+**Insult is a deliberate trade.** The −10% is real, but you're paying for it by handing your opponent +1 damage, which may move their shot across the kill threshold.
 
 **Coin Toss is insurance**, not value: low average return, high ceiling on the rare duel where it eats an All Shots Miss.
 
 ### 4. Blades card: the other half of the game
 
-Over half of duels reach the blades round. Your Blades card choice is often the deciding factor.
+Whenever both duelists survive their shots and at least one brought a blade, the blades round follows and the card matchup decides the outcome.
 
 The triangle:
 
@@ -77,13 +64,13 @@ The triangle:
 - **Grapple** beats Pocket Pistol (pistol bonus: −1 opponent damage)
 - **Seppuku** loses to everything (pistol bonus: +20% hit chance, +1 damage)
 
-Pick the same Blades card as your opponent and **both of you lose**. That happens in roughly 14% of duels and accounts for most mutual-loss outcomes.
+Pick the same non-Seppuku Blades card as your opponent and **both of you die** in the clash. Seppuku also kills its own player whenever blades resolve.
 
 ### 5. Character
 
 Character choice doesn't affect gameplay anywhere, so pick whoever you like.
 
-> The same holds onchain: which Duelist you field doesn't touch the resolution engine. Hit chance, damage, and the win condition are decided purely by Paces, Tactics, and Blades cards. Honour is a reputation score, not a modifier, and Signet Rings and season standing affect your FOOLS payout rather than your odds of winning. Nothing you own makes your shot land more often.
+> The same holds onchain: your choice of Duelist does not change hit chance, damage, or your odds of winning. Those come from your Paces, Tactics, and Blades cards. Honour records how you tend to play, while Signet Rings and season standing affect rewards rather than the duel. Nothing you own makes your shot land more often.
 
 ## Archetypes
 
@@ -123,9 +110,9 @@ Four builds worth knowing, as starting points rather than solved answers.
 - Grapple for Blades (−1 opponent damage, stacked with Thick Coat that's −2)
 - Dodge at your best guess of their fire pace
 
-**Strengths:** Thick Coat plus Grapple cut opponent damage by 2, so an early kill against you is nearly impossible (base 1 + Vengeful = 2, still under the kill threshold of 3). By the time you fire, events have piled up and your shot is likely lethal. Against an Aggressive Rush (pace 2, Vengeful + Seppuku), this build wins **85% of the time**.
+**Strengths:** Thick Coat and Grapple each reduce opponent damage, making an early kill against you harder. By the time you fire, more Environment cards have had a chance to strengthen your shot.
 
-**Weaknesses:** guess wrong on dodge and you lose the initiative edge. If your opponent also plays late, the duel becomes a coin flip.
+**Weaknesses:** guess wrong on dodge and you lose the initiative edge. If your opponent also plays late, that timing advantage disappears and the card matchup matters more.
 
 ### The Calc Gambit
 
@@ -136,11 +123,11 @@ Four builds worth knowing, as starting points rather than solved answers.
 - Vengeful for Tactics
 - Seppuku or Behead for Blades (both +1 damage)
 
-Vengeful with Seppuku or Behead for Blades is 3 damage at pace 1 with no events (1 base + 1 Vengeful + 1 from the blade). Those are the **only two non-event combinations that reach the kill threshold at pace 1**. They are not the same play.
+Before opponent modifiers and the pace-1 Environment card, Vengeful with Seppuku or Behead starts at 3 damage (1 base + 1 Vengeful + 1 from the blade). Those are the **only two self-selected combinations that start at the kill threshold**. They are not the same play.
 
-**Kamikaze (Seppuku):** 70% hit chance (50% base + 20% Seppuku) and 3 damage. The pistol-round gamble is as strong as it gets. The price is that Seppuku auto-loses the blades round, so you are betting the shot kills; if it doesn't, you've already lost.
+**Kamikaze (Seppuku):** starts at 70% hit chance (50% base + 20% Seppuku) and 3 damage before opponent and Environment effects. The price is that Seppuku dies if the blades round happens, so you are betting the shot ends the duel first.
 
-**Behead:** the same 3 damage, but at the base 50% hit chance. The weaker opening shot buys a second gambit: if your shot misses or is dodged, and their return shot also fails (you dodge it, or they miss), the duel goes to blades. Behead beats Grapple and loses to Pocket Pistol.
+**Behead:** starts at the same 3 damage, but at the base 50% hit chance. The weaker opening shot buys a second gambit: if both duelists survive their shots, Behead beats Grapple and loses to Pocket Pistol in blades.
 
 **Shared weakness:** a dodge at pace 1 makes your shot miss entirely. Players who run this predictably get punished hard by dodge. Kamikaze then auto-loses blades; Behead at least still has a blades game, which is why the hit-rate trade exists.
 
@@ -152,7 +139,7 @@ Vengeful with Seppuku or Behead for Blades is 3 damage at pace 1 with no events 
 - Fire at a pace that avoids their likely dodge
 - Choose Tactics and Blades to counter their expected picks
 
-**Strengths:** correct dodge timing is the single biggest swing factor in the game, worth around 12 points of win rate. Devastating against opponents who run the same strategy every time.
+**Strengths:** a correct dodge erases the opponent's only shot. Devastating against opponents who run the same strategy every time.
 
 **Weaknesses:** it lives and dies on the read. Guess wrong and you've built your whole strategy on a misread.
 
@@ -160,11 +147,11 @@ Vengeful with Seppuku or Behead for Blades is 3 damage at pace 1 with no events 
 
 **Initiative vs. lethality.** This is the fundamental tension in every duel. Fire first and you can't be pre-empted, but you probably won't kill. Fire later and your damage climbs, but you might be dead before you get the chance. There's no universally correct answer: it depends on your cards, your read on your opponent, and your appetite for risk.
 
-**The blades tax.** More than half of duels reach blades. Any strategy that ignores the blades round is ignoring the most common way duels end. Seppuku's pistol-round power is real, but its automatic blades loss is a steep price when most duels get there.
+**The blades tax.** Any strategy that ignores the blades round gives up its plan whenever both duelists survive their shots. Seppuku's pistol-round power is real, but its automatic death in blades is a steep price.
 
 **Dodge as punishment.** Dodge doesn't just protect you; it punishes predictability. An opponent who runs the same strategy every duel is an opponent you can dodge. They waste their shot, and if they picked Seppuku, they've guaranteed their own loss. The threat of dodge is what keeps the metagame honest.
 
-**Event deck asymmetry.** The Environment deck deliberately carries more positive cards (+damage, +hit chance) than negative ones. The longer a duel runs, the higher the chance, not the guarantee, that accumulated events push your stats into lethal territory. A naked shot at pace 1 has roughly 4% kill probability; by pace 10 it's about 40% (events only, no Tactics or Blades). The game rewards patience with power, but your opponent accumulates the same advantage, and if they fire first and kill you, your stored-up power never gets spent.
+**Event deck asymmetry.** The Environment deck deliberately carries more positive cards (+damage, +hit chance) than negative ones. The longer a duel runs, the more opportunities those cards have to push your stats into lethal territory. That is a tendency, not a guarantee: decreases and Specials remain live, boundary excess is discarded, your opponent gets the same draw while still walking, and an earlier lethal shot can end the duel before you fire.
 
 **Read your opponent, not just the numbers.** The tables define the landscape, but Pistols at Dawn is ultimately a game of people. What did your opponent do last duel? What do they do when they're losing, or confident? The social deduction layer is where the real depth lives.
 
@@ -175,11 +162,6 @@ Vengeful with Seppuku or Behead for Blades is 3 damage at pace 1 with no events 
 | Base hit chance | 50% |
 | Base damage | 1 |
 | Kill threshold | ≥3 damage |
-| Duels reaching blades | ~54% |
-| Mutual pistol kill rate | ~2% |
-| Blades tie (both lose) rate | ~14% |
-| Total both-lose rate | ~15.6% |
-| Correct dodge win rate boost | +12 points |
 | Max card damage (no events) | 4 (Vengeful + Seppuku + opponent's Insult) |
-| Best / worst Tactics card | Vengeful (47%) / Insult (38%) |
-| Defensive vs. aggressive win rate | 85% (Thick Coat + Grapple @ 8 vs. Vengeful + Seppuku @ 2) |
+| Reversal | Each duelist can reverse one decrease; choosing it twice gives no extra use |
+| Survival outcome | Both alive after resolution is a draw, even on unequal health |

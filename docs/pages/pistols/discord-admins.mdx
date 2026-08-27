@@ -64,7 +64,7 @@ Running `/setup` with no options changes nothing; it shows the current configura
 |---|---|---|---|
 | `duel_channel` | Not set (unrestricted) | Any text channel | Restricts `/duel` to one channel. Leave unset and duels can be started anywhere in the server. |
 | `animation` | On | On / Off | Enables the live ASCII duel animation. Turn off if a moderation bot keeps flagging the per-frame edits even after whitelisting. |
-| `speed` | Not set (falls back to the bot's global default, `normal`) | `normal`, `compact`, `minimal` | Animation pacing. `normal` has no per-frame delay floor and the tightest frame stride; `compact` adds a 600ms floor and roughly doubles the stride; `minimal` adds a 1-second floor and the loosest stride. |
+| `speed` | Not set (falls back to the bot's global default, `normal`) | `normal`, `compact`, `minimal` | Animation pacing. `normal` gives the fullest animation; `compact` makes fewer message edits; `minimal` makes the fewest edits and is safest when moderation bots object. |
 | `accept_timeout` | Not set (falls back to the global default, 5 minutes) | `0` (clears the override) or 5–2880 minutes (5 minutes to 48 hours) | How long a challenge stays open before it expires unaccepted. Values 1–4 are rejected outright. |
 | `enabled` | On | On / Off | Master switch for this server. When off, every command except `/setup` itself returns a disabled message. |
 

@@ -8,9 +8,9 @@ This page covers what the bot is and how its duels resolve. For setup, play inst
 
 The bot runs its own rule set, called Classic Mode. Every duelist starts with 3 health, and a duel walks through ten paces: each side secretly chooses a pace to fire on, a pace to dodge on, one tactics card, and one blades card. Land your dodge on the exact pace your opponent fires and the shot is negated; otherwise a hit chance roll decides whether it lands.
 
-Classic Mode is a deliberate port of the onchain Pistols at Dawn duel engine. The card names, the 34-card environment deck, the tactics and blades effects, and the blades rock-paper-scissors triangle all mirror the Cairo contracts, and both engines start from the same numbers: 3 health, a flat 50% base hit chance, 1 base damage, modified only by the cards that come out. Dodges land only on the exact pace your opponent fires, same as onchain.
+Classic Mode plays by the same rules as the onchain game: the same cards, 34-card Environment deck, starting stats, dodges, blades matchups, and winning conditions. Both versions begin with 3 health, a flat 50% base hit chance at every pace, and 1 base damage. A dodge only works on the exact pace your opponent fires. If you know how to play one version, you know how to play the other.
 
-What differs sits outside the rules. Bot duels are offchain, so nothing here touches your wallet, stakes FAME, or affects onchain seasons and rankings; and where the onchain game seals both plans cryptographically and derives its dice from both duelists' secrets, the bot keeps your picks private through Discord and rolls its own. Same duel, lighter guarantees.
+What differs sits outside the duel itself. Bot duels do not touch your wallet, stake FAME, or affect onchain seasons and rankings. Your choices remain private from your opponent, but Discord and the bot protect them and roll the cards and shots rather than the onchain game proving everything publicly. Same game, lighter guarantees.
 
 ## Getting Started
 
@@ -22,6 +22,6 @@ Looking for exact command syntax and options? See the [Command Reference](/pisto
 
 ## How It Works
 
-Move secrecy comes from Discord, not cryptography. Each player picks their four cards through a private, ephemeral menu that only they can see, and the bot stores those picks server-side; there's no commit-reveal hashing, just an opponent who never sees your menu. The moment both sides have locked in, the outcome is computed immediately and deterministically. Nothing is decided later.
+Each player picks their four cards through a private menu that only they can see. The bot keeps those choices hidden from the opponent until both sides have locked in, then decides the full duel using its own random shuffle and hit rolls. Nothing is decided later.
 
-The animation that follows is a replay of that already-computed result, played out frame by frame: it isn't live or suspenseful in the sense that the outcome could still change. Duel state, stats, queues, and per-server settings persist in a database across bot restarts. Only short-lived scratch state, an in-progress move picker or an animation replay buffer, is kept in memory and expires on its own.
+The animation shows that already-decided duel step by step; it does not reroll or change the outcome. Active duels, player stats, queues, and server settings survive a bot restart.
