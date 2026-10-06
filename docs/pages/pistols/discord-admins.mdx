@@ -1,13 +1,13 @@
 # For Server Admins
 
-This page is for whoever's adding the Pistols at Dawn bot to a server and keeping it running: the invite and its permissions, the moderation-bot whitelist you'll want to sort out first, the `/setup` options, and the off switch for when something needs to stop. If you're looking for how to play, see [For Players](/pistols/discord-players). For exact command syntax, see [Command Reference](/pistols/discord-commands).
+This page is for whoever's adding the Pistols at Dawn bot to a server and keeping it running: the invite and its permissions, the moderation-bot whitelist you'll want to sort out first, the `/pistols-admin config` options, and the off switch for when something needs to stop. If you're looking for how to play, see [For Players](/pistols/discord-players). For exact command syntax, see [Command Reference](/pistols/discord-commands).
 
 
 ## Adding the Bot
 
 Invite the bot from [pistols.gg/discord](https://pistols.gg/discord). That page builds the invite link for you; use it rather than constructing one by hand, since the permission bits matter.
 
-The bot asks for four permissions, and it needs all four. There's no padding in the list and nothing to decline.
+The standard invite asks for four permissions. Keep all four in the duel channel; Read Message History supports fetching earlier messages, including Replay and hub refresh, rather than deciding whether a duel can start.
 
 | Permission | Load-bearing | Without it |
 |---|---|---|
@@ -16,104 +16,121 @@ The bot asks for four permissions, and it needs all four. There's no padding in 
 | Embed Links | Yes | Almost everything the bot posts is an embed. |
 | Read Message History | Degrades gracefully | See below. |
 
-View Channel, Send Messages, and Embed Links are what the bot checks before posting its one-time welcome message, which only needs to send a single embed. A duel channel wants all four, and `/setup duel_channel` checks them for you: the reply tells you plainly whether anything is missing, and whether duels are merely degraded there or cannot run at all. Strip View Channel or Send Messages and the bot cannot function in that channel.
+View Channel, Send Messages, and Embed Links are what the bot checks before posting its one-time welcome message, which only needs to send a single embed. A duel channel wants all four, and `/pistols-admin config duel_channel` checks them for you: the reply tells you plainly whether anything is missing, and whether duels are merely degraded there or cannot run at all. Strip View Channel or Send Messages and the bot cannot function in that channel.
 
-Send Messages deserves a word, because removing it produces a confusing failure rather than an obvious one. Slash commands will still look like they work: replies to a command ride the interaction itself, not the channel. What breaks is everything the bot posts unprompted, which is every duel. Expect a bot that answers you privately and never posts a duel to the channel.
+Slash-command replies use Discord interactions, so the bot may still answer commands when it cannot send normal channel messages. That does not mean duelling can work: challenges need View Channel, Send Messages, and Embed Links. Restore those permissions before testing another duel.
 
-Read Message History covers the bot fetching its own earlier messages so it can tidy up after itself. Lose it and duels still resolve, but two paths degrade differently: a duel-state update falls back to editing the old message in place, while a result post falls back to a plain-text notice instead of the full embed. Neither is fatal; both are worse than the real thing.
+Read Message History is needed when fetching earlier messages, including Replay and control-room refresh. Configuration checks report its absence as degraded. Saved duel state is unaffected; restore the permission and re-check with `/pistols-admin config`.
 
-> **What the bot doesn't ask for.** It doesn't request Manage Messages, Add Reactions, Attach Files, Use External Emojis, or thread permissions, because it doesn't use them; nor Use Application Commands, since slash commands come from the invite's `applications.commands` scope rather than a channel permission. The duel animation is the bot editing its own message, which needs no special permission; and the bot never reacts, never uploads a file, and never posts in a thread.
+The standard invite does not request file-upload or reaction permissions. Up-front feedback attachments are supplied on the slash-command interaction and forwarded as Discord-hosted image embeds or links; the bot does not re-upload the file. Live animation edits the bot's own messages.
+
+Optional features have additional requirements: pinning a control-room panel needs **Pin Messages** in that channel, and the post-submit feedback attachment fallback needs permission to acknowledge captured uploads with reactions. That fallback also enables message access at the bot-operator level; see [Privacy and Feedback](#privacy-and-feedback).
 
 
 ## Whitelist the Bot First
 
-> Do this before your first duel. It's the single most common setup mistake, and it looks like a broken bot rather than a permissions issue.
+> Check moderation settings before your first duel, so rapid animation edits are not mistaken for spam.
 
-**The problem.** Duel results in this bot play out as a live animation: a single Discord message getting edited many times in quick succession as each frame of the duel resolves. Moderation bots like Wick, Dyno, and MEE6 watch for exactly this pattern; a message changing rapidly is one of the standard signatures of spam or automation abuse, and they'll often flag or mute the source automatically.
+**The problem.** Duel results in this bot play out as a live animation: a single Discord message getting edited many times in quick succession as each frame of the duel resolves. A moderation tool configured to limit rapid message edits can flag or restrict the bot during an animation.
 
-**The fix.** Tell your moderation bot to trust Pistols at Dawn before it has a chance to react to a duel:
+**The fix.** Add Pistols at Dawn to your moderation tool's trusted-bot or allowlist settings. Check the tool's current instructions and your server's channel/role overrides if it still mutes or restricts the bot.
 
-* **Wick**: run `w!trust bot add 1477211104454377613` (the Pistols bot's own application ID).
-* **Dyno / MEE6**: add the bot to that tool's allowlist or trusted-bots setting from its dashboard.
+**If animation edits keep triggering moderation,** turn it off or slow it down instead of fighting your moderation bot further: `/pistols-admin config animation:false` disables it outright, or `/pistols-admin config speed:compact` and `/pistols-admin config speed:minimal` cut down how often the message gets edited. See Tuning and Troubleshooting below.
 
-**If it still gets flagged.** Role ordering matters: some moderation bots only respect a trust setting for bots below them in the role hierarchy, and a mute can still land on a bot whose role sits below the moderation bot's. Move the Pistols role above your moderation bot's role in Server Settings > Roles.
-
-**If it persists after both of those,** the animation itself is what's being flagged, not a missing trust setting. Turn it off or slow it down instead of fighting your moderation bot further: `/setup animation:false` disables it outright, or `/setup speed:compact` and `/setup speed:minimal` cut down how often the message gets edited. See Tuning and Troubleshooting below for the exact numbers.
-
-Test after changing anything: run `/duel user opponent:@someone` and `/duel public` before telling the rest of the server it's live.
+Test after changing anything: run `/pistols duel user opponent:@someone` and `/pistols duel public` before telling the rest of the server it's live.
 
 
 ## Pick a Duel Channel
 
-You don't have to set a duel channel; by default, `/duel` works in any channel in the server. A dedicated channel is worth setting up anyway, for a few practical reasons:
+You don't have to set a duel channel; by default, `/pistols duel` works in any channel in the server. A dedicated channel is worth setting up anyway, for a few practical reasons:
 
 * **Noise.** A duel's challenge post, its animation, and its result are each their own message, or a rapidly-edited one. Concentrating that in one channel keeps the rest of your server's chat readable.
 * **Moderation-bot exposure.** Confining the animation's rapid edits to a single, known channel makes it easier to whitelist and reason about, especially while you're still tuning settings after the step above.
 * **Discoverability.** New members can find "where the duels happen" at a glance instead of having them scattered across general chat.
 
-Set it with `/setup duel_channel:#your-channel`. You can change it any time.
+Set it with `/pistols-admin config duel_channel:#your-channel`. You can change it any time.
 
 
 ## Settings
 
-One command handles every server-level setting: **`/setup`**. It requires the **Manage Guild** permission and only works inside a server, not in DMs.
+One command handles every server-level setting: **`/pistols-admin config`**. It requires **Manage Server** (Discord's `Manage Guild` permission) and only works inside a server, not in DMs.
 
-Running `/setup` with no options changes nothing; it shows the current configuration instead: whether the bot is enabled, the duel channel (or "not set, works in any channel"), animation on/off, the animation speed (or "using global default"), and the accept timeout (or "using global default").
+Running `/pistols-admin config` with no options changes nothing; it shows the current configuration instead: whether the bot is enabled, the duel channel (or "not set, works in any channel"), animation on/off, the animation speed (or "using global default"), the accept timeout (or "using global default"), and the saved control-room hub. It also re-checks the configured duel channel and reports missing permissions or a deleted channel.
 
 | Option | Default | Valid range | What it does |
 |---|---|---|---|
-| `duel_channel` | Not set (unrestricted) | Any text channel | Restricts `/duel` to one channel. Leave unset and duels can be started anywhere in the server. |
+| `duel_channel` | Not set (unrestricted) | Any text channel | Restricts `/pistols duel` to one channel. Leave unset and duels can be started anywhere in the server. |
 | `animation` | On | On / Off | Enables the live ASCII duel animation. Turn off if a moderation bot keeps flagging the per-frame edits even after whitelisting. |
 | `speed` | Not set (falls back to the bot's global default, `normal`) | `normal`, `compact`, `minimal` | Animation pacing. `normal` gives the fullest animation; `compact` makes fewer message edits; `minimal` makes the fewest edits and is safest when moderation bots object. |
 | `accept_timeout` | Not set (falls back to the global default, 5 minutes) | `0` (clears the override) or 5–2880 minutes (5 minutes to 48 hours) | How long a challenge stays open before it expires unaccepted. Values 1–4 are rejected outright. |
-| `enabled` | On | On / Off | Master switch for this server. When off, every command except `/setup` itself returns a disabled message. |
+| `enabled` | On | On / Off | Master interaction switch for this server. When off, commands and buttons are blocked except `/pistols-admin config`. |
+| `hub_channel` | Not set | Text channel | Posts and saves a new control-room panel, then attempts to pin it. |
+| `hub_action` | No action | `refresh`, `remove` | Updates the saved panel or forgets its configuration. |
 
-Every change you make through `/setup` is logged with your Discord user ID, the setting name, and the old and new values, for the bot's own operational records. None of that log is exposed back to you through any command.
+Configuration changes are logged with your Discord user ID, the setting name, and the old and new values, for the bot's own operational records. None of that log is exposed back to you through any command.
 
 
-## What the Bot Does and Doesn't Do
+## Control-Room Hub
 
-You're giving this thing a place in your server's social space. Here's exactly what it touches.
+Run `/pistols-admin config hub_channel:#control-room` to post and save a live panel showing awaiting/in-progress duels, queued duels, and results from the last 24 hours. This is a separate channel setting from the duel channel.
 
-**What it does:**
+The hub needs **View Channel**, **Send Messages**, **Embed Links**, and **Read Message History**. Pinning additionally needs **Pin Messages**. The reply reports whether pinning succeeded; a saved panel remains usable if the pin fails.
 
-* Posts in whichever channel a command is run in, or your configured duel channel if you've set one, plus a one-time welcome message on first install.
-* Reads Discord metadata it needs to function: guild, channel, and member information, and the invoking user's Discord ID and username.
-* Reads on-chain Pistols at Dawn data, such as season and duel information via the game's indexer, and token balances via Starknet, only when a player links a wallet and asks for it via `/login` or `/balance`.
-* Stores duel state, queue state, player stats, wallet-link mappings, and your server's `/setup` configuration in its own database, so none of it is lost on a restart.
-* Grants a "Duelist" Discord role to any player who completes a resolved duel, but only inside the Underware community server. This is hardcoded to that one server; it never touches roles in yours.
+The buttons reply privately:
 
-**What it doesn't do:**
+- **HELP**, **TUTORIAL**, **STATS**, **HISTORY**, **QUEUE**, and **LIVE** run their actions. LIVE lists active and awaiting duels.
+- **DUEL**, **PRACTICE**, **OPEN**, **VERIFY**, **PISTOLS**, and **FEEDBACK** provide guides to the relevant commands or controls; they do not all immediately perform those actions.
+- **REFRESH** updates the panel and requires Manage Server.
 
-* Sends a direct message to anyone, including you as the server owner. Every reply is either posted in a channel or shown privately to the requester through Discord's own ephemeral-message feature, never a DM.
-* Touches roles in your server. The Duelist-role grant above only ever runs against the Underware server's own role, regardless of where a duel happened.
-* Reacts to messages, attaches files, deletes anyone else's messages, or creates threads. It doesn't request the permissions for any of that, so it couldn't if it wanted to.
-* Requires a wallet to function. Duels, stats, and queueing all work with zero wallet connection; linking one is an optional side feature for checking on-chain balances.
+Manage the panel with `/pistols-admin config hub_action:refresh` or `hub_action:remove`. Refresh edits the saved message, creating a replacement only if no message ID is saved or Discord confirms the message was deleted. Permission or network failures do not publish extra panels. Remove forgets the configuration; you must delete the old message and unpin it yourself. Choosing another `hub_channel` likewise leaves earlier panels and pins for manual cleanup.
 
+Do not pass `hub_channel` and `hub_action` together: the request is rejected before any setting changes. If posting succeeds but saving cannot be confirmed, the reply identifies the message to inspect before retrying.
+
+All hub buttons are blocked while this server is disabled or the operator's global write freeze is active.
+
+## Privacy and Feedback
+
+Most player controls reply through Discord's private ephemeral messages. Public challenges, animations, results, and some slash-command replies are visible in their channel; the [Command Reference](/pistols/discord-commands) lists visibility for each command.
+
+The bot:
+
+- Reads Discord guild/channel/member metadata and the invoking user's identity to operate commands and badges.
+- Stores duel state and results, queued moves and drafts, stats, wallet mappings, server settings, and optional story tutorial progress in its database. These survive restarts.
+- Looks up game-indexer status and linked wallet identities, and fetches token balances when requested. A wallet is optional for playing.
+- Records badge qualifications, including server-owner qualification on installation. Duelist and Guild Owner role grants are restricted to the configured Underware community server; it does not grant those roles in your server.
+- Sends best-effort **DMs to the server owner** when a configured duel channel becomes unreachable or loses permissions, and when it recovers. `/pistols-admin config` without options is the reliable on-demand check, even if DMs cannot be delivered.
+
+Feedback submissions retain the author's Discord identity, server context, message, and any supplied attachment URL. Staff reply attempts are also recorded, including whether the DM was delivered. When the bot operator configures a team feedback inbox, staff with access to that inbox can reply directly to the author by DM. Staff are told when delivery fails. Both the up-front `attachment:` option and staff replies work through interactions without reading ordinary channel messages.
+
+The separate **post-submit attachment fallback** is off by default. If the operator enables `FEEDBACK_ATTACHMENT_FALLBACK`, a feedback submission without an up-front file offers an upload button. Clicking it starts a five-minute window: the user's next message in that channel with an attachment is captured and reacted to with ✅. The attachment is linked to the feedback; the bot does not store the rest of that message. This is the feature that requires message gateway access and the privileged Message Content intent, configured by the bot operator. Server admins cannot enable it with `/pistols-admin config`.
+
+The bot does not require a wallet, re-upload feedback files, delete other users' messages, or create threads. Optional hub pinning and feedback-upload reactions should be accounted for separately from the standard invite permissions.
 
 ## Tuning and Troubleshooting
 
-**Animation speed.** Drop to `compact` or `minimal` (set with `/setup speed:<preset>`, numbers above) if a moderation bot keeps flagging the animation even after whitelisting. That's the actual lever; whitelisting alone doesn't always hold.
+**Animation speed.** Drop to `compact` or `minimal` (set with `/pistols-admin config speed:<preset>`) if a moderation bot keeps flagging the animation even after whitelisting. That's the actual lever; whitelisting alone doesn't always hold.
 
-**Rate limits.** `/duel` carries a 5-second per-user cooldown across both `user` and `public` variants; `/verify` carries a 10-second per-user cooldown. `/feedback` is separately capped at a handful of submissions per hour per user. These are per-user, not per-server, and reset if the bot process restarts.
+**Rate limits.** `/pistols duel` carries a 5-second per-user cooldown across `user`, `public`, and `bot` variants; `/pistols verify` carries a 10-second per-user cooldown. `/pistols feedback` is separately capped at 3 submissions per hour per user. These are per-user across servers. Duel and verify cooldowns reset when the bot restarts; the feedback limit is checked against saved submissions and survives restarts.
 
-**The kill switch.** `/setup enabled:false` turns the bot off in your server: every command except `/setup` itself replies with a disabled message telling players an admin needs to run `/setup enabled:true`. `/setup` always stays reachable even while disabled, so you can't lock yourself out, and this check fails open on a database hiccup, meaning a backend outage doesn't accidentally disable the bot in your server.
+**The interaction switch.** `/pistols-admin config enabled:false` disables interactions in your server: commands and buttons except `/pistols-admin config` itself reply with a disabled message telling players an admin needs to run `/pistols-admin config enabled:true`. `/pistols-admin config` remains reachable under this server-level disable, and this check fails open on a database hiccup, meaning a backend outage doesn't accidentally disable the bot in your server.
 
-**Pausing the bot, in order of how much it affects your server:**
-* `/setup enabled:false`, reversible any time, affects only your server.
-* A global maintenance pause (operator-controlled, not a slash command) that blocks all write actions bot-wide while leaving read-only commands and background timers running. Used for the bot's own maintenance windows, not something a server admin triggers.
+The server switch does not stop the bot process or its background timers. These are the available pause mechanisms:
+
+* `/pistols-admin config enabled:false`, reversible any time, affects only your server.
+* A global maintenance pause (operator-controlled, not a slash command) that blocks write interactions bot-wide while leaving read-only commands and background timers running. Hub buttons are blocked during this pause; config changes can also be refused. Used for the bot's own maintenance windows, not something a server admin triggers.
 * A full stop of the bot's hosting process, operator-controlled and the most complete pause available.
 
 **Duels not posting.** Work through this in order:
-1. Confirm the bot is enabled (`/setup` with no options).
+
+1. Confirm the bot is enabled (`/pistols-admin config` with no options).
 2. Confirm the channel you're testing in matches your configured `duel_channel`, if you've set one.
-3. Confirm the bot still has View Channel, Send Messages, Embed Links, and Read Message History in that channel. Re-running `/setup duel_channel:#channel` re-checks them and warns you in the reply if any are missing. A permission override on the channel itself can silently remove permissions even if the server-wide invite still shows them granted.
-4. Check whether a moderation bot has muted or restricted the bot. This is the single most common cause, especially right after install; revisit Whitelist the Bot First above.
-5. Run `/status` to confirm the bot can reach the Pistols indexer at all. A failure here points at the bot's backend rather than your server's configuration.
+3. Confirm the bot still has View Channel, Send Messages, Embed Links, and Read Message History in that channel. Re-running `/pistols-admin config duel_channel:#channel` re-checks them and warns you in the reply if any are missing. A permission override on the channel itself can silently remove permissions even if the server-wide invite still shows them granted.
+4. Check whether a moderation bot has muted or restricted the bot. Revisit Whitelist the Bot First above.
+5. Run `/pistols server status` to confirm the bot can reach the Pistols indexer at all. A failure here points at the bot's backend rather than your server's configuration.
 
 
 ## Metrics
 
-`/metrics` gives admins usage numbers for the server: active players, duels created, duels resolved (with a completion rate), a win/loss/draw breakdown, average duel duration, and the top commands run in the period. It requires **Manage Guild**, the same permission as `/setup`, and only works inside a server.
+`/pistols-admin metrics` gives admins usage numbers for the server: active players, duels created, duels resolved (with a completion rate), a win/loss/draw breakdown, average duel duration, and the top commands run in the period. It requires **Manage Server**, the same permission as `/pistols-admin config`, and only works inside a server.
 
 Pick a `period`: 7 days (default), 30 days, 90 days, or all time. A `global` option shows the same numbers aggregated across every server the bot is in, but that's restricted to a small Underware team allowlist regardless of your Manage Guild permission. A server admin outside that allowlist who tries it is refused and told to omit it.
