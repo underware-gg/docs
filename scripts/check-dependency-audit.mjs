@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import { spawnSync } from "node:child_process";
-import { readFileSync } from "node:fs";
 
 const pnpmEntry = process.env.npm_execpath;
 if (!pnpmEntry) {
@@ -12,6 +11,7 @@ if (!pnpmEntry) {
 const result = spawnSync(process.execPath, [pnpmEntry, "audit", "--json"], {
   encoding: "utf8",
   maxBuffer: 16 * 1024 * 1024,
+  timeout: 60_000,
 });
 
 let report;
@@ -23,35 +23,21 @@ try {
   process.exit(1);
 }
 
-const allowed = new Map([
-  ["GHSA-5p2g-fcmc-qvqq", { module: "image-size", version: "2.0.2" }],
-  ["GHSA-w3rx-r6r6-pgpr", { module: "image-size", version: "2.0.2" }],
-]);
-const workspace = readFileSync(new URL("../pnpm-workspace.yaml", import.meta.url), "utf8");
-const failures = [];
-
-if (!workspace.includes("image-size@2.0.2: patches/image-size@2.0.2.patch")) {
-  failures.push("the image-size advisory exception requires its exact pnpm patch");
+if (!report.advisories || typeof report.advisories !== "object" || !report.metadata?.vulnerabilities) {
+  console.error("dependency audit: pnpm returned an incomplete advisory report");
+  process.exit(1);
 }
 
-for (const advisory of Object.values(report.advisories ?? {})) {
-  const exception = allowed.get(advisory.github_advisory_id);
-  const versions = new Set((advisory.findings ?? []).map((finding) => finding.version));
-  if (
-    !exception ||
-    advisory.module_name !== exception.module ||
-    versions.size !== 1 ||
-    !versions.has(exception.version)
-  ) {
-    failures.push(
-      `${advisory.github_advisory_id ?? advisory.id}: ${advisory.module_name} (${advisory.severity})`,
-    );
-  }
+const failures = [];
+for (const advisory of Object.values(report.advisories)) {
+  failures.push(
+    `${advisory.github_advisory_id ?? advisory.id}: ${advisory.module_name} (${advisory.severity})`,
+  );
 }
 
 if (result.error) failures.push(result.error.message);
-if (result.status !== 0 && Object.keys(report.advisories ?? {}).length === 0) {
-  failures.push(`pnpm audit exited ${result.status} without reporting an advisory`);
+if (result.status !== 0) {
+  failures.push(`pnpm audit exited ${result.status}`);
 }
 
 if (failures.length > 0) {
@@ -59,4 +45,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log("dependency audit: PASS (two locally patched image-size advisories remain visible)");
+console.log("dependency audit: PASS (zero advisories)");

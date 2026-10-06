@@ -1,0 +1,51 @@
+{
+  "status": "accepted and implemented; candidate review and acceptance tests passed",
+  "reviewDate": "2026-10-06",
+  "baselineCommit": "eeb0f5f3d09ea091727320817ed45e51304f2082",
+  "toolchain": {
+    "node": "24.21.0",
+    "pnpm": "10.34.6"
+  },
+  "packageManagerCandidate": "pnpm@10.34.6+sha224.b38497a8673a91646bec4f6dc864036e58208b3029b66f8d082aa7d0",
+  "dependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "typescript": "6.0.3",
+    "vite": "8.3.1",
+    "vocs": "2.10.0",
+    "waku": "1.0.0-rc.1",
+    "react-server-dom-webpack": "19.3.0"
+  },
+  "candidateResolutionOverrides": {
+    "vocs>image-size": "2.0.4",
+    "remark-mdx-frontmatter>toml": "4.2.0",
+    "@scalar/json-magic>undici": "7.29.1",
+    "source-map-js": "1.2.2"
+  },
+  "sourceHashes": {
+    "package.json": "2d9a668df01c36db55de234b9deebb633232872ec481c583d8eb26dc06932efc",
+    "pnpm-lock.yaml": "177c829def9143c062bd4641adc1db89c1a2d99fe24619bbd512f3ff8c1f9769",
+    "pnpm-workspace.yaml": "35f58faecc3ddce1f1360bdb412f6553eaf59cd3590792e9d7e22fbfdf01856c",
+    ".node-version": "7e8a2fa94951112b894a3dbe3d05efef5e9263741fa49125f0a70f40fedab4cc"
+  },
+  "heldVersions": {
+    "waku": "1.0.0-rc.2 incompatible with Vocs 2.10.0",
+    "vocs": [
+      "2.10.1",
+      "2.10.2"
+    ],
+    "vite": [
+      "8.3.2",
+      "8.3.3"
+    ],
+    "typescript": "7.0.2 incompatible with Twoslash"
+  },
+  "review": "docs/dependency-reviews/2026-10-06-dependency-refresh.md",
+  "releaseAgeExemptions": [
+    "source-map-js@1.2.2"
+  ],
+  "sourceMapReview": "docs/dependency-reviews/2026-10-06-source-map-upgrade.md"
+}

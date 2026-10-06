@@ -11,8 +11,11 @@ record to the same pull request, and then run the repository verification gate.
 
 1. Classify the change as routine or elevated-risk.
 2. Select exact candidate versions without modifying the repository lockfile.
-3. Confirm each candidate is at least seven days old. Do not bypass missing
-   publish-time metadata.
+3. Confirm each candidate's exact publish timestamp and seven-day age. An
+   explicitly maintainer-authorized security update may use an exact
+   package/version age exemption only when the same review records the
+   authorization, verified timestamp, reason, owner, and dated re-review.
+   Do not bypass missing publish-time metadata.
 4. Review registry integrity, signatures, deprecation state, licences,
    lifecycle scripts, native code, binary downloads, dependency sources, and
    relevant upstream release notes or source changes.
