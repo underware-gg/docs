@@ -7,7 +7,7 @@ This page is for whoever's adding the Pistols at Dawn bot to a server and keepin
 
 Invite the bot from [pistols.gg/discord](https://pistols.gg/discord). That page builds the invite link for you; use it rather than constructing one by hand, since the permission bits matter.
 
-The standard invite asks for four permissions. Keep all four in the duel channel; Read Message History supports fetching earlier messages, including Replay and hub refresh, rather than deciding whether a duel can start.
+The standard invite asks for four permissions. Keep all four in the duel channel; Read Message History supports fetching earlier messages, including hub refresh, rather than deciding whether a duel can start.
 
 | Permission | Load-bearing | Without it |
 |---|---|---|
@@ -20,7 +20,7 @@ View Channel, Send Messages, and Embed Links are what the bot checks before post
 
 Slash-command replies use Discord interactions, so the bot may still answer commands when it cannot send normal channel messages. That does not mean duelling can work: challenges need View Channel, Send Messages, and Embed Links. Restore those permissions before testing another duel.
 
-Read Message History is needed when fetching earlier messages, including Replay and control-room refresh. Configuration checks report its absence as degraded. Saved duel state is unaffected; restore the permission and re-check with `/pistols-admin config`.
+Read Message History is needed when fetching earlier messages, including control-room refresh. Configuration checks report its absence as degraded. Saved duel state is unaffected; restore the permission and re-check with `/pistols-admin config`.
 
 The standard invite does not request file-upload or reaction permissions. Up-front feedback attachments are supplied on the slash-command interaction and forwarded as Discord-hosted image embeds or links; the bot does not re-upload the file. Live animation edits the bot's own messages.
 
@@ -110,7 +110,7 @@ The bot does not require a wallet, re-upload feedback files, delete other users'
 
 **Animation speed.** Drop to `compact` or `minimal` (set with `/pistols-admin config speed:<preset>`) if a moderation bot keeps flagging the animation even after whitelisting. That's the actual lever; whitelisting alone doesn't always hold.
 
-**Rate limits.** `/pistols duel` carries a 5-second per-user cooldown across `user`, `public`, and `bot` variants; `/pistols verify` carries a 10-second per-user cooldown. `/pistols feedback` is separately capped at 3 submissions per hour per user. These are per-user across servers. Duel and verify cooldowns reset when the bot restarts; the feedback limit is checked against saved submissions and survives restarts.
+**Rate limits.** `/duel` and `/pistols duel` share a 5-second per-user cooldown across `user`, `public`, and `bot` variants; `/pistols verify` carries a 10-second per-user cooldown. `/pistols feedback` is separately capped at 3 submissions per hour per user. These are per-user across servers. Duel and verify cooldowns reset when the bot restarts; the feedback limit is checked against saved submissions and survives restarts.
 
 **The interaction switch.** `/pistols-admin config enabled:false` disables interactions in your server: commands and buttons except `/pistols-admin config` itself reply with a disabled message telling players an admin needs to run `/pistols-admin config enabled:true`. `/pistols-admin config` remains reachable under this server-level disable, and this check fails open on a database hiccup, meaning a backend outage doesn't accidentally disable the bot in your server.
 

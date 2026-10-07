@@ -2,7 +2,7 @@
 
 Someone in your server insulted your honour. Or your cooking. Or your taste in music. There is exactly one civilised response: pistols at dawn. This page covers everything you need to duel with the Pistols at Dawn Discord bot, from your first challenge to reading your win-loss record.
 
-You do not need a wallet, a crypto account, or any setup at all. If you can type a slash command, you can duel.
+You do not need a wallet, a crypto account, or any setup at all. If you can type a slash command, you can duel. For quick access, `/duel user opponent:@someone`, `/duel public`, and `/duel bot` work exactly like their `/pistols duel` equivalents. Both paths share the same cooldown and server/channel restrictions.
 
 ## Your First Duel
 
@@ -86,8 +86,8 @@ With animation disabled, the bot posts the result directly. Otherwise, after the
 
 Below the result you'll find:
 
-- A **Combat Log** button: a private, detailed breakdown of every step of the duel, with a perspective appropriate to the viewer. It stays available for 12 hours after the duel resolves.
-- A **Replay** button: replays the animation again, available for 12 hours after the final result is presented.
+- A **Combat Log** button: a private, detailed breakdown of every step of the duel, with a perspective appropriate to the viewer. It remains available while the saved combat result exists, with no access timeout.
+- A **Replay** button: opens the animation in a separate private message visible only to you, leaving the public result untouched. It has no access timeout while the saved combat result is available. If the required data is missing or unusable, the bot reports **Replay expired**.
 - A **Challenge** button: starts a fresh challenge against the human winner (or either human player after a draw). In a practice result, it targets the human participant rather than the bot. This isn't an instant rematch; it opens the full premise picker again, the same as starting a new `/pistols duel user` challenge.
 
 ## Timeouts
@@ -100,8 +100,6 @@ The usual timing defaults are below. The bot operator can change runtime default
 | In-progress window | 2 hours | If moves still aren't fully committed by both sides, the duel expires. |
 | Reminder | 1 hour into the duel | A reminder is sent if moves still aren't in yet. |
 | Queue expiry | 24 hours | A duel that's been queued this whole time without both players free is dropped. |
-| Combat log availability | 12 hours after resolution | The Combat Log button stops working. |
-| Replay availability | 12 hours after the final result is presented | The Replay button stops working. |
 
 ## Queueing
 
@@ -113,7 +111,7 @@ While a challenge involving you sits in the queue, you don't have to wait around
 
 Pre-commit is optional: the duel can activate without either player having picked ahead of time. An open picker follows the same duel if it activates while you are still choosing. Draft choices survive bot restarts and remain until you commit or the duel closes; they do not have a separate 15-minute expiry. Once you confirm, stale controls cannot overwrite your locked moves.
 
-Activation moves the current duel post to the bottom of the channel and retires the old queue notice. Cancellation, refusal, and expiry replace the notice with the appropriate closed status. Combat Log and Replay also survive restarts during their 12-hour availability windows.
+Activation moves the current duel post to the bottom of the channel and retires the old queue notice. Cancellation, refusal, and expiry replace the notice with the appropriate closed status. Combat Log and Replay are rebuilt from the saved result after restarts and have no separate access timeout.
 
 Run `/pistols queue` to see everything you have waiting: for each entry, whether you're the challenger or the target, who the opponent is, the premise, how long it's been waiting, its expiry, and whether it's up next.
 

@@ -1,10 +1,26 @@
 # Command Reference
 
-Commands are grouped below by their root: server administration uses `/pistols-admin`, and player commands are nested under `/pistols`. This page covers their options, reply visibility, and cooldowns. For the surrounding workflows, see [For Players](/pistols/discord-players) and [For Server Admins](/pistols/discord-admins).
+Commands are grouped below into root commands and commands nested under `/pistols`. The root `/duel` family provides quick access to duelling, and `/pistols-admin` handles server administration. This page covers their options, reply visibility, and cooldowns. For the surrounding workflows, see [For Players](/pistols/discord-players) and [For Server Admins](/pistols/discord-admins).
 
-Only commands that perform an action are listed. Redirect-only legacy commands are omitted. Root `/duel` and `/verify` have been removed; use `/pistols duel user`, `/pistols duel public`, `/pistols duel bot`, and `/pistols verify`.
+Only commands that perform an action are listed. Redirect-only legacy commands are omitted. Root `/verify` is not registered; use `/pistols verify`.
 
 ## Root Commands
+
+### Duels
+
+| Command | Arguments | What it does |
+| --- | --- | --- |
+| `/duel user` | `opponent` (user, required) | Challenges a specific player. |
+| `/duel public` | none | Posts an open challenge. |
+| `/duel bot` | none | Starts a practice duel against the bot. |
+
+These are permanent, functional aliases of `/pistols duel user`, `/pistols duel public`, and `/pistols duel bot`. They run the same flows with identical options and permissions. Both paths share the 5-second per-user duel cooldown, configured duel-channel restriction, and server-disable and maintenance gates.
+
+**Syntax:** `/duel user opponent:<user>`, `/duel public`, or `/duel bot`.
+
+**Reply visibility:** Private setup and move choices; public duel and result. For the full behavior, see [Targeted and Open Duels](#targeted-and-open-duels) and [Practice Duel](#practice-duel).
+
+### Server Administration
 
 Server administration uses the `/pistols-admin` root command:
 
@@ -15,7 +31,7 @@ Server administration uses the `/pistols-admin` root command:
 
 Both commands require **Manage Server** (Discord's `Manage Guild` permission) and only work inside a server. Both reply privately and have no command cooldown.
 
-### Configuration
+#### Configuration
 
 **Syntax:** `/pistols-admin config [duel_channel:<channel>] [animation:<true|false>] [speed:<normal|compact|minimal>] [accept_timeout:<minutes>] [enabled:<true|false>] [hub_channel:<channel>] [hub_action:<refresh|remove>]`
 
@@ -35,7 +51,7 @@ Do not combine `hub_channel` and `hub_action`: the whole request is rejected bef
 
 See [Control-Room Hub](/pistols/discord-admins#control-room-hub) for permissions, buttons, and cleanup.
 
-### Metrics
+#### Metrics
 
 **Syntax:** `/pistols-admin metrics [period:<choice>] [global:<true|false>]`
 
@@ -97,7 +113,7 @@ Duel commands must run inside a server, in its configured duel channel when one 
 
 **Reply visibility:** Private picker and confirmation; public challenge and result.
 
-**Cooldown:** 5 seconds per user, shared across all three `/pistols duel` variants.
+**Cooldown:** 5 seconds per user, shared across all three variants and both `/duel` and `/pistols duel` paths.
 
 ### Practice Duel
 
@@ -105,11 +121,11 @@ Duel commands must run inside a server, in its configured duel channel when one 
 
 Starts a Classic duel against a practice bot inside a server. There is no acceptance step or premise picker: the bot commits immediately, and you choose and confirm your moves through the private Duelling Grounds panel. Normal duel availability and channel restrictions still apply.
 
-The result does not affect your win/loss record. A resolved practice duel advances normal pistol unlocks and counts toward the Duelist badge.
+The result does not affect your win/loss record. A resolved practice duel advances normal pistol unlocks and counts toward the Duelist badge. Replay opens a private animation for the viewer, leaving the public result unchanged; Replay and Combat Log have no access timeout while the saved combat result is available.
 
 **Reply visibility:** Private confirmation and move choices; public duel and result.
 
-**Cooldown:** The shared 5-second duel cooldown.
+**Cooldown:** The shared 5-second duel cooldown, including `/duel bot`.
 
 ### Stats, History, and Queue
 
