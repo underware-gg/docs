@@ -1,8 +1,49 @@
 # Command Reference
 
-Player commands live under `/pistols`; server administration lives under `/pistols-admin`. This page covers the registered commands, their options, reply visibility, and cooldowns. For the surrounding workflows, see [For Players](/pistols/discord-players) and [For Server Admins](/pistols/discord-admins).
+Commands are grouped below by their root: server administration uses `/pistols-admin`, and player commands are nested under `/pistols`. This page covers their options, reply visibility, and cooldowns. For the surrounding workflows, see [For Players](/pistols/discord-players) and [For Server Admins](/pistols/discord-admins).
 
-## Player Commands
+Only commands that perform an action are listed. Redirect-only legacy commands are omitted. Root `/duel` and `/verify` have been removed; use `/pistols duel user`, `/pistols duel public`, `/pistols duel bot`, and `/pistols verify`.
+
+## Root Commands
+
+Server administration uses the `/pistols-admin` root command:
+
+| Command | Arguments | What it does |
+| --- | --- | --- |
+| `/pistols-admin config` | All options optional; see below | Views or changes server configuration and the control-room hub. |
+| `/pistols-admin metrics` | `period`, `global` (both optional) | Shows usage metrics for this server or an authorized cross-server aggregate. |
+
+Both commands require **Manage Server** (Discord's `Manage Guild` permission) and only work inside a server. Both reply privately and have no command cooldown.
+
+### Configuration
+
+**Syntax:** `/pistols-admin config [duel_channel:<channel>] [animation:<true|false>] [speed:<normal|compact|minimal>] [accept_timeout:<minutes>] [enabled:<true|false>] [hub_channel:<channel>] [hub_action:<refresh|remove>]`
+
+All options are optional. With no options, shows the current settings and re-checks the configured duel channel's permissions and existence.
+
+| Option | Type | Behavior |
+| --- | --- | --- |
+| `duel_channel` | Text channel | Restricts duel commands to that channel; warns about missing bot permissions. |
+| `animation` | Boolean | Enables or disables live ASCII animation. |
+| `speed` | String choice | `normal`, `compact`, or `minimal`. |
+| `accept_timeout` | Integer minutes | `0` clears the override; otherwise 5–2880. Values 1–4 are rejected. The usual default is 5 minutes. |
+| `enabled` | Boolean | Enables/disables interactions in this server; config remains reachable to re-enable it. |
+| `hub_channel` | Text channel | Posts and saves a new control-room panel, then attempts to pin it. Old panels and pins remain. |
+| `hub_action` | String choice | `refresh` updates the saved panel; `remove` forgets its configuration and leaves the message/pin. |
+
+Do not combine `hub_channel` and `hub_action`: the whole request is rejected before any settings change. A refresh only publishes a replacement if no message ID is saved or Discord confirms the saved message was deleted. Permission or network failures do not create another panel. Failed pinning does not invalidate a saved hub.
+
+See [Control-Room Hub](/pistols/discord-admins#control-room-hub) for permissions, buttons, and cleanup.
+
+### Metrics
+
+**Syntax:** `/pistols-admin metrics [period:<choice>] [global:<true|false>]`
+
+Choose 7 days (default), 30 days, 90 days, or all time from Discord's period choices. Shows active players, duels created/resolved, completion rate, win/loss/draw counts, average duel duration, and the top commands used.
+
+`global:true` aggregates all servers, and additionally requires the bot's configured team allowlist. Other admins must omit it.
+
+## Commands Under /pistols
 
 | Command | Arguments | What it does |
 | --- | --- | --- |
@@ -140,54 +181,3 @@ When the bot has a configured team feedback inbox, staff can reply to the submis
 **Reply visibility:** Private form and confirmation; feedback goes to the team.
 
 **Rate limit:** 3 submissions per user per hour.
-
-## Admin Commands
-
-Both commands require **Manage Server** (Discord's `Manage Guild` permission) and only work inside a server. Both reply privately and have no command cooldown.
-
-### Configuration
-
-**Syntax:** `/pistols-admin config [duel_channel:<channel>] [animation:<true|false>] [speed:<normal|compact|minimal>] [accept_timeout:<minutes>] [enabled:<true|false>] [hub_channel:<channel>] [hub_action:<refresh|remove>]`
-
-All options are optional. With no options, shows the current settings and re-checks the configured duel channel's permissions and existence.
-
-| Option | Type | Behavior |
-| --- | --- | --- |
-| `duel_channel` | Text channel | Restricts duel commands to that channel; warns about missing bot permissions. |
-| `animation` | Boolean | Enables or disables live ASCII animation. |
-| `speed` | String choice | `normal`, `compact`, or `minimal`. |
-| `accept_timeout` | Integer minutes | `0` clears the override; otherwise 5–2880. Values 1–4 are rejected. The usual default is 5 minutes. |
-| `enabled` | Boolean | Enables/disables interactions in this server; config remains reachable to re-enable it. |
-| `hub_channel` | Text channel | Posts and saves a new control-room panel, then attempts to pin it. Old panels and pins remain. |
-| `hub_action` | String choice | `refresh` updates the saved panel; `remove` forgets its configuration and leaves the message/pin. |
-
-Do not combine `hub_channel` and `hub_action`: the whole request is rejected before any settings change. A refresh only publishes a replacement if no message ID is saved or Discord confirms the saved message was deleted. Permission or network failures do not create another panel. Failed pinning does not invalidate a saved hub.
-
-See [Control-Room Hub](/pistols/discord-admins#control-room-hub) for permissions, buttons, and cleanup.
-
-### Metrics
-
-**Syntax:** `/pistols-admin metrics [period:<choice>] [global:<true|false>]`
-
-Choose 7 days (default), 30 days, 90 days, or all time from Discord's period choices. Shows active players, duels created/resolved, completion rate, win/loss/draw counts, average duel duration, and the top commands used.
-
-`global:true` aggregates all servers, and additionally requires the bot's configured team allowlist. Other admins must omit it.
-
-## Legacy Commands
-
-These root commands are temporary pointers only. They take no options and reply privately with the replacement command; they no longer perform the old action.
-
-| Legacy command | Replacement |
-| --- | --- |
-| `/login` | `/pistols account link` |
-| `/balance` | `/pistols account balance` |
-| `/mystats` | `/pistols stats` |
-| `/queue` | `/pistols queue` |
-| `/history` | `/pistols history` |
-| `/help` | `/pistols help` |
-| `/tutorial` | `/pistols tutorial` |
-| `/status` | `/pistols server status` |
-| `/setup` | `/pistols-admin config` |
-| `/metrics` | `/pistols-admin metrics` |
-
-Root `/duel` and `/verify` have been removed without pointer commands. `/howtoplay` and root `/feedback` are not registered; use `/pistols tutorial` and `/pistols feedback`.
