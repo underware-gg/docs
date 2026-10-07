@@ -14,7 +14,9 @@ What differs sits outside the duel itself. Bot duels do not touch your wallet, s
 
 ## Getting Started
 
-Playing? Start at [For Players](/pistols/discord-players).
+Playing? Run `/pistols tutorial` for private onboarding, or `/pistols menu` for shortcuts. `/duel bot` (also `/pistols duel bot`) starts a practice duel with normal Classic rolls: no acceptance step, no effect on your win/loss record, and no wallet needed. The duel and result are public. See [For Players](/pistols/discord-players) for the full walkthrough.
+
+Operators can optionally enable a three-lesson story tutorial. Those NPC duels are scripted teaching exercises; the default tutorial instead offers a welcome, full rules, and a practice button.
 
 Setting the bot up on your server? Start at [For Server Admins](/pistols/discord-admins).
 
@@ -24,4 +26,4 @@ Looking for exact command syntax and options? See the [Command Reference](/pisto
 
 Each player picks their four cards through a private menu that only they can see. The bot keeps those choices hidden from the opponent until both sides have locked in, then decides the full duel using its own random shuffle and hit rolls. Nothing is decided later.
 
-The animation shows that already-decided duel step by step; it does not reroll or change the outcome. Active duels, player stats, queues, and server settings survive a bot restart.
+The animation shows that already-decided duel step by step; it does not reroll or change the outcome. Active duels, player stats, queues, unfinished move choices, and server settings survive a bot restart. Combat Log and Replay are rebuilt from the saved combat result after restarts, with no access timeout while that result remains available. The first animation is public; Replay is private to the viewer and leaves the public result unchanged. Optional story tutorial progress also survives restarts.

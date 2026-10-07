@@ -44,11 +44,11 @@ for (const [name, payload] of Object.entries(cases)) {
     });
   } catch (error) {
     if (error.signal) {
-      console.error(`image-size patch: ${name} probe timed out (${error.signal})`);
+      console.error(`image-size: ${name} probe timed out (${error.signal})`);
       process.exit(1);
     }
     throw error;
   }
 }
 
-console.log("image-size patch: PASS");
+console.log("image-size: PASS");

@@ -3,15 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.34.3+sha224.51b36b3f404dcfa1fd29d5ec34e12e321528a8dd8cdb895d665562f6",
+  "packageManager": "pnpm@10.34.6+sha224.b38497a8673a91646bec4f6dc864036e58208b3029b66f8d082aa7d0",
   "engines": {
-    "node": ">=24.19.0 <25",
-    "pnpm": "10.34.3"
+    "node": ">=24.21.0 <25",
+    "pnpm": "10.34.6"
   },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "10.34.3+sha224.51b36b3f404dcfa1fd29d5ec34e12e321528a8dd8cdb895d665562f6",
+      "version": "10.34.6+sha224.b38497a8673a91646bec4f6dc864036e58208b3029b66f8d082aa7d0",
       "onFail": "error"
     }
   },
@@ -20,20 +20,21 @@
     "build": "vocs build",
     "preview": "vocs preview",
     "typecheck": "tsc --noEmit",
-    "verify": "node scripts/check-dependency-policy.mjs && node scripts/check-image-size-patch.mjs && tsc --noEmit && vocs build",
+    "verify": "node scripts/check-dependency-policy.mjs && node scripts/check-image-size.mjs && node scripts/check-source-map.mjs && node scripts/check-frontmatter.mjs && tsc --noEmit && vocs build",
     "deps:audit": "node scripts/check-dependency-audit.mjs",
     "deps:policy:check": "node scripts/check-dependency-policy.mjs",
-    "deps:patches:check": "node scripts/check-image-size-patch.mjs"
+    "deps:parsers:check": "node scripts/check-image-size.mjs && node scripts/check-source-map.mjs"
   },
   "dependencies": {
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
-    "@types/react": "19.2.18",
+    "@types/react": "19.3.0",
     "typescript": "6.0.3",
-    "vite": "8.2.1",
-    "vocs": "2.8.5",
-    "waku": "1.0.0-beta.8"
+    "vite": "8.3.1",
+    "vocs": "2.10.0",
+    "waku": "1.0.0-rc.1",
+    "react-server-dom-webpack": "19.3.0"
   }
 }

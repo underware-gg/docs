@@ -1,0 +1,119 @@
+{
+  "reviewDate": "2026-10-06",
+  "authorization": "Just do the source map upgrade now. Documented exemption",
+  "exemption": {
+    "setting": "minimumReleaseAgeExclude",
+    "exactVersions": [
+      "source-map-js@1.2.2"
+    ],
+    "globalAgeMinutes": 10080,
+    "reason": "Install verified upstream fix and remove local security backport and vulnerability allowance",
+    "owner": "Underware maintainers",
+    "normalAgeEligibility": "2026-10-07T14:08:09.382Z",
+    "reReviewBy": "2026-10-09 UTC"
+  },
+  "packageVerification": {
+    "spec": "source-map-js@1.2.2",
+    "verifiedAt": "2026-10-06T11:25:05.797Z",
+    "published": "2026-09-30T14:08:09.382Z",
+    "normalAgeEligibility": "2026-10-07T14:08:09.382Z",
+    "ageMinutes": 8476,
+    "integrity": "sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw==",
+    "signaturesVerified": 2,
+    "provenanceVerified": false,
+    "priorProvenanceVerified": false,
+    "repository": {
+      "url": "git+https://github.com/7rulnik/source-map-js.git",
+      "type": "git"
+    },
+    "publisher": "7rulnik",
+    "priorPublisher": "7rulnik",
+    "license": "BSD-3-Clause",
+    "engines": {
+      "node": ">=0.10.0"
+    },
+    "dependencies": {},
+    "hooks": {},
+    "gitHead": "0a1d334fd1e55a47df97fcd60a7915d46df3b08a"
+  },
+  "candidateGraph": {
+    "total": 793,
+    "unchanged": 792,
+    "removed": [
+      "source-map-js@1.2.1"
+    ],
+    "added": [
+      "source-map-js@1.2.2"
+    ],
+    "unrelatedPackageChanges": []
+  },
+  "audit": {
+    "full": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "dependencies": 794,
+      "devDependencies": 0,
+      "optionalDependencies": 0,
+      "totalDependencies": 794
+    },
+    "prod": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "dependencies": 4,
+      "devDependencies": 0,
+      "optionalDependencies": 0,
+      "totalDependencies": 4
+    }
+  },
+  "auditGateTests": {
+    "passed": [
+      "Clean audit accepted",
+      "Former source-map allowance rejected",
+      "Unknown advisory rejected",
+      "Incomplete report rejected",
+      "Audit failure without advisory rejected",
+      "Invalid JSON rejected"
+    ]
+  },
+  "files": {
+    "package.json": "6c5871118a203e3034d75eee3aadd2a612865305e8047135c20843eb4f51b805",
+    "pnpm-lock.yaml": "617480810980c77e3e2336b1002ebfa486d277624d266cce6a3548b6a08a6ea3",
+    "pnpm-workspace.yaml": "8ac41e83e98657e19ca62eafb8d3beb33714ac45cd6525b166868667d06d380d",
+    "scripts/check-source-map.mjs": "f652499732ae090a08eb3e7903bc2ffdeb3e1b0bbff98e575e8a4279760dc1ba",
+    "scripts/check-dependency-audit.mjs": "1f565b2ddab994db9bb0d07965ba36eaaea8964424a7885b49b7efd9a3fde6eb"
+  },
+  "priorEvidence": "2026-10-06-dependency-refresh-evidence.json",
+  "verification": {
+    "candidateFrozenInstall": true,
+    "repositoryFrozenInstall": true,
+    "strictBuildMetadataRefreshed": true,
+    "automaticallyIgnoredBuilds": [],
+    "parserRegressionModes": [
+      "normal",
+      "--disallow-code-generation-from-strings"
+    ],
+    "policyCheck": true,
+    "imageAndFrontmatterRegressionChecks": true,
+    "typescript": true,
+    "productionBuild": true,
+    "auditGate": "zero advisories; no allowance",
+    "auditGateRejectionFixtures": [
+      "Clean audit accepted",
+      "Former source-map allowance rejected",
+      "Unknown advisory rejected",
+      "Incomplete report rejected",
+      "Audit failure without advisory rejected",
+      "Invalid JSON rejected"
+    ]
+  }
+}

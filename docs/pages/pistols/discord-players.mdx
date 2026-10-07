@@ -2,93 +2,97 @@
 
 Someone in your server insulted your honour. Or your cooking. Or your taste in music. There is exactly one civilised response: pistols at dawn. This page covers everything you need to duel with the Pistols at Dawn Discord bot, from your first challenge to reading your win-loss record.
 
-You do not need a wallet, a crypto account, or any setup at all. If you can type a slash command, you can duel.
+You do not need a wallet, a crypto account, or any setup at all. If you can type a slash command, you can duel. For quick access, `/duel user opponent:@someone`, `/duel public`, and `/duel bot` work exactly like their `/pistols duel` equivalents. Both paths share the same cooldown and server/channel restrictions.
 
 ## Your First Duel
 
-The shortest path from "never used this bot" to "duel resolved":
+Start with `/pistols tutorial`. By default, it opens a private welcome, a **Full rules** toggle, and a **Try it against the practice bot** button. Or run `/pistols menu` for private shortcuts to duel guidance, stats, history, queue, balances, status, help, and tutorial.
 
-1. In any channel the bot can see, type `/duel` and pick the `user` subcommand, then choose an opponent; or use `/duel public` to post an open challenge anyone can accept.
-2. Pick a premise for the duel (why you're fighting) in the private picker that pops up, then confirm.
+For a warm-up, run `/pistols duel bot` in a server. It skips the premise picker and acceptance step: the practice bot commits immediately, and you pick and confirm your moves through the same Duelling Grounds panel used for player duels. The duel and result are public. Practice uses normal Classic rolls, does not affect your win/loss record, advances normal pistol unlocks, and counts toward the Duelist badge. If the server has a dedicated duel channel, start there.
+
+Ready to challenge a person?
+
+1. In the server's duel channel (or any channel the bot can use if none is configured), run `/pistols duel user opponent:@someone`; or use `/pistols duel public` to post an open challenge any eligible player who is free can accept.
+2. Choose a themed premise in the private picker to post the challenge immediately, or choose Custom and submit its text form.
 3. Wait for your opponent to accept. You'll see the challenge post publicly in the channel.
-4. Once accepted, click the **Duelling Grounds** entry button on the public message. This opens a private picker only you can see.
-5. Choose one of your pistol archetypes for an instant auto-play, or choose Manual and pick four cards yourself (fire, dodge, tactics, blades) from the dropdowns.
+4. Once accepted, click the **To the Duelling Grounds** button on the public message. This opens your private controls; choose **Pick Your Moves** to open the move picker.
+5. Choose one of your pistol archetypes to generate your four choices, or choose Manual and pick four cards yourself (fire, dodge, tactics, blades) from the dropdowns.
 6. Confirm your moves. Once both duelists have confirmed, the duel resolves automatically: no extra step needed.
-7. Click **Watch Duel** to see the animation play out, or wait: it plays itself after about 15 seconds either way.
+7. If animation is enabled, either duelist can click **Watch Duel** or wait for it to start automatically after about 15 seconds. With animation disabled, the result posts directly.
 
 That's a full duel. Everything below fills in the details.
 
 ## Challenging Someone
 
-There are two ways to start a duel with `/duel`:
+There are two ways to start a duel with `/pistols duel`:
 
-- **Targeted**: `/duel user opponent:@someone` challenges a specific person; only they (or someone covering for them) can accept or refuse it.
-- **Open**: `/duel public` posts a challenge to the channel with no named opponent. Anyone in the channel except you can accept it; first click wins.
+- **Targeted**: `/pistols duel user opponent:@someone` challenges a specific person; only they can accept or refuse it.
+- **Open**: `/pistols duel public` posts a challenge to the channel with no named opponent. Any eligible player in the channel who is free, except you, can accept it; first valid acceptance wins.
 
-Either way, you're first shown a private picker, visible only to you, asking for a **premise**: the reason for the duel. Choose from 14 named options: Honour, Debt, Dispute, Hatred, Vengeance, Blood, Nothing, Insult, Matter, Lesson, Affection, Pride, Wager, and Mischief; or pick Custom and write your own (up to 80 characters). Every preset is optional to add detail to; Custom requires it.
+Either way, you're first shown a private picker, visible only to you, asking for a **premise**: the reason for the duel. Choose from 14 named options: Honour, Debt, Dispute, Hatred, Vengeance, Blood, Nothing, Insult, Matter, Lesson, Affection, Pride, Wager, and Mischief; or pick Custom and write your own (up to 80 characters). Themed reasons stand on their own: selecting one needs no extra form. For a challenge that posts immediately, your private confirmation offers **State your grievance** to add optional detail afterward. Enter the words that complete the displayed premise; a blank submission changes nothing. The button works only while the challenge awaits a response, and queued targeted challenges do not offer it. Custom requires its text form before posting.
 
 Once you submit the premise, the bot posts a **public** message in the duel channel:
 
-- A targeted challenge pings your opponent and shows the mode, a duel ID, and an expiry time, with a button to enter the Duelling Grounds.
+- A targeted challenge pings your opponent and shows the mode, a duel ID, and an expiry time, with a **To the Duelling Grounds** button for private controls.
 - An open challenge posts without pinging anyone, inviting the whole channel to accept.
 
 Your own premise-picker message stays private throughout; it updates to a short confirmation like "Challenge sent!" once you're done, and nobody but you ever sees it.
 
-> If you're already busy in another duel, an open challenge you post is cancelled silently rather than queued: open challenges never queue, only targeted ones can (see [Queueing](#queueing)).
+> If you're already busy in another duel, an open challenge is rejected rather than queued: open challenges never queue, only targeted ones can (see [Queueing](#queueing)).
 
 ## Being Challenged
 
-If someone targets you with `/duel user`, you'll see a public message in the duel channel naming you as the opponent, with buttons to respond.
+If someone targets you with `/pistols duel user`, you'll see a public message in the duel channel naming you as the opponent, with buttons to respond.
 
-- **Accepting**: only you can click Accept on a challenge addressed to you. Your own view updates to a brief "Duel accepted!" confirmation that disappears after a couple of seconds, and the public message is replaced with an in-progress embed showing both duelists and a Duelling Grounds entry button.
+- **Accepting**: only you can click Accept on a challenge addressed to you. Your own view updates to a brief "Duel accepted!" confirmation that disappears after a couple of seconds, and the bot posts the current duel state at the bottom of the channel and retires the earlier challenge message.
 - **Refusing**: only you can refuse it. The public message is replaced with a "Duel Refused" embed. Refusing frees you up, which may let a queued duel involving you fire immediately.
 - **Ignoring it**: if you never respond, the challenge expires once its accept window runs out (see [Timeouts](#timeouts)); nothing bad happens, no penalty, it quietly closes.
 
-For an **open** challenge, anyone but the original challenger can accept: clicking the entry button claims it for you. If two people click at once, only the first one gets it; the other sees a message saying someone beat them to it.
+For an **open** challenge, an eligible player who is free, other than the original challenger, can accept through the Duelling Grounds controls. If two people click at once, only the first one gets it; the other sees a message saying someone beat them to it.
 
-If this is your first duel ever, accepting one triggers a short private welcome message pointing you toward the basics; you'll only see it once.
+The Duelling Grounds button is useful for spectators too. It shows the duel's status, premise, and mode, with actions to challenge either participant. Duelists instead get the controls appropriate to the current state: accept, refuse, withdraw, pre-commit, or choose moves.
 
 ## Choosing Your Cards
 
-Once a duel is in progress, click the **Duelling Grounds** button to open your private move picker. Nobody, not your opponent, not spectators, can see your picks until both sides have confirmed.
+Once a duel is in progress, click **To the Duelling Grounds**, then **Pick Your Moves**, to open your private move picker. Nobody, not your opponent, not spectators, can see your picks until both sides have confirmed.
 
 You're choosing four cards in total:
 
 - **Fire**: the pace (1 through 10) at which you pull the trigger.
 - **Dodge**: the pace at which you duck. This is the bit that trips people up: a dodge only cancels an incoming shot if it exactly matches the pace your opponent fired at. Picking the same pace for both isn't allowed; in Manual mode you'll get a warning and be asked to repick.
 - **Tactics**: a card that shapes your stats for the whole duel.
-- **Blades**: a card that only matters if both of you survive to the melee phase.
+- **Blades**: a card that modifies pistol stats and determines your move in the melee phase if both duelists survive the shots.
 
 You have two ways to fill these in:
 
-**Auto-play archetypes.** Instead of picking cards yourself, you can tap a pistol archetype and let it choose all four cards for you using a fixed personality. The archetypes, in the order they're offered, are:
+**Auto-play archetypes.** Instead of picking cards yourself, you can tap a pistol archetype and let it choose all four cards for you using a fixed personality. The choices are:
 
-- **🎩 Honourable**: patient. Fires late, around paces 7 to 10, and plays for grit and precision over speed.
-- **🃏 Trickster**: unpredictable. Fires in the middle, around paces 4 to 6, and favours the chaos tactics.
-- **🩸 Villainous**: aggressive. Fires early, around paces 1 to 3; shoots first and asks questions later.
+- **🎩 Honourable**: patient. Fires at paces 6 to 10, weighted toward the later paces, and plays for grit and precision over speed.
+- **🃏 Trickster**: unpredictable. Can fire at any pace, with a preference for the middle, and favours the chaos tactics.
+- **🩸 Villainous**: aggressive. Fires at paces 1 to 5, weighted toward the earliest paces; shoots first and asks questions later.
 - **Manual**: the four dropdowns described above, for full control.
 
-You start with **Honourable** and **Manual** unlocked. **Trickster** unlocks the first time you finish a duel, win, lose, or draw; it doesn't matter which. **Villainous** unlocks after your second finished duel, same rule. A duel you refuse, withdraw from, or let expire doesn't count toward either: only a duel that actually resolves does.
+By default, you start with **Honourable** and **Manual** unlocked; the bot operator can configure a different starter archetype. **Trickster** unlocks the first time you finish a duel, win, lose, or draw; it doesn't matter which. **Villainous** unlocks after your second finished duel, same rule. A duel you refuse, withdraw from, or let expire doesn't count toward either: only a duel that actually resolves does.
 
 Whichever way you fill your four picks, they stay private until both duelists have confirmed; your opponent has no idea what you chose until the animation reveals it.
 
 ## Watching the Duel
 
-Once both sides have confirmed their moves, the duel resolves instantly and automatically: there's no third step to wait on. The public message updates to "Both Moves Locked In!" with a **Watch Duel** button.
+Once both sides have confirmed their moves, the duel resolves instantly and automatically: there's no third step to wait on. With animation enabled, the public message offers a **Watch Duel** button.
 
-Click it to play the animation, which steps through the duel frame by frame in the same message. If nobody clicks it, the bot plays it automatically after about 15 seconds; you won't miss the result either way.
+When animation is enabled, either duelist can click it to start the animation early, which steps through the duel frame by frame in the same message. If nobody clicks it, the bot plays it automatically after about 15 seconds; you won't miss the result either way.
 
-After the animation, the result posts as its own embed: who won (or that it was a draw), a flavour quote, the duel's premise, a short summary of the key moments (hits, misses, the blades clash if there was one), and a health bar for each duelist.
+With animation disabled, the bot posts the result directly. Otherwise, after the animation, the result posts as its own embed: who won (or that it was a draw), a conclusion tied to the duel's premise and actual outcome, the full premise, a short summary of the key moments (hits, misses, the blades clash if there was one), and a health bar for each duelist.
 
 Below the result you'll find:
 
-- A **Combat Log** button: an ephemeral, detailed breakdown of every step of the duel, written from your own perspective. It stays available for 12 hours after the duel resolves.
-- A **Replay** button: replays the animation again, also available for 12 hours.
-- A **Challenge** button: lets anyone click through to start a fresh challenge against the winner (or either player, if it was a draw). This isn't an instant rematch; it opens the full premise picker again, the same as starting a new `/duel`.
+- A **Combat Log** button: a private, detailed breakdown of every step of the duel, with a perspective appropriate to the viewer. It remains available while the saved combat result exists, with no access timeout.
+- A **Replay** button: opens the animation in a separate private message visible only to you, leaving the public result untouched. It has no access timeout while the saved combat result is available. If the required data is missing or unusable, the bot reports **Replay expired**.
+- A **Challenge** button: starts a fresh challenge against the human winner (or either human player after a draw). In a practice result, it targets the human participant rather than the bot. This isn't an instant rematch; it opens the full premise picker again, the same as starting a new `/pistols duel user` challenge.
 
 ## Timeouts
 
-Every clock the bot enforces on a duel, and what happens when it runs out:
+The usual timing defaults are below. The bot operator can change runtime defaults; server admins can override the accept window.
 
 | Timeout | Default | What happens when it fires |
 | --- | --- | --- |
@@ -96,32 +100,55 @@ Every clock the bot enforces on a duel, and what happens when it runs out:
 | In-progress window | 2 hours | If moves still aren't fully committed by both sides, the duel expires. |
 | Reminder | 1 hour into the duel | A reminder is sent if moves still aren't in yet. |
 | Queue expiry | 24 hours | A duel that's been queued this whole time without both players free is dropped. |
-| Combat log availability | 12 hours after resolution | The Combat Log button stops working; the log is gone. |
-| Replay availability | 12 hours after resolution | The Replay button stops working. |
-| Queue pre-pick memory | 15 minutes | Moves you pre-picked while queued (see below) are cleared if this long passes without the duel firing. |
 
 ## Queueing
 
-If you challenge someone with `/duel user` and either of you is already in another active duel, your challenge doesn't fail: it **queues**. As soon as either of you frees up (your other duel resolves, gets refused, or is withdrawn), the bot checks the queue and fires the next eligible duel automatically. Open challenges (`/duel public`) don't get this treatment: if you're busy when you post one, it's cancelled outright.
+If you challenge someone with `/pistols duel user` and either of you is already in another active duel, your challenge doesn't fail: it **queues**. When another duel resolves, gets refused, or is withdrawn, the bot checks the queue. Your queued duel fires once both players are free. Open challenges (`/pistols duel public`) don't get this treatment: if you're busy when you try to post one, it is rejected.
 
-Each player can have up to **5** queued challenges waiting at a time, per server. Try to queue a sixth and you'll be told the queue is full. Queued duels wait their turn in the order they were created.
+You can create up to **5 outgoing** queued challenges at a time per server. Incoming challenges do not count toward this limit. Try to queue a sixth outgoing challenge and you'll be told the queue is full. Queued duels wait their turn in the order they were created.
 
-While a challenge of yours sits in the queue, you don't have to wait around to pick your cards: open the same private picker used for live duels and lock in your moves ahead of time. The instant your queued duel fires, those pre-picked moves transfer straight in, so you can get on with your day and let the duel resolve itself once your opponent is free.
+While a challenge involving you sits in the queue, you don't have to wait around to pick your cards: open the same private picker used for live duels and lock in your moves ahead of time. When the queued duel activates, your locked moves transfer straight in. If the target pre-commits, that also records their acceptance, so activation can enter the in-progress state directly. Otherwise, the target still needs to accept when the challenge activates.
 
-Run `/queue` to see everything you have waiting: for each entry, whether you're the challenger or the target, who the opponent is, the premise, how long it's been waiting, and whether it's up next.
+Pre-commit is optional: the duel can activate without either player having picked ahead of time. An open picker follows the same duel if it activates while you are still choosing. Draft choices survive bot restarts and remain until you commit or the duel closes; they do not have a separate 15-minute expiry. Once you confirm, stale controls cannot overwrite your locked moves.
+
+Activation moves the current duel post to the bottom of the channel and retires the old queue notice. Cancellation, refusal, and expiry replace the notice with the appropriate closed status. Combat Log and Replay are rebuilt from the saved result after restarts and have no separate access timeout.
+
+Run `/pistols queue` to see everything you have waiting: for each entry, whether you're the challenger or the target, who the opponent is, the premise, how long it's been waiting, its expiry, and whether it's up next.
 
 ## Your Record
 
 Two commands cover your history:
 
-- **`/mystats`**: your total wins, losses, and draws, your win rate, your current streak (with an escalating fire-emoji flourish the longer it runs), and your best streak ever. A win extends your streak, a loss resets it to zero, a draw touches neither. If you haven't finished a duel yet, this tells you to go start one.
-- **`/history`**: a fuller picture in one place: any duels awaiting acceptance or in progress (with plain-language status like "waiting on them to accept" or "your turn to pick moves"), anything queued (flagged if you've already pre-committed moves), and your last 10 resolved duels with their outcomes.
+- **`/pistols stats`**: your total wins, losses, and draws, your win rate, your current streak (with an escalating fire-emoji flourish the longer it runs), and your best streak ever. A win extends your streak, a loss resets it to zero, a draw touches neither. If you haven't finished a duel yet, this tells you to go start one.
+- **`/pistols history`**: a fuller picture in one place: any duels awaiting acceptance or in progress (with plain-language status like "waiting on them to accept" or "your turn to pick moves"), anything queued (flagged if you've already pre-committed moves), and your last 10 resolved duels with their outcomes.
+
+## Optional Story Tutorial
+
+If the bot operator enables the story tutorial, `/pistols tutorial` and Tutorial buttons open three scripted NPC lessons instead of the welcome/rules/practice view. The first teaches firing, the second adds dodging, and the third adds tactics and blades. The lessons use scripted scenarios and fixed rolls, with explanations responding to your choices; ordinary practice duels remain random Classic duels.
+
+The first lesson is mandatory before skipping the remainder. Finishing or skipping after that lesson grants the starter pistol and Manual, and qualifies you for Duelist. It does not grant every archetype. Unfinished progress resumes across bot restarts without an inactivity limit, and old buttons cannot change newer progress. Completed lessons remain visible as you continue. The story flow is off by default.
+
+## Underware Badges
+
+A resolved duel, including practice, qualifies you for **Duelist** in the Underware community server. When a duel resolves, the bot attempts to grant it to eligible members of Underware, whichever server hosted the duel. Story tutorial completion or skipping after its mandatory first lesson also qualifies you when that feature is enabled.
+
+Run `/pistols verify` in Underware to recover a failed automatic grant, or claim the badge after joining or rejoining. Outside Underware, it reports eligibility and links to the official server when an invite is configured; it grants no roles in other servers. Badge delivery depends on the bot's role configuration.
+
+Server owners can also qualify for **Guild Owner** in Underware. Installation records the owner's qualification even if they have not joined Underware yet; joining later or verifying there can recover the role.
+
+## Sending Feedback
+
+Use `/pistols feedback category:<bug|suggestion|praise|other>` for a private feedback form, with an optional `attachment:` screenshot or recording on the command. The team receives your authored submission with Discord identity and server context. You can submit up to three times per hour.
+
+If the operator enables the optional attachment fallback, a submission without a file offers **Add a screenshot or recording**. Clicking it captures your next message with an attachment in that channel within five minutes and acknowledges it with ✅. An up-front command attachment works without this fallback. Staff may reply to your feedback by DM when a team inbox is configured; closed DMs can prevent delivery.
 
 ## Linking a Wallet
 
-You can link a Cartridge Controller wallet with `/login`, and check token balances with `/balance` (shows LORDS, FOOLS, FAME, and STRK for you or another linked player).
+You can link a Cartridge Controller wallet with `/pistols account link username:<your-username>`, and check token balances with `/pistols account balance` (shows LORDS, FOOLS, FAME, and STRK for you or another linked player).
 
-This is entirely optional. Duelling, picking cards, tracking stats, and queueing all work with zero wallet link. Link one only if you already have a Cartridge Controller account linked to pistols.gg and want your Discord balance check to work; you don't need it to play.
+This is entirely optional. Duelling, picking cards, tracking stats, and queueing all work with zero wallet link. Linking verifies that your Controller username is already connected to this same Discord account in Pistols; it does not create a wallet or an external link. Your own Not Linked balance response also offers a **Link wallet** button.
+
+Use `/pistols account unlink` to remove the bot's local mapping. This does not disconnect your external Cartridge/Pistols identity: balance lookup checks the external Discord-to-wallet link first, so that lookup can still succeed after local unlinking.
 
 ## Strategy
 

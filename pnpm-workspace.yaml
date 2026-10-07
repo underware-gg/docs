@@ -2,6 +2,10 @@
 savePrefix: ""
 frozenLockfile: true
 minimumReleaseAge: 10080
+# User-authorized security update; review: 2026-10-06-source-map-upgrade.md.
+# Exact version only; normal age eligibility: 2026-10-07T14:08:09.382Z UTC.
+minimumReleaseAgeExclude:
+  - source-map-js@1.2.2
 minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
 blockExoticSubdeps: true
@@ -16,8 +20,6 @@ strictStorePkgContentCheck: true
 # Keep local and CI installs on the reviewed toolchain.
 engineStrict: true
 packageManagerStrictVersion: true
-patchedDependencies:
-  image-size@2.0.2: patches/image-size@2.0.2.patch
 verifyDepsBeforeRun: error
 
 # Dependencies may execute install-time code only after explicit review.
@@ -30,3 +32,10 @@ allowBuilds:
 
 # Surface incompatible dependency combinations during installation.
 strictPeerDependencies: true
+
+# Reviewed fixes scoped to their introducing dependencies.
+overrides:
+  "vocs>image-size": 2.0.4
+  "remark-mdx-frontmatter>toml": 4.2.0
+  "@scalar/json-magic>undici": 7.29.1
+  source-map-js: 1.2.2

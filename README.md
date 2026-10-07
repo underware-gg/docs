@@ -37,10 +37,12 @@ and executable CI actions may change only with a completed record in
 candidate review, advisory assessment, provenance checks, and verification.
 
 Run the governed advisory gate with `corepack pnpm run deps:audit`. CI rejects
-every unreviewed finding; the two visible `image-size` advisories are accepted
-only for the exact locally patched version and are covered by timeout-based
-regression probes. See the current dependency-review record for the owner and
-re-review deadline.
+every advisory; there are no vulnerability allowances or local security patches.
+The exact release-age exemption for `source-map-js@1.2.2` was explicitly
+authorized for its reviewed upstream security fix. The global seven-day gate
+remains enabled. See the
+[source-map upgrade review](docs/dependency-reviews/2026-10-06-source-map-upgrade.md)
+for the authorization, verification, owner, and exemption cleanup date.
 
 ## Styling
 
