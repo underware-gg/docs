@@ -9,7 +9,7 @@ Invite the bot from [pistols.gg/discord](https://pistols.gg/discord). That page 
 
 The standard invite asks for four permissions. Keep all four in channels used for Classic duels or Gauntlet runs. Classic can continue without Read Message History with reduced message cleanup; Gauntlet requires it to use its original run channel.
 
-| Permission | Load-bearing | Without it |
+| Permission | Required? | Without it |
 |---|---|---|
 | View Channel | Yes | The bot can't see the channel, so it can't function in it. |
 | Send Messages | Yes | Public challenges, results and run views cannot be posted. |
@@ -37,7 +37,7 @@ Optional features have additional requirements. Private invitation threads need 
 
 **If animation edits keep triggering moderation,** turn it off or slow it down instead of fighting your moderation bot further: `/pistols-admin config animation:false` disables it outright, or `/pistols-admin config speed:compact` and `/pistols-admin config speed:minimal` cut down how often the message gets edited. See Tuning and Troubleshooting below.
 
-Test after changing anything: run `/pistols duel user opponent:@someone` and `/pistols duel public` before telling the rest of the server it's live.
+Test after changing anything: run `/pistols duel user opponent:@someone` and `/pistols duel public` before telling the rest of the server it's live. For Gauntlet, `/pistols gauntlet start` opens a preview; confirming starts a real run and posts its adventure card. Check that card's controls in the channel you intend players to use.
 
 
 ## Pick a Duel Channel
@@ -87,7 +87,7 @@ Private threads need **View Channel**, **Create Private Threads** and **Send Mes
 
 A Gauntlet run posts a public view in the server channel where the player confirms it. It stays bound to that channel and owner, even when the player uses another server. The Classic `duel_channel` setting does not relocate it.
 
-The original channel needs **View Channel**, **Embed Links**, **Read Message History** and **Send Messages**. Inside a thread, it needs **Send Messages in Threads** instead of ordinary Send Messages. Missing permissions pause gameplay while preserving progress. Restore access to the original channel; `/pistols gauntlet status` tells the owner where the saved run belongs. Spectators cannot play another person’s run.
+The original channel needs **View Channel**, **Embed Links**, **Read Message History** and **Send Messages**. Inside a thread, it needs **Send Messages in Threads** instead of ordinary Send Messages. Missing permissions block gameplay while preserving saved progress, but do not extend the inactivity deadline. Restore access to the original channel before that deadline; `/pistols gauntlet status` tells the owner where the saved run belongs. Spectators cannot play another person’s run.
 
 The server’s `enabled` setting applies to Gauntlet as well as Classic. A player has one active Gauntlet run across servers, with a separate fourteen-day inactivity deadline. Other command replies and inventory/history/reward views are private; the run view and global leaderboard are channel-visible. See [The Gauntlet](/pistols/discord-gauntlet) for the player guide.
 
@@ -111,7 +111,7 @@ All hub buttons are blocked while this server is disabled or the operator's glob
 
 ## Privacy and Feedback
 
-Most player controls reply through Discord's private ephemeral messages. Public challenges, animations, results, and some slash-command replies are visible in their channel; the [Command Reference](/pistols/discord-commands) lists visibility for each command.
+Most player controls reply with messages visible only to the person using them, also called ephemeral replies. These are different from DMs or private threads. Public challenges, animations, results, and some slash-command replies are visible in their channel; the [Command Reference](/pistols/discord-commands) lists visibility for each command.
 
 The bot:
 

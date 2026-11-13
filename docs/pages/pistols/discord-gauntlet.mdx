@@ -4,12 +4,14 @@ The road out of the Fool & Flintlock has thirteen opponents, twelve events and v
 
 No wallet is required. Gauntlet coins and Fame belong to the adventure; they are not wallet tokens, paid wagers or onchain season rewards.
 
+New to the bot? [Before You Start](/pistols/discord-bot#before-you-start) explains how to find and use its commands in Discord.
+
 > The Gauntlet shipped in bot v0.4.0. The core guide below covers that mode; [Upcoming Refinements](#upcoming-refinements) describes the changes in development for the next bot update. Your server may still show the released interface.
 
 ## Your First Run
 
 1. Run `/pistols gauntlet start` in a server channel where the bot can post. You receive a private preview of your starting character, any earned advancement and any next-run item.
-2. Confirm the start. You arrive at **The Fool & Flintlock** with a Rusty Flintlock and a purse. Starting health and wealth can change as you earn advancement.
+2. Confirm the start. You arrive at **The Fool & Flintlock** with a purse and your starting equipment. Your first run starts with a Rusty Flintlock; later runs may bring a chosen item from a previous success. Starting health and wealth can change as you earn advancement.
 3. Inspect the shop and your inventory before taking to the road. Your **Character** view explains your current attributes and equipment effects.
 4. Use the adventure card to choose a fight, explore an event, visit a shop or take an offered route home. Return to the same channel to keep playing.
 
@@ -23,21 +25,21 @@ A full run has thirteen opponent encounters, with the boss at the end and twelve
 
 Ordinary encounters can offer a duel, an attempt to run away, negotiation or a first-blood challenge. **Provoke**, when offered, brings out the opponent's stronger reserve equipment. Bosses do not offer ordinary negotiation or first-blood terms.
 
-Running away can expose you to a shot; it is not a safe extraction. An offered route home can also involve a hazard or another enemy. A successful early extraction counts as a return, but does not earn the boss-clear advancement.
+**Running away** escapes the current fight if you succeed, usually letting you continue along the road. It can expose you to a shot. **Extraction** means taking an offered route home to finish the run successfully; that route can also involve a hazard or another enemy. A successful early extraction counts as a return, but does not earn the boss-clear advancement. Retreating from the final boss ends the run without a successful return.
 
 ## Fighting an Opponent
 
-Gauntlet fights use turn-by-turn actions rather than Classic's fire/dodge pace cards. Your current card shows which skills and supplies are available.
+Gauntlet fights use turn-by-turn actions rather than Classic's fire/dodge pace cards. A **round**, also called an **exchange**, resolves your chosen move and the opponent's response. **HP** means health points: reaching zero normally ends your run. Wounds carry between encounters, so check your health before continuing. Your current card shows which skills and supplies are available.
 
 | Action | How to use it |
 | --- | --- |
 | **Shoot** | Fire your pistol using your current accuracy, damage and effects. |
-| **Steady Aim** | Prepare a stronger shot; being hit can break your preparation. |
+| **Steady Aim** | Prepare to shoot with better accuracy and critical-hit odds; being hit can break your preparation. |
 | **Taunt** | Rattle the opponent's morale and gain a weaker, fading defence. |
 | **Dodge** | Avoid an opponent's shot in that exchange and return fire with a normal shot roll. Lingering protection does not keep producing return shots. |
-| **Counter** | Interrupt an opponent's skill. Timing matters; see the upcoming change to active-skill targeting below. |
+| **Counter** | Try to interrupt an opponent's skill; a successful interruption as they activate it can steal its advantage. See the upcoming change to active-skill targeting below. |
 
-Skills have limited uses and active-state restrictions. The odds shown are broad guidance, not a promise about the opponent's next move.
+Dodge and Counter have limited uses per fight, spent even on a failed attempt. Steady Aim, Taunt and Dodge cannot be selected while their effect is already active. The card shows availability and odds; those odds do not promise the opponent's next move. A **critical** is an especially effective result, such as extra damage on a shot.
 
 Some wounded opponents try to flee. You may let them run for extra mercy Fame, take a shot, or risk lining up a finishing headshot. Mercy gives up that opponent's coins and equipment. Bosses do not flee.
 
@@ -49,7 +51,7 @@ Attributes help different parts of the adventure; none guarantees success.
 | --- | --- |
 | **Aim** | Shot accuracy and Steady Aim. |
 | **Nerve** | Shooting criticals, Taunt and bold choices. |
-| **Reflex** | Evasion, critical defence, Dodge, escape and initiative when both fighters shoot. |
+| **Reflex** | Evasion, critical defence, Dodge and escape; helps decide who shoots first when both fire in a first-blood exchange. |
 | **Grit** | Endurance and strength checks; each 8 total Grit adds 1 maximum HP. |
 | **Cunning** | Counter, negotiation, resale and clever choices; reduces some event damage. |
 | **Luck** | Skill criticals, clues and favourable opportunities, with a small chance of a fatal reprieve. Good fortune can bring harder pressure later. |
@@ -62,7 +64,7 @@ Equipment has named slots, including two ring positions and a codpiece. Your bag
 
 Armour can reduce ordinary shot damage, while critical bonus damage still gets through. Gear that changes maximum HP also adjusts your current HP to preserve your wounds. If removing a health bonus would leave you with no HP, heal first. Equipment cannot be changed during combat.
 
-You can use **one consumable per combat round**, then take your normal action if the fight continues. That quick use briefly worsens your aim and footing. Outside combat, healing poultices can restore health. Medical Bags are part of the upcoming refinements below.
+You can use **one consumable per combat round**, then take your normal action if the fight continues. That quick use briefly worsens your aim and footing. Open `/pistols gauntlet inventory` or `/pistols gauntlet use` to choose a supply and read its effect. **Clean Bandages** can restore health outside combat too. Medical Bags are part of the upcoming refinements below.
 
 - **Iron Firepot:** a grenade, available at the opening counter. It cannot be used in first-blood challenges.
 - **Scatter Charge:** makes the next shot more accurate, including return fire, with reduced, variable damage and no critical damage bonus.
@@ -73,19 +75,27 @@ Opponent supplies and equipment are real and finite too. A damaging shot or Coun
 
 ## First-Blood Challenges
 
-An ordinary opponent can fight to first blood for honour, coins or an item. These stakes use the run's Fame, coins and equipment, not wallet assets. Committing reserves your stake; the last reserved consumable cannot be spent before settlement, although surplus units in the stack remain usable.
+An ordinary opponent can fight to **first blood** for honour, coins or an item: the first wound decides the agreed stake instead of requiring a kill. These stakes use the run's Fame, coins and equipment, not wallet assets. Committing reserves your stake until the challenge is decided; the last reserved consumable cannot be spent before then, although surplus units in the stack remain usable.
 
 Losing or forfeiting a committed first-blood stake buys passage and leaves you with at least one HP. Abandoning or allowing the run to expire forfeits that stake and ends the run. The upcoming refinement to proposed terms and honour rematches is described below.
 
 ## Shops
 
-Shops sell equipment, supplies and a health service. Read the displayed price and item effects before buying. Saved stock stays the same when you reopen the shop; browsing it does not roll a fresh selection.
+Shops sell equipment, supplies and an **Endurance Lesson**, which raises both current and maximum HP for this run. It is separate from permanent attribute advancement. Buying a **Clean Bandage** applies it immediately if you are wounded; otherwise it goes into your inventory for later use. Read the displayed price and item effects before buying. Saved stock stays the same when you reopen the shop; browsing it does not roll a fresh selection.
 
 Later merchants guarantee an Uncommon pistol from encounter seven and a Rare pistol from encounter ten. Use `/pistols gauntlet sell` at a shop to inspect a named quote and sell one unit. Inventory controls let you compare, equip, use or discard what you own.
 
 ## Scores, History and Rewards
 
 Defeating the boss or successfully extracting brings the run home. On those successful returns, remaining coins convert to Fame one-for-one. Failed, abandoned and expired runs do not qualify for `/pistols gauntlet leaderboard`, which shows ten players' best successful-run Fame scores across all servers.
+
+| How the run ends | What you keep for the next run |
+| --- | --- |
+| Defeat the boss | A choice from the boss's worn loot, if available; a new highest-difficulty clear also earns advancement. |
+| Successfully take a route home | A choice of one item you own; no boss-clear advancement. |
+| Die, retreat from the boss, abandon or expire | No next-run item or new boss-clear advancement. Your completed record remains available in history. |
+
+Previously earned permanent bonuses and achievements remain yours after a failed run. Coins, equipment and temporary improvements belong to the run; apart from a selected next-run item, they do not become starting possessions in your next adventure.
 
 Use `/pistols gauntlet history` for completed runs and their chronicles, or `/pistols gauntlet chronicle` to download your latest completed adventure. The file is yours to share; downloading it does not publish it automatically.
 
@@ -102,6 +112,8 @@ Runs, inventory, progression and completed records survive bot restarts. Use `/p
 A run expires after **fourteen days without a successful gameplay action**. Reading status, opening inventory, comparing items or paging through a view does not renew that deadline. Check the saved deadline rather than assuming a read has kept the run alive.
 
 If the original channel is disabled, deleted or missing the bot's permissions, your saved progress is preserved while play is unavailable. Ask an admin to restore access, or use `/pistols gauntlet abandon` from another place the bot accepts commands if you want to end the run. Abandonment still respects server disable and maintenance pauses.
+
+Access problems and pauses do not extend the saved inactivity deadline. Restore access and make a successful gameplay action before that deadline if you want to continue the run.
 
 Gauntlet needs **View Channel**, **Embed Links**, **Read Message History**, and permission to send in its original channel, including **Send Messages in Threads** for a thread. The Classic duel-channel setting does not move or restrict Gauntlet runs. See [For Server Admins](/pistols/discord-admins#hosting-gauntlet-runs).
 

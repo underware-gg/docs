@@ -2,7 +2,7 @@
 
 Someone in your server insulted your honour. Or your cooking. Or your taste in music. There is exactly one civilised response: pistols at dawn. This page covers Classic duels with other players and the practice Imps, from your first challenge to reading your win-loss record.
 
-You do not need a wallet, a crypto account, or any setup at all. If you can type a slash command, you can duel. For quick access, `/duel user opponent:@someone`, `/duel public`, and `/duel bot` work exactly like their `/pistols duel` equivalents. Both paths share the same cooldown and server/channel restrictions.
+You do not need a wallet or a crypto account. Start in a server with the bot installed; [Before You Start](/pistols/discord-bot#before-you-start) explains how to use its slash commands. For quick access, `/duel user opponent:@someone`, `/duel public`, and `/duel bot` work exactly like their `/pistols duel` equivalents. Both paths share the same cooldown and server/channel restrictions.
 
 Want a solo adventure instead? Start with the [Gauntlet guide](/pistols/discord-gauntlet). Its equipment, coins and Fame belong to that mode; the four-card duels below are separate.
 
@@ -10,7 +10,7 @@ Want a solo adventure instead? Start with the [Gauntlet guide](/pistols/discord-
 
 Start with `/pistols tutorial`. By default, it opens a private welcome, a **Full rules** toggle, and a **Try it against the practice bot** button. Or run `/pistols menu` for private shortcuts to duel guidance, stats, history, inbox, balances, status, help, tutorial and Gauntlet guidance.
 
-For a warm-up, run `/pistols duel bot` in a server, browse the Imp cards and choose **Duel this Imp**. The Imp commits immediately; you choose and confirm your moves through the same Duelling Grounds panel used for player duels. If the server has a dedicated duel channel, start there. See [Practising with Imps](#practising-with-imps) for the roster and rewards.
+For a warm-up, run `/pistols duel bot` in a server, browse the Imp cards and choose **Duel this Imp**. An Imp is a computer-controlled practice opponent. It locks its moves immediately; you choose and confirm yours through **Duelling Grounds**, the bot's duel-control panel. If the server has a dedicated duel channel, start there. See [Practising with Imps](#practising-with-imps) for the roster and rewards.
 
 Ready to challenge a person?
 
@@ -20,6 +20,8 @@ Ready to challenge a person?
 4. Choose a pistol archetype to generate your four choices, or choose Manual and pick fire, dodge, tactics and blades yourself.
 5. Confirm your moves. An accepted, unscheduled duel resolves automatically once both players have committed. A [scheduled callout](#callouts-and-settlement) waits until its settlement time.
 6. With animation enabled, either duelist can choose **Watch Duel** once the saved result is ready, or wait about 15 seconds for it to play automatically. With animation disabled, the result posts directly.
+
+Your four choices are your **hand**. To **commit** a hand means to confirm and lock those choices; you cannot change them afterwards. An automatic pistol archetype fills in the choices for you, but you still confirm them. [Choosing Your Cards](#choosing-your-cards) explains each choice.
 
 Use `/pistols duel public` if you would rather invite the channel to take its best shot. The first valid acceptance takes that open challenge.
 
@@ -75,7 +77,7 @@ Only one outstanding duel per pair is allowed in a server. Finish or close it be
 
 ## Callouts and Settlement
 
-On an unanswered targeted invitation, the challenger can choose **Call Them Out** once to post the grievance publicly. Leave the settlement field blank for an unscheduled callout, or set a date and time with an explicit UTC offset, for example `2026-11-20T20:00+11:00`. The time must be at least 24 hours after you issue the callout and cannot be changed once posted.
+On an unanswered targeted invitation, the challenger can choose **Call Them Out** once to post the grievance publicly. **Settlement** is the appointed time when the bot checks readiness and resolves or cancels that duel. Leave the settlement field blank for an unscheduled callout, or set a date and time with an explicit UTC offset, for example `2026-11-20T20:00+11:00`: 8 pm on 20 November 2026 at UTC+11. Replace it with your intended future date, time and offset; the example does not mean the server's local time. The time must be at least 24 hours after you issue the callout and cannot be changed once posted.
 
 A scheduled callout binds the recipient immediately. They must both **accept and confirm their moves before settlement**. The challenger must have confirmed their moves too. When both are ready, the duel waits for the appointed time, then resolves. Saved appointments and moves survive restarts; the bot processes an overdue settlement when it recovers.
 
@@ -105,6 +107,8 @@ You're choosing four cards in total:
 - **Dodge**: the pace at which you duck. This is the bit that trips people up: a dodge only cancels an incoming shot if it exactly matches the pace your opponent fired at. Picking the same pace for both isn't allowed; in Manual mode you'll get a warning and be asked to repick.
 - **Tactics**: a card that shapes your stats for the whole duel.
 - **Blades**: a card that modifies pistol stats and determines your move in the melee phase if both duelists survive the shots.
+
+Each duelist starts with 3 health. The pistol exchange advances through up to ten **paces**, revealing an **Environment** card at each pace. These cards can change hit chance, damage or tactics effects before you fire; choosing a later pace does not by itself guarantee a more accurate shot. If both duelists survive their shots, their Blades cards resolve close combat. The [Strategy Guide](/pistols/strategy-guide) explains the individual Tactics and Blades cards.
 
 You have two ways to fill these in:
 
@@ -139,6 +143,13 @@ The first play is public; Replay is private. Combat Log and Replay are rebuilt f
 ### Reading the Animation
 
 The strip below the duelists shows environment cards drawn so far. The current card is marked `>`; `..` marks cards not yet drawn. The line below the canvas gives the exact changes to each duelist's hit chance and damage.
+
+| Strip code | Meaning |
+| --- | --- |
+| `D+`, `D-`, `D2` | Damage increase, decrease or double increase. |
+| `H+`, `H-`, `H2` | Hit-chance increase, decrease or double increase. |
+| `**`, `xx` | All Shots Hit, All Shots Miss. |
+| `T2`, `T0` | Tactics modifiers doubled or nullified. |
 
 A 🔒 beside hit chance marks an active **All Shots Hit** or **All Shots Miss** override. Later chance cards can have no effect while that override remains active; the log explains why. An ordinary chance cap has no lock and can still change. A perfectly timed dodge can evade even a 100% shot. Older saved duels may give a shorter explanation where that detail was not recorded.
 
@@ -185,6 +196,6 @@ Use `/pistols account unlink` to remove the bot's local mapping. This does not d
 
 ## Strategy
 
-Ready to get good at this? The [Strategy Guide](/pistols/strategy-guide) covers how to think about pace choice, card synergies, and reading your opponent.
+Ready to get good at this? The [Strategy Guide](/pistols/strategy-guide) covers how to think about pace choice, card synergies, and reading your opponent. Its archetype pace bands describe firing habits; the bot's automatic pistols use the wider, weighted ranges listed under [Choosing Your Cards](#choosing-your-cards).
 
 For the exact syntax of every command mentioned here, see the [Command Reference](/pistols/discord-commands).
