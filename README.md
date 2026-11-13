@@ -38,11 +38,12 @@ candidate review, advisory assessment, provenance checks, and verification.
 
 Run the governed advisory gate with `corepack pnpm run deps:audit`. CI rejects
 every advisory; there are no vulnerability allowances or local security patches.
-The exact release-age exemption for `source-map-js@1.2.2` was explicitly
-authorized for its reviewed upstream security fix. The global seven-day gate
-remains enabled. See the
-[source-map upgrade review](docs/dependency-reviews/2026-10-06-source-map-upgrade.md)
-for the authorization, verification, owner, and exemption cleanup date.
+The Node.js `24.22.3` security baseline has an explicitly authorized, exact-
+version release-age exemption. Its official release tag, signed checksums,
+archive hashes and macOS code signature were verified before adoption. The
+global seven-day npm gate remains enabled with no age exclusions. See the
+[Node security baseline review](docs/dependency-reviews/2026-11-13-node-security-baseline.md)
+for the authorization, evidence, owner and dated re-review.
 
 ## Styling
 

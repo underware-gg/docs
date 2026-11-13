@@ -2,10 +2,6 @@
 savePrefix: ""
 frozenLockfile: true
 minimumReleaseAge: 10080
-# User-authorized security update; review: 2026-10-06-source-map-upgrade.md.
-# Exact version only; normal age eligibility: 2026-10-07T14:08:09.382Z UTC.
-minimumReleaseAgeExclude:
-  - source-map-js@1.2.2
 minimumReleaseAgeStrict: true
 minimumReleaseAgeIgnoreMissingTime: false
 blockExoticSubdeps: true
@@ -36,6 +32,6 @@ strictPeerDependencies: true
 # Reviewed fixes scoped to their introducing dependencies.
 overrides:
   "vocs>image-size": 2.0.4
-  "remark-mdx-frontmatter>toml": 4.2.0
-  "@scalar/json-magic>undici": 7.29.1
+  "remark-mdx-frontmatter>toml": 5.0.1
+  "@scalar/json-magic>undici": 7.30.2
   source-map-js: 1.2.2
