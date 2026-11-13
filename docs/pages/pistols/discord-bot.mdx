@@ -1,29 +1,40 @@
 # Discord Bot
 
-Pistols at Dawn duels, playable straight inside a Discord channel: no wallet, no install, no leaving the conversation. You pick your moves through the bot's menus and watch the result play out as an ASCII animation. Challenges and results post publicly by default, because duels are meant to be watched, not hidden away in a DM.
+Pistols at Dawn, playable inside Discord: challenge another player to a Classic duel, practise against an Imp, or take a solo run through [the Gauntlet](/pistols/discord-gauntlet). No wallet, install or trip out of the conversation required.
 
-This page covers what the bot is and how its duels resolve. For setup, play instructions, and commands, jump straight to the pages below.
+Player duels use private move controls and public results. Targeted invitations live in your inbox and try private delivery first; open challenges, public callouts and accepted matches give the rest of the channel something to watch. Gauntlet runs have their own public adventure card, with private inventory and character controls.
 
-## Classic Mode
+## Pick Your Fight
 
-The bot runs its own rule set, called Classic Mode. Every duelist starts with 3 health, and a duel walks through ten paces: each side secretly chooses a pace to fire on, a pace to dodge on, one tactics card, and one blades card. Land your dodge on the exact pace your opponent fires and the shot is negated; otherwise a hit chance roll decides whether it lands.
+- **Another player:** `/duel user opponent:@someone` opens the challenge setup. You can answer and complete different invitations independently through `/pistols inbox`.
+- **An open challenge:** `/duel public` invites the channel; the first valid acceptance takes the duel.
+- **An Imp:** `/duel bot` opens a private practice-opponent picker. Browse the cards and choose **Duel this Imp** when you're ready.
+- **The road:** `/pistols gauntlet start` previews a solo adventure. Confirm to take a seat at the Fool & Flintlock, or locate your existing run.
 
-Classic Mode plays by the same rules as the onchain game: the same cards, 34-card Environment deck, starting stats, dodges, blades matchups, and winning conditions. Both versions begin with 3 health, a flat 50% base hit chance at every pace, and 1 base damage. A dodge only works on the exact pace your opponent fires. If you know how to play one version, you know how to play the other.
+Start with `/pistols tutorial` for private onboarding, or `/pistols menu` for guidance and shortcuts. Operators can enable an optional three-lesson story tutorial; its NPC encounters are scripted teaching exercises, while ordinary practice uses normal Classic rolls.
 
-What differs sits outside the duel itself. Bot duels do not touch your wallet, stake FAME, or affect onchain seasons and rankings. Your choices remain private from your opponent, but Discord and the bot protect them and roll the cards and shots rather than the onchain game proving everything publicly. Same game, lighter guarantees.
+See [For Players](/pistols/discord-players) for Classic duels, [The Gauntlet](/pistols/discord-gauntlet) for solo adventures, [For Server Admins](/pistols/discord-admins) for setup, and the [Command Reference](/pistols/discord-commands) for exact syntax.
 
-## Getting Started
+## Classic Duels
 
-Playing? Run `/pistols tutorial` for private onboarding, or `/pistols menu` for shortcuts. `/duel bot` (also `/pistols duel bot`) starts a practice duel with normal Classic rolls: no acceptance step, no effect on your win/loss record, and no wallet needed. The duel and result are public. See [For Players](/pistols/discord-players) for the full walkthrough.
+Each duelist starts with 3 health and privately chooses a fire pace, a dodge pace, one tactics card and one blades card. The pistol exchange runs through ten paces. Base hit chance is 50% and base damage is 1, before cards and the Environment change the odds. A dodge cancels a shot only when it matches the opponent's exact fire pace; surviving duelists may settle the matter with blades.
 
-Operators can optionally enable a three-lesson story tutorial. Those NPC duels are scripted teaching exercises; the default tutorial instead offers a welcome, full rules, and a practice button.
+You can pick all four choices manually or let an unlocked pistol archetype choose them. Your opponent cannot see your committed hand before resolution. An unscheduled duel resolves once it is accepted and both players have locked their moves. A scheduled public callout waits for its settlement time, even if both hands are ready earlier.
 
-Setting the bot up on your server? Start at [For Server Admins](/pistols/discord-admins).
+The animation plays the saved result step by step; watching or replaying it does not reroll the fight. The first animation is public. **Replay** and **Combat Log** open privately and remain available while the saved combat result exists.
 
-Looking for exact command syntax and options? See the [Command Reference](/pistols/discord-commands).
+Discord duels do not stake wallet FAME or affect onchain seasons and rankings. Discord and the bot protect your choices and perform the random rolls; these are separate from the onchain game's public verification.
 
-## How It Works
+## The Gauntlet
 
-Each player picks their four cards through a private menu that only they can see. The bot keeps those choices hidden from the opponent until both sides have locked in, then decides the full duel using its own random shuffle and hit rolls. Nothing is decided later.
+The Gauntlet is a solo adventure through road events, shops and thirteen opponent encounters, ending with a boss. Pick your actions each exchange, manage equipment and supplies, and decide when to risk another fight or take an offered way home. Its **Shoot**, **Steady Aim**, **Taunt**, **Dodge** and **Counter** controls are separate from Classic's four-card duel picker.
 
-The animation shows that already-decided duel step by step; it does not reroll or change the outcome. Active duels, player stats, queues, unfinished move choices, and server settings survive a bot restart. Combat Log and Replay are rebuilt from the saved combat result after restarts, with no access timeout while that result remains available. The first animation is public; Replay is private to the viewer and leaves the public result unchanged. Optional story tutorial progress also survives restarts.
+Runs, inventory and progress survive restarts. You have one active run across servers, tied to its original channel. Gauntlet coins and Fame are adventure scores, separate from wallet tokens and Classic records.
+
+Gauntlet shipped in bot v0.4.0. The [Gauntlet guide](/pistols/discord-gauntlet) also marks the upcoming refinements, including injuries, pistol improvements and new next-run controls; availability depends on your server's bot version.
+
+## Saved Progress
+
+Classic invitations, accepted duels and unfinished choices survive bot restarts. Use `/pistols inbox` to find outstanding matches, including invitations whose notification could not be delivered. Classic has no automatic inactivity expiry; a scheduled callout's settlement deadline still applies.
+
+Gauntlet has a separate fourteen-day inactivity limit. A successful gameplay action renews it; looking at status or inventory does not. See [Saving and Resuming](/pistols/discord-gauntlet#saving-and-resuming) for the channel and recovery rules.

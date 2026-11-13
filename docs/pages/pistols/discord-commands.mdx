@@ -1,6 +1,6 @@
 # Command Reference
 
-Use [Player Commands](#player-commands) for duelling, onboarding, stats, and accounts, or [Admin Commands](#admin-commands) for server configuration and metrics. This page covers their options, reply visibility, and cooldowns. For the surrounding workflows, see [For Players](/pistols/discord-players) and [For Server Admins](/pistols/discord-admins).
+Use [Player Commands](#player-commands) for Classic duels, onboarding, stats and accounts, [Gauntlet Commands](#gauntlet-commands) for solo adventures, or [Admin Commands](#admin-commands) for server settings and metrics. For the surrounding workflows, see [For Players](/pistols/discord-players), [The Gauntlet](/pistols/discord-gauntlet) and [For Server Admins](/pistols/discord-admins).
 
 Only commands that perform an action are listed. Redirect-only legacy commands are omitted. Root `/verify` is not registered; use `/pistols verify`.
 
@@ -11,7 +11,7 @@ These are the three top-level command families. Choose a subcommand beneath each
 | Root | Who it's for | What it contains |
 | --- | --- | --- |
 | [`/duel`](#duel) | Players | Quick access to targeted challenges, open challenges, and practice duels. |
-| [`/pistols`](#pistols) | Players | Duels, menu, tutorial, stats, history, queue, badges, accounts, status, and feedback. |
+| [`/pistols`](#pistols) | Players | Classic duels, Gauntlet adventures, inbox, player and duelist browsers, tutorial, stats, accounts and feedback. |
 | [`/pistols-admin`](#admin-commands) | Server admins | Configuration and usage metrics; requires Manage Server. |
 
 ## Player Commands
@@ -24,13 +24,13 @@ Player commands are available through `/duel` and `/pistols`. Server and channel
 | --- | --- | --- |
 | `/duel user` | `opponent` (user, required) | Challenges a specific player. |
 | `/duel public` | none | Posts an open challenge. |
-| `/duel bot` | none | Starts a practice duel against the bot. |
+| `/duel bot` | none | Opens the Imp picker for a practice duel. |
 
 These are permanent, functional aliases of `/pistols duel user`, `/pistols duel public`, and `/pistols duel bot`. They run the same flows with identical options and permissions. Both paths share the 5-second per-user duel cooldown, configured duel-channel restriction, and server-disable and maintenance gates.
 
 **Syntax:** `/duel user opponent:<user>`, `/duel public`, or `/duel bot`.
 
-**Reply visibility:** Private setup and move choices; public duel and result. For the full behavior, see [Targeted and Open Duels](#targeted-and-open-duels) and [Practice Duel](#practice-duel).
+**Reply visibility:** Private setup and move choices. Targeted invitations prefer private delivery; accepted matches and results are public. For the full behaviour, see [Targeted and Open Duels](#targeted-and-open-duels) and [Practice Duel](#practice-duel).
 
 ### /pistols
 
@@ -41,10 +41,13 @@ These are permanent, functional aliases of `/pistols duel user`, `/pistols duel 
 | `/pistols tutorial` | none | Opens onboarding, rules, and practice; optionally the story tutorial. |
 | `/pistols duel user` | `opponent` (user, required) | Challenges a specific player. |
 | `/pistols duel public` | none | Posts an open challenge. |
-| `/pistols duel bot` | none | Starts a practice duel against the bot. |
-| `/pistols stats` | none | Shows your win/loss/draw record and streaks. |
-| `/pistols history` | none | Lists your active, queued, and recent duels. |
-| `/pistols queue` | none | Lists your queued duels. |
+| `/pistols duel bot` | none | Opens the Imp picker for a practice duel. |
+| `/pistols stats` | none | Shows your win/loss/draw record, streaks and Imp trophies. |
+| `/pistols history` | none | Shows outstanding and recent duels. |
+| `/pistols inbox` | none | Privately lists all outstanding invitations and accepted duels, oldest first. |
+| `/pistols queue` | none | Opens the same durable inbox. |
+| `/pistols players` | none | Privately browses server players, public activity and challenge controls. |
+| `/pistols duelists` | none | Privately browses 96 cards across five collections. |
 | `/pistols verify` | none | Claims eligible recognition roles in Underware. |
 | `/pistols account link` | `username` (string, required) | Syncs an existing Cartridge Controller/Discord link. |
 | `/pistols account balance` | `user` (user, optional) | Shows token balances for yourself or another linked player. |
@@ -58,7 +61,7 @@ These are permanent, functional aliases of `/pistols duel user`, `/pistols duel 
 
 Help explains Classic duels, the four move choices, pistol archetypes, and commands. Its slash-command reply is public.
 
-Menu opens a private panel with buttons for Duel, Stats, History, Queue, Balance, Server Status, Help, and Tutorial. Duel shows how to start a challenge; it does not immediately create one. Results opened through the menu stay private, including information that the corresponding slash command would post publicly.
+Menu opens a private panel with Duel, Stats, History, Inbox, Tutorial, Balance, Server Status, Gauntlet and Help buttons. Duel and Gauntlet explain how to start those activities. Information opened through the menu stays private, including information that the corresponding slash command would post publicly.
 
 **Cooldown:** None.
 
@@ -78,13 +81,19 @@ Completed lessons remain visible as you continue. The story flow is off by defau
 
 **Syntax:** `/pistols duel user opponent:<user>` or `/pistols duel public`
 
-Both open a private premise picker. Selecting a themed reason needs no extra form. Custom requires text, up to 80 characters. Submitting posts a public challenge: targeted challenges name and ping the opponent; open challenges let an eligible, free player other than the challenger accept.
+Both open a private premise picker. Selecting a themed reason needs no extra form; Custom requires text, up to 80 characters. The challenger’s private confirmation offers **State your grievance** for optional detail while the challenge awaits a response. A blank submission changes nothing.
 
-For immediately posted challenges, the private confirmation offers **State your grievance** to add optional detail while the challenge awaits a response. A blank submission changes nothing. Queued targeted challenges do not offer this button.
+A targeted challenge enters both players’ durable inboxes. Notification delivery tries enabled DMs, then an enabled private thread, then a public challenge. Private threads include the recipient and bot; moderators can also see them. Closed DMs do not remove the invitation: use `/pistols inbox`. Another outstanding challenge between the same pair reopens that duel instead of creating a duplicate.
 
-Duel commands must run inside a server, in its configured duel channel when one is set. Targeted challenges can queue while either player is busy. Open challenges do not queue. The **To the Duelling Grounds** button opens private controls suited to your role in the duel, or a status panel for spectators.
+An open challenge posts publicly; the first valid accepter other than the challenger takes it. You can have one unanswered open challenge per server. Other unfinished Classic duels do not reserve either player or put a new targeted invitation in a waiting queue.
 
-**Reply visibility:** Private picker and confirmation; public challenge and result.
+Duel commands require a server and its configured duel channel when one is set. **To the Duelling Grounds** opens private controls suited to your role, or a status panel for spectators. Invitations and accepted Classic duels have no inactivity expiry.
+
+The challenger can choose **Call Them Out** once to announce a targeted challenge publicly. Optional settlement needs an explicit timezone, for example `2026-11-20T20:00+11:00`, and must be at least 24 hours after the callout is issued. The deadline is fixed when posted and applies even before acceptance. Leave it blank for an indefinite callout.
+
+Unscheduled duels resolve after acceptance and both hands are committed. Scheduled duels hold the hands until settlement. Missing acceptance or moves then cancels the duel and publicly shames every unready participant. Rejection and withdrawal can also carry public shame; these social outcomes do not award combat wins or pistol unlocks. See [For Players](/pistols/discord-players) for the full callout, settlement and spectator prediction flow.
+
+**Reply visibility:** Private picker, confirmation and inbox; private notifications when available; public open challenges, callouts, accepted matches and results.
 
 **Cooldown:** 5 seconds per user, shared across all three variants and both `/duel` and `/pistols duel` paths.
 
@@ -92,25 +101,35 @@ Duel commands must run inside a server, in its configured duel channel when one 
 
 **Syntax:** `/pistols duel bot`
 
-Starts a Classic duel against a practice bot inside a server. There is no acceptance step or premise picker: the bot commits immediately, and you choose and confirm your moves through the private Duelling Grounds panel. Normal duel availability and channel restrictions still apply.
+Opens a private Imp card picker inside a server. Browse with **Previous** and **Next**, then choose **Duel this Imp**. It starts on Nasty Imp; Veteran unlocks after your first Imp victory. Once the duel starts, the Imp commits immediately and you choose your moves through the private Duelling Grounds panel. There is no premise picker or acceptance step. Normal duel channel and server restrictions apply.
 
-The result does not affect your win/loss record. A resolved practice duel advances normal pistol unlocks and counts toward the Duelist badge. Replay opens a private animation for the viewer, leaving the public result unchanged; Replay and Combat Log have no access timeout while the saved combat result is available.
+The result does not affect your win/loss record. A resolved practice duel advances normal pistol unlocks and counts toward the Duelist badge. Imp victories fill four trophy slots under `/pistols stats`, shared across servers. Replay opens a private animation; Replay and Combat Log remain available while the saved result exists. The tutorial’s practice button uses a random eligible Imp rather than this picker.
 
 **Reply visibility:** Private confirmation and move choices; public duel and result.
 
 **Cooldown:** The shared 5-second duel cooldown, including `/duel bot`.
 
-#### Stats, History, and Queue
+#### Stats, History and Inbox
 
-**Syntax:** `/pistols stats`, `/pistols history`, or `/pistols queue`
+**Syntax:** `/pistols stats`, `/pistols history`, `/pistols inbox` or `/pistols queue`
 
-- **Stats:** total wins, losses, draws, win rate, and current/best streak. The reply is public when you have a stats record; the no-history prompt is private.
-- **History:** active and queued duels, including pre-commit status, followed by your last 10 resolved duels. In a server, results are scoped to that server. The reply is private.
-- **Queue:** your queued duels in this server, with opponent, premise, age, expiry, and waiting/next status. The reply is private.
+- **Stats:** wins, losses, draws, win rate, current/best streak and four Imp trophy slots. The reply is public when you have a record or trophies; the no-history prompt is private.
+- **History:** a bounded summary of outstanding duels and your last 10 resolved duels. In a server, results are scoped to that server. The reply is private.
+- **Inbox:** all outstanding invitations and accepted duels, oldest first, with pagination and private controls. You can answer or complete different duels in any order. `/pistols queue` opens this same inbox.
 
-Queued Classic move selection is optional. Target pre-commit also records acceptance; without it, the target still needs to accept after the queued challenge activates. Draft choices persist through queue activation and bot restarts until you commit or the duel closes. An open picker follows the same duel when it activates; stale controls cannot replace already locked moves.
+Draft choices survive restarts until you commit or the duel closes. Committed moves remain secret and locked. Use the inbox to recover an invitation when notification delivery fails.
 
 **Cooldown:** None.
+
+#### Player and Duelist Browsers
+
+**Syntax:** `/pistols players` or `/pistols duelists`
+
+**Players** privately browses activity in the current server. Search a member, change sorting, replay a recent Classic duel or open the standard challenge picker. Private unanswered invitations are excluded from public activity. Challenges still honour the configured duel channel.
+
+**Duelists** privately browses 96 cards across Imps, Characters, Genesis, Legends and Pirates. Change collection with the menu and page through the cards. Browsing a card does not start a duel or require you to own it.
+
+**Reply visibility:** Private. Players requires a server. **Cooldown:** None.
 
 #### Verify
 
@@ -171,6 +190,36 @@ When the bot has a configured team feedback inbox, staff can reply to the submis
 
 **Rate limit:** 3 submissions per user per hour.
 
+## Gauntlet Commands
+
+Solo adventures use `/pistols gauntlet`. For the full run, combat and progression guide, see [The Gauntlet](/pistols/discord-gauntlet).
+
+Start in an enabled server channel where the bot can post the public run view. The bot needs View Channel, Embed Links, Read Message History and Send Messages there, or Send Messages in Threads in a thread. One active run per player is shared across servers. Gameplay and item changes belong to the owner and original run channel; losing access preserves progress. The Classic `duel_channel` setting does not move or restrict a Gauntlet run.
+
+| Command | Arguments | What it does |
+| --- | --- | --- |
+| `/pistols gauntlet start` | Optional `advancement`, `easy_road`, `skip_reward`; see below | Previews next-run choices, then asks for confirmation. Resumes an active run instead of replacing it. |
+| `/pistols gauntlet status` | none | Shows your saved run and its original channel. |
+| `/pistols gauntlet inventory` | none | Shows equipment, bag and consumable controls, or your pending next-run reward. |
+| `/pistols gauntlet equip` | none | Opens a named picker for owned equipment. |
+| `/pistols gauntlet unequip` | Required `slot`; see below | Moves equipped gear into your bag. |
+| `/pistols gauntlet use` | none | Opens a named consumable picker with its effect and use restrictions. |
+| `/pistols gauntlet discard` | none | Opens a named picker for an owned item to discard. |
+| `/pistols gauntlet sell` | none | Shows named sale quotes; selling requires a shop. |
+| `/pistols gauntlet rewards` | none | Inspects next-run item choices and permanent Gauntlet achievements. |
+| `/pistols gauntlet history` | none | Pages completed runs and their chronicle downloads. |
+| `/pistols gauntlet leaderboard` | none | Shows the global top ten best successful-run Fame scores. |
+| `/pistols gauntlet chronicle` | none | Downloads your latest completed adventure as a shareable text file. |
+| `/pistols gauntlet abandon` | none | Ends your active run; committed first-blood stakes are forfeited. |
+
+**Start options:** `advancement:<aim|nerve|reflex|grit|cunning|luck>` chooses an earned advancement; `easy_road:<true|false>` selects the easier difficulty; `skip_reward:<true|false>` explicitly leaves a pending next-run item behind. All are optional. Review the preview before confirming.
+
+**Unequip slots:** `head`, `chest`, `gloves`, `boots`, `belt`, `weapon`, `necklace`, `ring`, `ring2` or `codpiece`. The other item commands use named pickers rather than an item argument.
+
+**Reply visibility:** The run view and leaderboard are channel-visible. Other command replies, inventory, history, rewards and downloads are private. Spectators cannot change someone else’s run. Fame and coins belong to the run, separate from wallet tokens. Inactivity ends a run after fourteen days; status shows the saved deadline. Abandoning does not require access to the original run channel.
+
+**Cooldown:** None. The five-second duel cooldown does not apply to Gauntlet commands.
+
 ## Admin Commands
 
 Server administration uses `/pistols-admin`. These commands require **Manage Server** (Discord's `Manage Guild` permission) and only work inside a server. Both reply privately and have no command cooldown.
@@ -178,28 +227,31 @@ Server administration uses `/pistols-admin`. These commands require **Manage Ser
 | Command | Arguments | What it does |
 | --- | --- | --- |
 | `/pistols-admin config` | All options optional; see below | Views or changes server configuration and the control-room hub. |
-| `/pistols-admin metrics` | `period`, `global` (both optional) | Shows usage metrics for this server or an authorized cross-server aggregate. |
+| `/pistols-admin metrics` | `period`, `global` (both optional) | Shows usage metrics for this server or an authorised cross-server aggregate. |
 
 
 ### Configuration
 
-**Syntax:** `/pistols-admin config [duel_channel:<channel>] [animation:<true|false>] [speed:<normal|compact|minimal>] [accept_timeout:<minutes>] [enabled:<true|false>] [hub_channel:<channel>] [hub_action:<refresh|remove>]`
+**Syntax:** `/pistols-admin config [duel_channel:<channel>] [animation:<true|false>] [speed:<normal|compact|minimal>] [duel_dms:<true|false>] [duel_threads:<true|false>] [enabled:<true|false>] [hub_channel:<channel>] [hub_action:<refresh|remove>]`
 
 All options are optional. With no options, shows the current settings and re-checks the configured duel channel's permissions and existence.
 
-| Option | Type | Behavior |
+| Option | Type | Behaviour |
 | --- | --- | --- |
-| `duel_channel` | Text channel | Restricts duel commands to that channel; warns about missing bot permissions. |
+| `duel_channel` | Text channel | Restricts Classic duel commands to that channel; warns about missing bot permissions. |
 | `animation` | Boolean | Enables or disables live ASCII animation. |
 | `speed` | String choice | `normal`, `compact`, or `minimal`. |
-| `accept_timeout` | Integer minutes | `0` clears the override; otherwise 5–2880. Values 1–4 are rejected. The usual default is 5 minutes. |
+| `duel_dms` | Boolean, default `true` | Tries DM notifications for targeted invitations. |
+| `duel_threads` | Boolean, default `true` | Tries private-thread notifications when DMs are disabled or unavailable. |
 | `enabled` | Boolean | Enables/disables interactions in this server; config remains reachable to re-enable it. |
 | `hub_channel` | Text channel | Posts and saves a new control-room panel, then attempts to pin it. Old panels and pins remain. |
 | `hub_action` | String choice | `refresh` updates the saved panel; `remove` forgets its configuration and leaves the message/pin. |
 
 Do not combine `hub_channel` and `hub_action`: the whole request is rejected before any settings change. A refresh only publishes a replacement if no message ID is saved or Discord confirms the saved message was deleted. Permission or network failures do not create another panel. Failed pinning does not invalidate a saved hub.
 
-See [Control-Room Hub](/pistols/discord-admins#control-room-hub) for permissions, buttons, and cleanup.
+Classic invitations and accepted duels have no inactivity expiry. The former `accept_timeout` option is removed; only a scheduled callout has a settlement deadline.
+
+See [Duel Notifications](/pistols/discord-admins#duel-notifications) for fallback and thread permissions, and [Control-Room Hub](/pistols/discord-admins#control-room-hub) for hub buttons and cleanup.
 
 ### Metrics
 

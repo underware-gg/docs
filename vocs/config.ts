@@ -85,6 +85,10 @@ export default defineConfig({
               link: '/pistols/discord-players',
             },
             {
+              text: 'The Gauntlet',
+              link: '/pistols/discord-gauntlet',
+            },
+            {
               text: 'For Server Admins',
               link: '/pistols/discord-admins',
             },
