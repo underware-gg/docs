@@ -18,7 +18,7 @@ The standard invite asks for four permissions. Keep all four in channels used fo
 
 View Channel, Send Messages and Embed Links allow the bot to post its one-time welcome. `/pistols-admin config duel_channel:#channel` checks all four in the Classic duel channel and reports missing permissions. Channel overrides can remove permissions that the server-wide bot role still has.
 
-Slash-command replies use Discord interactions, so the bot may still answer commands when it cannot send normal channel messages. Targeted invitations may remain available through the inbox and private notification routes, but public challenges, results and Gauntlet run views still need channel access. Restore those permissions before wider play.
+Slash-command replies use Discord interactions, so the bot may still answer commands when it cannot send normal channel messages. Targeted invitations may remain available through the inbox and private notification routes, but public challenges and results still need channel access. Gauntlet gameplay also requires access to its original channel, including when play uses private replies. Restore those permissions before wider play.
 
 Read Message History supports fetching earlier messages, including control-room refresh. Classic configuration checks report its absence as degraded. Gauntlet needs it for gameplay in the original run channel. Saved progress is preserved while permissions are restored.
 
@@ -37,7 +37,7 @@ Optional features have additional requirements. Private invitation threads need 
 
 **If animation edits keep triggering moderation,** turn it off or slow it down instead of fighting your moderation bot further: `/pistols-admin config animation:false` disables it outright, or `/pistols-admin config speed:compact` and `/pistols-admin config speed:minimal` cut down how often the message gets edited. See Tuning and Troubleshooting below.
 
-Test after changing anything: run `/pistols duel user opponent:@someone` and `/pistols duel public` before telling the rest of the server it's live. For Gauntlet, `/pistols gauntlet start` opens a preview; confirming starts a real run and posts its adventure card. Check that card's controls in the channel you intend players to use.
+Test after changing anything: run `/pistols duel user opponent:@someone` and `/pistols duel public` before telling the rest of the server it's live. For Gauntlet, `/pistols gauntlet start` opens a preview; confirming starts a real run. The [command navigation preview](/pistols/discord-commands#upcoming-gauntlet-command-structure) replaces this with `/gauntlet play` or `/pistols gauntlet play`. Check the adventure controls in the channel you intend players to use; v0.4.0 posts a public run card, while the upcoming update keeps play private and posts the completed result publicly.
 
 
 ## Pick a Duel Channel
@@ -85,11 +85,11 @@ Private threads need **View Channel**, **Create Private Threads** and **Send Mes
 
 ## Hosting Gauntlet Runs
 
-A Gauntlet run posts a public view in the server channel where the player confirms it. It stays bound to that channel and owner, even when the player uses another server. The Classic `duel_channel` setting does not relocate it.
+A Gauntlet run stays bound to the server channel where the player confirms it and to its owner, even when the player uses another server. The Classic `duel_channel` setting does not relocate it. In v0.4.0, the run view is public. The upcoming update on the bot's `next` branch moves play into private owner replies and publishes one public result when the whole run ends. **View adventure** lets anyone in that original channel open a read-only private overview and download the chronicle; old public controls open fresh private replies.
 
 The original channel needs **View Channel**, **Embed Links**, **Read Message History** and **Send Messages**. Inside a thread, it needs **Send Messages in Threads** instead of ordinary Send Messages. Missing permissions block gameplay while preserving saved progress, but do not extend the inactivity deadline. Restore access to the original channel before that deadline; `/pistols gauntlet status` tells the owner where the saved run belongs. Spectators cannot play another person’s run.
 
-The server’s `enabled` setting applies to Gauntlet as well as Classic. A player has one active Gauntlet run across servers, with a separate fourteen-day inactivity deadline. Other command replies and inventory/history/reward views are private; the run view and global leaderboard are channel-visible. See [The Gauntlet](/pistols/discord-gauntlet) for the player guide.
+The server’s `enabled` setting applies to Gauntlet as well as Classic. A player has one active Gauntlet run across servers, with a separate fourteen-day inactivity deadline. Inventory/history/reward views and command replies other than the global leaderboard are private. The leaderboard remains channel-visible in both versions. In the separate command navigation preview, `play` starts/resumes, `status` is read-only with recent runs and Resume/History buttons, and `/gauntlet` mirrors `/pistols gauntlet`. See [The Gauntlet](/pistols/discord-gauntlet) for the player guide and [Command Reference](/pistols/discord-commands#gauntlet-commands) for the two command structures.
 
 ## Control-Room Hub
 
@@ -138,7 +138,7 @@ The bot requires no wallet and does not re-upload feedback files or delete other
 The server switch does not stop the bot process or its background timers. These are the available pause mechanisms:
 
 * `/pistols-admin config enabled:false`, reversible any time, affects only your server.
-* A global maintenance pause, controlled by the bot operator, that blocks writes. Read-only Gauntlet status, inventory, history, leaderboard, rewards and chronicle commands remain available; gameplay and reward-selection changes wait. All hub buttons are blocked and config changes can be refused. Background timers still run, so this differs from stopping the bot process.
+* A global maintenance pause, controlled by the bot operator, that blocks writes. Read-only Gauntlet status, inventory, history, leaderboard, reward inspection and chronicle downloads remain available; gameplay and item/reward changes wait. In the command navigation preview this includes the read-only `inventory action:…`, `open screen:…` and `manage action:…` pickers/views. `play`, `open screen:shop`, `duel`, `do` and `manage action:abandon` remain blocked. All hub buttons are blocked and config changes can be refused. Background timers still run, so this differs from stopping the bot process.
 * A full stop of the bot's hosting process, operator-controlled and the most complete pause available.
 
 **Duels not posting.** Work through this in order:

@@ -6,7 +6,7 @@ No wallet is required. Gauntlet coins and Fame belong to the adventure; they are
 
 New to the bot? [Before You Start](/pistols/discord-bot#before-you-start) explains how to find and use its commands in Discord.
 
-> The Gauntlet shipped in bot v0.4.0. The core guide below covers that mode; [Upcoming Refinements](#upcoming-refinements) describes the changes in development for the next bot update. Your server may still show the released interface.
+> The Gauntlet shipped in bot v0.4.0. The core guide below covers that released interface; [Upcoming Refinements](#upcoming-refinements) describes the changes on the bot's `next` branch, including private play. A separate [command navigation preview](#command-navigation-preview) describes the prepared command restructure. Use the interface offered by your server's installed bot.
 
 ## Your First Run
 
@@ -15,9 +15,11 @@ New to the bot? [Before You Start](/pistols/discord-bot#before-you-start) explai
 3. Inspect the shop and your inventory before taking to the road. Your **Character** view explains your current attributes and equipment effects.
 4. Use the adventure card to choose a fight, explore an event, visit a shop or take an offered route home. Return to the same channel to keep playing.
 
+With the command navigation preview installed, use `/gauntlet play` or `/pistols gauntlet play` instead of `start`. Both prepare or resume your adventure; advancement, reward and road choices use private controls rather than slash-command options.
+
 You can have **one active run across all servers**. Starting again while it exists locates that run instead of replacing or moving it. Use `/pistols gauntlet status` if you have lost track of its channel.
 
-The adventure card is public. Your command replies, character, inventory, reward selection, history and chronicle downloads are private. Other people can watch your run, but only you can play it. The [leaderboard](#scores-history-and-rewards) is public and global.
+In v0.4.0, the adventure card is public. Your command replies, character, inventory, reward selection, history and chronicle downloads are private. Other people can watch your run, but only you can play it. The upcoming update makes [play private and completed results public](#private-play-and-shared-adventures). The [leaderboard](#scores-history-and-rewards) remains public and global.
 
 ## The Road
 
@@ -85,7 +87,7 @@ Losing or forfeiting a committed first-blood stake buys passage and leaves you w
 
 Shops sell equipment, supplies and an **Endurance Lesson**, which raises both current and maximum HP for this run. It is separate from permanent attribute advancement. Buying a **Clean Bandage** applies it immediately if you are wounded; otherwise it goes into your inventory for later use. Read the displayed price and item effects before buying. Saved stock stays the same when you reopen the shop; browsing it does not roll a fresh selection.
 
-Later merchants guarantee an Uncommon pistol from encounter seven and a Rare pistol from encounter ten. Use `/pistols gauntlet sell` at a shop to inspect a named quote and sell one unit. Inventory controls let you compare, equip, use or discard what you own.
+In v0.4.0, later merchants offer an Uncommon pistol from encounter seven and a Rare pistol from encounter ten. The upcoming [shop refinements](#shops-and-item-controls) instead seek genuine upgrades within those quality ceilings. Use `/pistols gauntlet sell` at a shop to inspect a named quote and sell one unit; the command navigation preview moves this to `/gauntlet inventory action:sell`. Inventory controls let you compare, equip, use or discard what you own.
 
 ## Scores, History and Rewards
 
@@ -99,7 +101,7 @@ Defeating the boss or successfully extracting brings the run home. On those succ
 
 Previously earned permanent bonuses and achievements remain yours after a failed run. Coins, equipment and temporary improvements belong to the run; apart from a selected next-run item, they do not become starting possessions in your next adventure.
 
-Use `/pistols gauntlet history` for completed runs and their chronicles, or `/pistols gauntlet chronicle` to download your latest completed adventure. The file is yours to share; downloading it does not publish it automatically.
+Use `/pistols gauntlet history` for completed runs and their chronicles, or `/pistols gauntlet chronicle` to download your latest completed adventure. In the command navigation preview, these become `/gauntlet open screen:history` and `/gauntlet manage action:chronicle`. Downloading does not publish the file automatically; the upcoming update also lets others download completed adventures through their public result.
 
 A new highest-difficulty boss clear earns a pending advancement: choose a permanent attribute bonus and raise normal difficulty by one, or defer it. Each attribute choice uses the same rating budget. **Easy Road** lowers your chosen difficulty by one, down to the starting tier, while retaining earned bonuses. An early extraction earns no stat/difficulty advancement.
 
@@ -109,11 +111,11 @@ A boss victory can offer one item from the boss's worn loot for the next run. Ex
 
 ## Saving and Resuming
 
-Runs, inventory, progression and completed records survive bot restarts. Use `/pistols gauntlet status` or `start` to locate an existing run, then return to its original channel to act. Read-only inventory and character views do not take a turn.
+Runs, inventory, progression and completed records survive bot restarts. Use `/pistols gauntlet status` or `start` to locate an existing run, then return to its original channel to act. In the command navigation preview, `play` resumes and `status` shows a read-only summary with Resume and history buttons. Read-only inventory and character views do not take a turn.
 
 A run expires after **fourteen days without a successful gameplay action**. Reading status, opening inventory, comparing items or paging through a view does not renew that deadline. Check the saved deadline rather than assuming a read has kept the run alive.
 
-If the original channel is disabled, deleted or missing the bot's permissions, your saved progress is preserved while play is unavailable. Ask an admin to restore access, or use `/pistols gauntlet abandon` from another place the bot accepts commands if you want to end the run. Abandonment still respects server disable and maintenance pauses.
+If the original channel is disabled, deleted or missing the bot's permissions, your saved progress is preserved while play is unavailable. Ask an admin to restore access, or use `/pistols gauntlet abandon` from another place the bot accepts commands if you want to end the run. The command navigation preview uses `/gauntlet manage action:abandon` and retains this recovery route. Abandonment still respects server disable and maintenance pauses.
 
 Access problems and pauses do not extend the saved inactivity deadline. Restore access and make a successful gameplay action before that deadline if you want to continue the run.
 
@@ -121,7 +123,15 @@ Gauntlet needs **View Channel**, **Embed Links**, **Read Message History**, and 
 
 ## Upcoming Refinements
 
-These changes are in development after v0.4.0. They describe the next interface and rules rather than a guarantee that your server has received them already.
+These changes are on the bot's `next` branch after v0.4.0. They describe the upcoming interface and rules rather than a guarantee that your server has received them already. The command navigation preview below is a separate change, prepared locally and not yet on GitHub `next` as of 15 November 2026.
+
+### Private Play and Shared Adventures
+
+Play takes place in private owner replies. The current panel updates in place; reopen `/pistols gauntlet start` or `status` if it has expired. With the command navigation preview, use `play` to resume. Old public adventure controls open fresh private replies.
+
+When the whole run ends, one public result appears in its original server channel. **View adventure** lets anyone there open a read-only private overview and download the chronicle. Inventory, rewards and next-run choices remain yours. Gameplay still belongs to the owner and original channel, even though its panel is private.
+
+Near-expiry warnings appear privately when you interact. They are not automatic DM reminders, and reading a warning does not renew the fourteen-day inactivity deadline.
 
 ### Encounters and First-Blood Terms
 
@@ -133,18 +143,38 @@ Road-event choices show costs, tested attributes and broad risk labels. Even a c
 
 ### Injuries, Healing and Pistol Improvements
 
-Failed dangerous choices or damaging enemy criticals may cause temporary health or attribute injuries. An asterisk beside HP and the Character view identify them. They last through the next two encounters, capped by the encounters remaining. A repeat injury can strengthen or extend the existing one rather than stacking another copy. They cannot take your final HP.
+Failed dangerous choices or damaging enemy criticals may cause temporary health or attribute injuries. An asterisk beside HP and the Character view identify them. They last through the next two encounters, capped by the encounters remaining. A repeat injury can strengthen or extend the existing one rather than stacking another copy. A health-reducing injury applies its full maximum-HP penalty however hurt you are, but cannot take your final current HP. When it clears, it returns exactly the current HP it took; Grit injuries follow the same rule.
 
 **Medical Bags** heal and clear all temporary afflictions. Shops may stock them, including through the new sixth offer; buying one stores it for manual use. Use it outside combat, or spend the usual quick-use slot during a fight. It can cure an affliction even when you are already at full HP.
+
+Portable healing finds, such as bottled cordial, apples and bandages, heal immediately when you are injured and go into your bag when you are healthy. If the bag is full, you can make room or leave the find. Rest and miracles cannot be saved as items. Wadding that absorbs all damage preserves Steady Aim; thick fog gives both fighters cover for the coming exchange, including return fire and escape shots.
 
 After leaving the opening tavern, **Improve pistol** can offer one fixed damage improvement per owned pistol at the shown price of twenty coins per added damage. The limit depends on the shop's grade and nearby opponents; the improvement follows that pistol through swaps or next-run carryover. A rough run may also earn a run-only lesson in an attribute you have been practising; it does not change your permanent starting bonuses.
 
 Counter also becomes more precise: a well-timed interruption can steal a newly activated skill's advantage, while a later Counter cancels only the opponent's most recently activated still-active skill, without stealing it.
 
+### Shops and Item Controls
+
+From encounter seven, shops seek pistol upgrades within an Uncommon quality ceiling; from encounter ten, the ceiling is Rare. They choose the best genuine upgrade you can afford, or the cheapest next step if all upgrades cost more than your purse. Improvements already on your pistol count in the comparison. If no upgrade fits the shop's market band and ceiling, other equipment takes its place. Prices remain fixed, and reopening or selling does not reshuffle saved stock.
+
+Shops show their name and location, detailed available offers and a short **Sold** line for bought stock. Receipts explain whether equipment was equipped or bagged. Bagged items sell directly, one unit at a time; equipped gear still requires review of its removal effects. Selling keeps the list open with an updated purse, quotes and receipt.
+
+Private item lists put named actions beside their effects. **Compare & equip** reviews spare gear before changing equipment; loot offers **Take & equip** and **Take for bag** beside the comparison. Occupied ring positions require an explicit choice. Item inspection and Character return to the page you came from. Combat keeps health, active effects, action odds and remaining uses visible; **Inspect opponent** shows worn gear without revealing reserves or the next move.
+
 ### Clearer Cards and the Next Run
 
-Public cards become more compact, while private item lists and comparisons put named actions beside their effects. Near-expiry warnings appear privately when you interact; they are not automatic DM reminders and do not appear as clock warnings on the public card.
+**First to the Funeral** records a server's first qualifying unassisted kill of each named opponent. Starter-assisted difficulty-zero and difficulty-one runs, and runs on the Easy Road, do not qualify. First blood, mercy and negotiated passage are not kills; a later lethal rematch can qualify. Records start when the feature is introduced and do not backfill older kills.
 
-The result card leads with the outcome, decisive opponent and final build, followed by personal bests and notable moments. **Download your adventure**, **Your run history** and **Next-run reward** keep your records close. **Try again** previews the failed run's difficulty and road; **Next run** after success returns to the normal road and offers any pending advancement. Neither starts a new run until you confirm.
+Your private result card leads with the outcome, decisive opponent and final build, followed by personal bests and notable moments. **Download your adventure**, **Your run history** and **Next-run reward** keep your records close. **Try again** previews the failed run's difficulty and road; **Next run** after success returns to the normal road and offers any pending advancement. Neither starts a new run until you confirm. The public result shares selected highlights and **View adventure**, without your management controls.
+
+### Command Navigation Preview
+
+The prepared command restructure adds `/gauntlet` as an exact shorthand for `/pistols gauntlet`. Start or resume with `/gauntlet play`; `/gauntlet status` shows your active adventure and last three completed runs, with Resume/Play and **View history** buttons.
+
+Use `/gauntlet inventory action:use` (or `equip`, `unequip`, `sell`, `discard`) for named item choices. Unequip no longer asks you to enter an equipment slot. `/gauntlet open screen:character` shows attributes, and `open screen:history` opens completed adventures. Rewards, downloads and abandonment move under `manage action:`.
+
+`/gauntlet duel action:` offers encounter and combat shortcuts. `/gauntlet do choice:` suggests responses available in your current scene; select an autocomplete suggestion rather than typing a free-form answer. Old suggestions are refused after the scene changes. Original-channel, phase and skill restrictions still apply. `open screen:shop` enters the shop when the current phase permits it; it is a gameplay action rather than a read-only view.
+
+The old `start`, separate item commands, `rewards`, `history`, `chronicle` and `abandon` slash paths are replaced when this restructure is installed. Advancement and next-run reward choices remain explicit private controls; choose the road after taking your seat. See the [full command preview](/pistols/discord-commands#upcoming-gauntlet-command-structure) for every option and the old-to-new mapping.
 
 For exact command options, see [Gauntlet Commands](/pistols/discord-commands#gauntlet-commands). For Classic duels, see [For Players](/pistols/discord-players).

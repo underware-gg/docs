@@ -12,13 +12,15 @@ For example, `/duel user opponent:<user>` means select **duel → user**, then c
 
 ## Root Commands
 
-These are the three top-level command families. Choose a subcommand beneath each one:
+These are the three released command families. Choose a subcommand beneath each one:
 
 | Root | Who it's for | What it contains |
 | --- | --- | --- |
 | [`/duel`](#duel) | Players | Quick access to targeted challenges, open challenges, and practice duels. |
 | [`/pistols`](#pistols) | Players | Classic duels, Gauntlet adventures, inbox, player and duelist browsers, tutorial, stats, accounts and feedback. |
 | [`/pistols-admin`](#admin-commands) | Server admins | Configuration and usage metrics; requires Manage Server. |
+
+The [upcoming Gauntlet command structure](#upcoming-gauntlet-command-structure) adds a fourth family, `/gauntlet`, mirroring `/pistols gauntlet` exactly. It is a preview, separate from the released command surface.
 
 ## Player Commands
 
@@ -198,9 +200,11 @@ When the bot has a configured team feedback inbox, staff can reply to the submis
 
 ## Gauntlet Commands
 
-Solo adventures use `/pistols gauntlet`. For the full run, combat and progression guide, see [The Gauntlet](/pistols/discord-gauntlet).
+Solo adventures use `/pistols gauntlet`. The first table covers the v0.4.0 command structure, also retained on GitHub `next` as of 15 November 2026. The [upcoming command structure](#upcoming-gauntlet-command-structure) below covers the separate restructure prepared locally. Use the commands offered by your server's installed bot. For the full run, combat and progression guide, see [The Gauntlet](/pistols/discord-gauntlet).
 
-Start in an enabled server channel where the bot can post the public run view. The bot needs View Channel, Embed Links, Read Message History and Send Messages there, or Send Messages in Threads in a thread. One active run per player is shared across servers. Gameplay and item changes belong to the owner and original run channel; losing access preserves progress. The Classic `duel_channel` setting does not move or restrict a Gauntlet run.
+Start in an enabled server channel where the bot can post. The bot needs View Channel, Embed Links, Read Message History and Send Messages there, or Send Messages in Threads in a thread. One active run per player is shared across servers. Gameplay and item changes belong to the owner and original run channel; losing access preserves progress. The Classic `duel_channel` setting does not move or restrict a Gauntlet run.
+
+### Released Gauntlet Command Structure
 
 | Command | Arguments | What it does |
 | --- | --- | --- |
@@ -222,9 +226,42 @@ Start in an enabled server channel where the bot can post the public run view. T
 
 **Unequip slots:** `head`, `chest`, `gloves`, `boots`, `belt`, `weapon`, `necklace`, `ring`, `ring2` or `codpiece`. The other item commands use named pickers rather than an item argument.
 
-**Reply visibility:** The run view and leaderboard are channel-visible. Other command replies, inventory, history, rewards and downloads are private. Spectators cannot change someone else’s run. Fame and coins belong to the run, separate from wallet tokens. Inactivity ends a run after fourteen days; status shows the saved deadline. Abandoning does not require access to the original run channel.
+**Reply visibility:** In v0.4.0, the run view and leaderboard are channel-visible. On `next`, gameplay updates a private owner panel; each whole run ending posts one public result with **View adventure**, which lets anyone in the original channel privately inspect and download the completed adventure. Other command replies, inventory, history, rewards and downloads are private; the leaderboard remains public and global. Spectators cannot change someone else’s run. Fame and coins belong to the run, separate from wallet tokens. Inactivity ends a run after fourteen days; status shows the saved deadline. Abandoning does not require access to the original run channel.
 
 **Cooldown:** None. The five-second duel cooldown does not apply to Gauntlet commands.
+
+### Upcoming Gauntlet Command Structure
+
+This restructure is prepared locally and was not yet pushed to the bot's GitHub `next` branch as of 15 November 2026. It replaces the slash paths above when installed. Every command in this table works under both `/gauntlet` and `/pistols gauntlet`; there is no `/adventure` alias.
+
+| Command | Arguments | What it does |
+| --- | --- | --- |
+| `/gauntlet play` | none | Prepares a new adventure or resumes your active run. Advancement and next-run rewards use private controls; choose the road after taking a seat. |
+| `/gauntlet status` | none | Shows a read-only active-run summary and your last three completed runs with outcome, difficulty, Fame and date, plus Resume/Play and View history buttons. |
+| `/gauntlet inventory` | Optional `action`: `view`, `equip`, `unequip`, `use`, `sell`, `discard`; default `view` | Shows equipment and bag, or opens a named item picker. Unequip selects worn gear by name, without a slot or item ID. Sales require a shop; consumables retain their effect and turn-cost guidance. |
+| `/gauntlet leaderboard` | none | Shows the global top ten best successful-run Fame scores. |
+| `/gauntlet manage` | Required `action`: `rewards`, `chronicle`, `abandon` | Inspects/selects next-run rewards and achievements, downloads your latest completed adventure, or ends your active run and forfeits committed first-blood stakes. |
+| `/gauntlet open` | Required `screen`: `shop`, `inventory`, `character`, `opponent`, `rewards`, `history` | Opens a private screen. Shop enters shopping when the current phase permits it. History pages completed runs and their downloads. |
+| `/gauntlet duel` | Required `action`; see below | Uses the current encounter or combat controls. Challenge opens the first-blood stake picker. |
+| `/gauntlet do` | Required `choice`, selected from autocomplete | Chooses a currently available event response, road, offer, shop return, exit or leave-loot action. Select a suggested response; typed prose and stale choices are refused. |
+
+**Duel actions:** `start`, `provoke`, `negotiate`, `challenge`, `shoot`, `steady-aim`, `taunt`, `dodge`, `counter`, `run-away`, `let-them-run`, `line-it-up`. These use the same phase, skill-use and pending-terms restrictions as screen controls. `/gauntlet duel` belongs to the solo adventure; Classic challenges still use `/duel` or `/pistols duel`.
+
+For example, `/gauntlet inventory action:use` and `/pistols gauntlet inventory action:use` open the same named consumable picker. `/gauntlet open screen:character` shows attributes; `/gauntlet do choice:` offers your current scene's responses.
+
+| Previous path under `/pistols gauntlet` | Replacement under either `/gauntlet` or `/pistols gauntlet` |
+| --- | --- |
+| `start [advancement:…] [easy_road:…] [skip_reward:…]` | `play`, with preparation choices in private controls instead of command options |
+| `equip`, `unequip slot:…`, `use`, `sell`, `discard` | `inventory action:<action>`, using the same action name; `unequip` uses a named picker |
+| `rewards`, `chronicle`, `abandon` | `manage action:<action>`, using the same action name |
+| `history` | `open screen:history`, or View history on Status |
+| `status` to resume directly | `play`, or Resume on the read-only Status summary |
+
+There is no standalone `history` subcommand in the new structure. The old slash paths are replaced, rather than retained as redirect aliases.
+
+**Visibility and permissions:** Gameplay is private and completed results are public as described above. Both command paths share owner, original-channel, server-disable and maintenance checks. Abandon retains the ability to end your own run from another channel; other gameplay stays in its original server/channel. Resume outside that channel opens a read-only view.
+
+**Reads and gameplay:** Status, leaderboard, item pickers and screen inspection do not refresh inactivity. During a maintenance pause, read-only inventory, character, opponent, history, reward inspection and chronicle downloads remain available. Executing item or reward changes, `play`, `open screen:shop`, combat actions, contextual responses and abandonment wait for writes to resume. Opening a first-blood challenge picker through `duel action:challenge` is also blocked during maintenance. The five-second Classic duel cooldown does not apply to either Gauntlet command path.
 
 ## Admin Commands
 
